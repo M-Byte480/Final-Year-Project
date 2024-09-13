@@ -10,3 +10,20 @@ body {
   margin: 0;
   padding: 0;
 }
+
+@layer components {
+  .container {
+    @apply h-screen grid;
+  }
+
+  .container-center {
+    @apply h-screen flex items-center justify-center;
+  }
+
+  .flex-container {
+    @apply flex flex-col items-center justify-center;
+  }
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
