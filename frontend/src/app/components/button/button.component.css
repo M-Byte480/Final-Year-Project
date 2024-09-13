@@ -1,9 +1,11 @@
 .btn {
-  @apply font-bold py-2 px-4 rounded border-0 w-16 md:w-32 lg:w-48 sm:px-0 m-2;
+  @apply font-bold py-2 px-4 rounded border-0 w-48 md:w-64 sm:px-0 m-2;
 }
+
 .btn-blue {
   @apply bg-blue-500 text-white;
 }
+
 .btn-blue:hover {
   @apply bg-blue-700;
 }
