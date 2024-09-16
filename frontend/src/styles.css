@@ -13,11 +13,11 @@ body {
 
 @layer components {
   .container {
-    @apply h-screen grid;
+    @apply h-screen w-screen grid;
   }
 
   .container-center {
-    @apply h-screen flex items-center justify-center;
+    @apply h-screen w-screen flex items-center justify-center;
   }
 
   .flex-container {
@@ -25,5 +25,7 @@ body {
   }
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
