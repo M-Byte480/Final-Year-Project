@@ -32,8 +32,7 @@
     <mat-form-field floatLabel="auto" appearance="fill" class="mb-6" [style.width.px]="210">
       <mat-label>Password</mat-label>
       <div class="flex flex-row">
-        <input matInput [type]="'password'" formControlName="password" required (focus)="showRequirements()"
-               (focusout)="hideRequirements()"/>
+        <input matInput [type]="'password'" formControlName="password" required/>
       </div>
       <button
         mat-icon-button
