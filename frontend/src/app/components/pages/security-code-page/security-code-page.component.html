@@ -1,26 +1,34 @@
-<main class="bg-amber-400">
+<main class=" flex-container h-screen">
   <div>
-    <div>Email with the code has been sent to</div>
-    <div>{{ enteredEmail }}</div>
+    <div class="text-center text-2xl">Email with the code has been sent to</div>
+    <div class="text-center font-bold text-xl mb-4 pb-4">{{ enteredEmail }}</div>
   </div>
-  <div>
-    <input type="text" maxlength="1" class="code" [(ngModel)]="digit1" (input)="moveForward($event, 2)">
-    <input type="text" maxlength="1" class="code" [(ngModel)]="digit2" (input)="moveForward($event, 3)"
+  <div class="flex flex-row justify-center">
+    <input id="1" #1 type="text" maxlength="1" class="code" [(ngModel)]="digit1"
+           (input)="moveForward($event, 2)"
+    >
+    <input id="2" #2 type="text" maxlength="1" class="code" [(ngModel)]="digit2"
+           (input)="moveForward($event, 3)"
            (keyup.backspace)="moveBack(1)">
-    <input type="text" maxlength="1" class="code" [(ngModel)]="digit3" (input)="moveForward($event, 4)"
+    <input id="3" #3 type="text" maxlength="1" class="code" [(ngModel)]="digit3"
+           (input)="moveForward($event, 4)"
            (keyup.backspace)="moveBack(2)">
-    <input type="text" maxlength="1" class="code" [(ngModel)]="digit4" (input)="moveForward($event, 5)"
+    <div id="splitter" class="w-8 h-2 bg-black mt-auto mb-auto"></div>
+    <input id="4" #4 type="text" maxlength="1" class="code" [(ngModel)]="digit4"
+           (input)="moveForward($event, 5)"
            (keyup.backspace)="moveBack(3)">
-    <input type="text" maxlength="1" class="code" [(ngModel)]="digit5" (input)="moveForward($event, 6)"
+    <input id="5" #5 type="text" maxlength="1" class="code" [(ngModel)]="digit5"
+           (input)="moveForward($event, 6)"
            (keyup.backspace)="moveBack(4)">
-    <input type="text" maxlength="1" class="code" [(ngModel)]="digit6"
-           (keyup.backspace)="moveBack(5)">
+    <input id="6" #6 type="text" maxlength="1" class="code" [(ngModel)]="digit6"
+           (keyup.backspace)="moveBack(5)"
+           (input)="moveForward($event, 7)">
   </div>
-  <button>Submit</button>
+  <app-button (click)="onSubmit()" [disabled]="isFormComplete()" [label]="'Submit'"/>
 
   <div *ngIf="countDownToResendCode > 0">{{ countDownToResendCode }}s</div>
   <div>
-    <app-button (click)="onResendCode()" [disabled]="countDownToResendCode <= 0">Resend Code</app-button>
+    <app-button (click)="onResendCode()" [disabled]="countDownToResendCode > 0" [label]="'Resend Code'"/>
   </div>
 
 </main>

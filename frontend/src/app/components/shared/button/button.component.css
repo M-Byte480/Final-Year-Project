@@ -9,3 +9,12 @@
 .btn-blue:hover {
   @apply bg-blue-700;
 }
+
+
+.disabled {
+  @apply opacity-75 bg-gray-500 cursor-not-allowed hover:bg-gray-500;
+}
+
+.enabled {
+
+}
