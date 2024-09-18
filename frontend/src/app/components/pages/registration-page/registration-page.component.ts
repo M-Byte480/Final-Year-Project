@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormField, MatLabel, MatHint, MatError, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {PASSWORD_VALIDATOR} from "../../shared/regexes";
+import {PASSWORD_VALIDATOR} from "../../../shared/regexes";
 import {NgIf} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
 import {MatIconButton} from "@angular/material/button";

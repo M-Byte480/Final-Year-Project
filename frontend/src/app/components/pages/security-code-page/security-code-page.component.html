@@ -1,0 +1,26 @@
+<main class="bg-amber-400">
+  <div>
+    <div>Email with the code has been sent to</div>
+    <div>{{ enteredEmail }}</div>
+  </div>
+  <div>
+    <input type="text" maxlength="1" class="code" [(ngModel)]="digit1" (input)="moveForward($event, 2)">
+    <input type="text" maxlength="1" class="code" [(ngModel)]="digit2" (input)="moveForward($event, 3)"
+           (keyup.backspace)="moveBack(1)">
+    <input type="text" maxlength="1" class="code" [(ngModel)]="digit3" (input)="moveForward($event, 4)"
+           (keyup.backspace)="moveBack(2)">
+    <input type="text" maxlength="1" class="code" [(ngModel)]="digit4" (input)="moveForward($event, 5)"
+           (keyup.backspace)="moveBack(3)">
+    <input type="text" maxlength="1" class="code" [(ngModel)]="digit5" (input)="moveForward($event, 6)"
+           (keyup.backspace)="moveBack(4)">
+    <input type="text" maxlength="1" class="code" [(ngModel)]="digit6"
+           (keyup.backspace)="moveBack(5)">
+  </div>
+  <button>Submit</button>
+
+  <div *ngIf="countDownToResendCode > 0">{{ countDownToResendCode }}s</div>
+  <div>
+    <app-button (click)="onResendCode()" [disabled]="countDownToResendCode <= 0">Resend Code</app-button>
+  </div>
+
+</main>

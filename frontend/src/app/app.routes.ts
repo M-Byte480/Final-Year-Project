@@ -1,7 +1,8 @@
-import { Routes } from '@angular/router';
-import {LoginDashboardComponent} from "./components/login-dashboard/login-dashboard.component";
-import {LoginPageComponent} from "./components/login-page/login-page.component";
-import {RegistrationPageComponent} from "./components/registration-page/registration-page.component";
+import {Routes} from '@angular/router';
+import {LoginDashboardComponent} from "./components/pages/login-dashboard/login-dashboard.component";
+import {LoginPageComponent} from "./components/pages/login-page/login-page.component";
+import {RegistrationPageComponent} from "./components/pages/registration-page/registration-page.component";
+import {SecurityCodePageComponent} from "./components/pages/security-code-page/security-code-page.component";
 
 export const routes: Routes = [
   {
@@ -15,6 +16,10 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegistrationPageComponent,
+  },
+  {
+    path: 'validate-email',
+    component: SecurityCodePageComponent
   },
   {
     path: '',
