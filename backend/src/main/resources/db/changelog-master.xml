@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+    <changeSet id="0" author="Milan" context="Creating tables">
+        <createTable tableName="users">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="PK_USERS" nullable="false"/>
+            </column>
+            <column name="firstname" type="VARCHAR2(255)"/>
+            <column name="surname" type="VARCHAR2(255)"/>
+            <column name="email" type="VARCHAR2(255)"/>
+            <column name="date_of_birth" type="date"/>
+            <column name="signed_up" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="admins">
+            <column name="user_id" type="int">
+                <constraints primaryKey="true" foreignKeyName="users.id" nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="authentication">
+            <column name="user_id" type="int">
+                <constraints foreignKeyName="FK_USER_FILES_USERS" references="users(id)"/>
+            </column>
+            <column name="password" type="text"/>
+        </createTable>
+
+    </changeSet>
+
+</databaseChangeLog>
