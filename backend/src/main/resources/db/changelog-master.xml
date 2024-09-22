@@ -13,6 +13,7 @@
             <column name="email" type="VARCHAR2(255)">
                 <constraints unique="true"/>
             </column>
+            <column name="password" type="text"/>
             <column name="date_of_birth" type="date"/>
             <column name="signed_up" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
         </createTable>
@@ -22,14 +23,6 @@
                 <constraints primaryKey="true" foreignKeyName="users.id" nullable="false"/>
             </column>
         </createTable>
-
-        <createTable tableName="authentication">
-            <column name="user_id" type="int">
-                <constraints foreignKeyName="FK_USER_FILES_USERS" references="users(id)"/>
-            </column>
-            <column name="password" type="text"/>
-        </createTable>
-
     </changeSet>
 
 </databaseChangeLog>

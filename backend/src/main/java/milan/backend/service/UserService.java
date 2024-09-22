@@ -14,31 +14,25 @@ import java.util.Calendar;
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public boolean createUser(RegistrationDTO registeredUser) {
+    public void createUser(RegistrationDTO registeredUser) {
         User user = UserMapper.INSTANCE.fromDto(registeredUser);
 
-        try {
-            validateUser(user);
-        } catch (ServiceVerificationException e) {
-            log.error("Failed to validate user");
-            throw e;
-        }
+        validateUser(user);
 
         userRepository.save(user);
-        return true;
     }
 
     private void validateUser(User user) throws ServiceVerificationException {
         boolean doesUserExist = userRepository.findUserByEmailEquals(user.getEmail()).isPresent();
 
         if (doesUserExist) {
-            log.error("Email already in use");
+            log.error("Failed to validate user");
             throw new ServiceVerificationException("Email already in use");
         }
 
@@ -51,7 +45,7 @@ public class UserService {
         boolean isValidDateOfBirth = dateOffset.compareTo(today) <= 0;
 
         if (!isValidDateOfBirth) {
-            log.error("User is under 18");
+            log.error("Failed to validate user");
             throw new ServiceVerificationException("User is not age of 18");
         }
     }

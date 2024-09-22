@@ -1,7 +1,9 @@
 package milan.backend.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 
+@Slf4j
 public class ServiceVerificationException extends RuntimeException {
 
     private final String reason;
@@ -10,11 +12,13 @@ public class ServiceVerificationException extends RuntimeException {
     public ServiceVerificationException(String reason) {
         this.reason = reason;
         this.httpStatus = HttpStatus.CONFLICT;
+        log.error(reason);
     }
 
     public ServiceVerificationException(String reason, HttpStatus httpStatus) {
         this.reason = reason;
         this.httpStatus = httpStatus;
+        log.error(reason);
     }
 
     public String getReason() {
