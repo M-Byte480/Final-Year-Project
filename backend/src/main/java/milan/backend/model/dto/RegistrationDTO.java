@@ -25,7 +25,7 @@ public class RegistrationDTO {
     private String surname;
 
     @Email(message = "Email must be valid")
-    @NotNull
+    @NotNull(message = "Email not provided")
     private String email;
 
     @Pattern(regexp = "(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*\\W)(?!.* ).{8,}",
@@ -34,7 +34,7 @@ public class RegistrationDTO {
     private String password;
 
     @Past(message = "Date Of Birth is in the future")
-    @NotNull
+    @NotNull(message = "Date of Birth not provided")
     private Date dateOfBirth;
 
 }

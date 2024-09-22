@@ -1,25 +1,32 @@
 package milan.backend.exception;
 
+import milan.backend.enums.Error;
+import milan.backend.model.bean.ErrorBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.util.LinkedList;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        StringBuilder stringBuilder = new StringBuilder();
+        ErrorBean errorBean = new ErrorBean();
 
+        errorBean.setError(Error.VALIDATION.label);
+
+        LinkedList<String> errors = new LinkedList<>();
         e.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
-            stringBuilder.append(String.format("%s: %s\n", fieldName, message));
+            errors.add(String.format("%s", message));
         });
-
-        return new ResponseEntity<>(stringBuilder, HttpStatus.BAD_REQUEST);
+        errorBean.setValidationError(errors);
+        return new ResponseEntity<>(
+                errorBean, HttpStatus.BAD_REQUEST
+        );
     }
 }

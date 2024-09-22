@@ -1,16 +1,22 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormField, MatLabel, MatHint, MatError, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {PASSWORD_VALIDATOR} from "../../../shared/regexes";
-import {NgIf} from "@angular/common";
+import {formatDate, NgIf} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
 import {MatIconButton} from "@angular/material/button";
 import {MatTooltip} from "@angular/material/tooltip";
+import {HttpClient} from "@angular/common/http";
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
+import {provideNativeDateAdapter} from '@angular/material/core';
+
 
 @Component({
   selector: 'app-registration-page',
   standalone: true,
+  providers: [provideNativeDateAdapter()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     MatFormField,
@@ -22,19 +28,27 @@ import {MatTooltip} from "@angular/material/tooltip";
     MatIcon,
     MatIconButton,
     MatSuffix,
-    MatTooltip
+    MatTooltip,
+    MatDatepickerToggle,
+    MatDatepicker,
+    MatDatepickerInput
   ],
   templateUrl: './registration-page.component.html',
   styleUrl: './registration-page.component.css'
 })
 export class RegistrationPageComponent {
+  private today = new Date();
+  private dateFormat = 'dd/MM/yyyy';
+  private locale = 'en-UK';
+
   registrationForm = new FormGroup({
-    firstName: new FormControl('', {
+    firstname: new FormControl('', {
       validators: [Validators.required, Validators.minLength(2)]
     }),
-    lastName: new FormControl('', {
+    surname: new FormControl('', {
       validators: [Validators.required, Validators.minLength(2)]
     }),
+    dateOfBirth: new FormControl(formatDate(this.today, this.dateFormat, this.locale), {}),
     email: new FormControl('', {
       validators: [Validators.required, Validators.email]
     }),
@@ -47,19 +61,24 @@ export class RegistrationPageComponent {
   });
 
   emailError = '';
-  firstNameError = '';
-  lastNameError = '';
+  firstnameError = '';
+  surnameError = '';
   passwordError = '';
 
-  constructor() {
+  constructor(private http: HttpClient) {
     Object.entries(this.registrationForm.controls).forEach(control => {
       console.log(control);
       control[1].statusChanges.subscribe(status => {
         if (status === 'INVALID') {
+          console.log(control);
           this.updateError(control);
         }
       });
     });
+  }
+
+  ngOnInit(): void {
+    this.today.setFullYear(this.today.getFullYear() - 18);
   }
 
   onSubmit(): void {
@@ -68,7 +87,17 @@ export class RegistrationPageComponent {
       return;
     }
 
-    console.warn(this.registrationForm.value);
+    this.http.post('http://localhost:8080/auth/register', this.registrationForm.value)
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+        error: (e) => {
+          console.warn(e);
+        },
+        complete: () => {
+        }
+      });
   }
 
 
@@ -80,11 +109,11 @@ export class RegistrationPageComponent {
       case 'email':
         this.emailError = error['required'] ? 'Email is required' : error['email'] ? 'Email is invalid' : '';
         break;
-      case 'firstName':
-        this.firstNameError = error['required'] ? 'Firstname is required' : error['minlength'] ? 'Firstname must be at least 2 characters' : '';
+      case 'firstname':
+        this.firstnameError = error['required'] ? 'Firstname is required' : error['minlength'] ? 'Firstname must be at least 2 characters' : '';
         break;
-      case 'lastName':
-        this.lastNameError = error['required'] ? 'Surname is required' : error['minlength'] ? 'Surname must be at least 2 characters' : '';
+      case 'lastname':
+        this.surnameError = error['required'] ? 'Surname is required' : error['minlength'] ? 'Surname must be at least 2 characters' : '';
         break;
       case 'password':
         this.passwordError = error['required'] ? 'Password is required' : error['pattern'] ? 'Password does not meet requirements' : '';

@@ -3,6 +3,7 @@ package milan.backend.controller;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import milan.backend.exception.ServiceVerificationException;
+import milan.backend.model.bean.ErrorBean;
 import milan.backend.model.dto.RegistrationDTO;
 import milan.backend.model.dto.UserAdminDTO;
 import milan.backend.repository.AdminRepository;
@@ -35,13 +36,15 @@ public class AuthenticationController {
     @PostMapping(value = "/register",
             produces = "application/json",
             consumes = "application/json")
-    public ResponseEntity<String> addNewUserFromRegistration(@Valid @RequestBody RegistrationDTO registeredUser) {
+    public ResponseEntity<Object> addNewUserFromRegistration(@Valid @RequestBody RegistrationDTO registeredUser) {
         try {
             userService.createUser(registeredUser);
             log.info("New user registered");
             return ResponseEntity.ok("User registered successfully");
         } catch (ServiceVerificationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            ErrorBean errorBean = new ErrorBean();
+            errorBean.setError(e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(errorBean);
         }
     }
 
