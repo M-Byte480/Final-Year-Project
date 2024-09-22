@@ -10,7 +10,9 @@
             </column>
             <column name="firstname" type="VARCHAR2(255)"/>
             <column name="surname" type="VARCHAR2(255)"/>
-            <column name="email" type="VARCHAR2(255)"/>
+            <column name="email" type="VARCHAR2(255)">
+                <constraints unique="true"/>
+            </column>
             <column name="date_of_birth" type="date"/>
             <column name="signed_up" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
         </createTable>
