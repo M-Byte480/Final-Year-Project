@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
-
     private final UserService userService;
     private final AdminRepository adminRepository;
 

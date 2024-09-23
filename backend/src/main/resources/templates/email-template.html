@@ -1,12 +1,19 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-</head>
+<head></head>
 <body>
-Hello World
+<h3>Welcome, <span th:text="${name}">Milan</span></h3>
+<p>Here is your 6-digit Verification Code:</p>
+
+<p>
+<div style="text-align:center;">
+    <span th:text="${verificationCode}" style="padding-right:50%">11111</span>
+</div>
+</p>
+<p>The code is valid for 5 minutes.</p>
+<p>
+    Regards, <br/>
+    <em style="margin-left:24px;">The Milanify Team</em>
+</p>
 </body>
 </html>

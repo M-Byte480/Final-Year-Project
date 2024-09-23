@@ -9,6 +9,7 @@ import milan.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -26,6 +27,13 @@ public class UserService {
         validateUser(user);
 
         userRepository.save(user);
+    }
+
+    public void validateUserExistsByEmail(String email) throws ServiceVerificationException {
+        Optional<User> user = userRepository.findUserByEmailEquals(email);
+        if (user.isEmpty()) {
+            throw new ServiceVerificationException("User does not exists provided by the given email: " + email);
+        }
     }
 
     private void validateUser(User user) throws ServiceVerificationException {
