@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import milan.backend.exception.ServiceVerificationException;
 import milan.backend.model.bean.ErrorBean;
+import milan.backend.model.dto.ApiResponseDTO;
 import milan.backend.model.dto.RegistrationDTO;
 import milan.backend.model.dto.UserAdminDTO;
 import milan.backend.repository.AdminRepository;
@@ -35,15 +36,21 @@ public class AuthenticationController {
     @PostMapping(value = "/register",
             produces = "application/json",
             consumes = "application/json")
-    public ResponseEntity<Object> addNewUserFromRegistration(@Valid @RequestBody RegistrationDTO registeredUser) {
+    public ResponseEntity<ApiResponseDTO> addNewUserFromRegistration(@Valid @RequestBody RegistrationDTO registeredUser) {
         try {
             userService.createUser(registeredUser);
             log.info("New user registered");
-            return ResponseEntity.ok("User registered successfully");
+            ApiResponseDTO apiResponse = new ApiResponseDTO(registeredUser.getEmail());
+
+            return ResponseEntity.ok(apiResponse);
         } catch (ServiceVerificationException e) {
             ErrorBean errorBean = new ErrorBean();
             errorBean.setError(e.getMessage());
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(errorBean);
+
+            ApiResponseDTO apiResponse = new ApiResponseDTO();
+            apiResponse.setError(errorBean.getError());
+
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(apiResponse);
         }
     }
 
@@ -53,17 +60,20 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/admin", consumes = "application/json")
-    public ResponseEntity<String> addUserToAdmin(@Valid @RequestBody UserAdminDTO userAdminDTO) {
+    public ResponseEntity<ApiResponseDTO> addUserToAdmin(@Valid @RequestBody UserAdminDTO userAdminDTO) {
         // todo: Validate who is sending the request
         authenticationService.addUserToAdmin(userAdminDTO);
 
-        return ResponseEntity.ok("User has been promoted to admin");
+        ApiResponseDTO response = new ApiResponseDTO("User has been promoted to admin");
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping(value = "/admin", consumes = "application/json")
-    public ResponseEntity<String> removeAdmin(@Valid @RequestBody UserAdminDTO userAdminDTO) {
+    public ResponseEntity<ApiResponseDTO> removeAdmin(@Valid @RequestBody UserAdminDTO userAdminDTO) {
         // todo: Validate who is sending the request
         authenticationService.removeAdmin(userAdminDTO);
-        return ResponseEntity.ok("User has been demoted from admin");
+
+        ApiResponseDTO response = new ApiResponseDTO("User has been demoted from admin");
+        return ResponseEntity.ok(response);
     }
 }

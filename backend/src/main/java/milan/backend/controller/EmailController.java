@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import milan.backend.exception.ServiceVerificationException;
 import milan.backend.exception.ValidationException;
+import milan.backend.model.dto.ApiResponseDTO;
 import milan.backend.model.dto.ErrorDTO;
 import milan.backend.model.dto.VerificationDTO;
 import milan.backend.service.EmailService;
@@ -31,22 +32,28 @@ public class EmailController {
 
     @GetMapping("/send-verification")
     @ResponseBody
-    public ResponseEntity<String> sendVerificationEmail(@Valid @RequestBody VerificationDTO verificationRequest) {
+    public ResponseEntity<ApiResponseDTO> sendVerificationEmail(@Valid @RequestBody VerificationDTO verificationRequest) {
+        ApiResponseDTO response = new ApiResponseDTO();
+
         try {
             emailService.sendEmail(verificationRequest.getEmail(), VERIFICATION_SUBJECT);
         } catch (TemplateInputException | MessagingException | ServiceVerificationException e) {
             log.error("Failed to send Verification Email");
-            return new ResponseEntity<>("Failed to send email", HttpStatus.BAD_REQUEST);
+
+            response.setError("Failed to send email");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok("Sent");
+        response.setMessage("Sent");
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/verify")
     @ResponseBody
-    public ResponseEntity<Object> submitVerificationCode(@Valid @RequestBody VerificationDTO verificationDTO) {
+    public ResponseEntity<ApiResponseDTO> submitVerificationCode(@Valid @RequestBody VerificationDTO verificationDTO) {
         String email = verificationDTO.getEmail();
         String code = verificationDTO.getCode();
         ErrorDTO error = new ErrorDTO();
+        ApiResponseDTO response = new ApiResponseDTO();
 
         try {
             emailService.verifyUserEmailCorrelation(email, code);
@@ -59,9 +66,11 @@ public class EmailController {
         }
 
         if (error.getError() != null) {
-            return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+            response.setError(error.getError() + ": " + error.getReason());
+            return new ResponseEntity<>(response, HttpStatus.CONFLICT);
         }
 
-        return ResponseEntity.ok("success");
+        response.setMessage("success");
+        return ResponseEntity.ok(response);
     }
 }

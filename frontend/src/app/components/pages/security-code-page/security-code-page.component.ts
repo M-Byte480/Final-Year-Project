@@ -2,6 +2,8 @@ import {Component, ElementRef, ViewChild} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import {ButtonComponent} from "../../shared/button/button.component";
+import {Router} from "@angular/router";
+import {RouterDataTransferService} from "../../../services/router-data-transfer-service.service";
 
 @Component({
   selector: 'app-security-code-page',
@@ -30,7 +32,8 @@ export class SecurityCodePageComponent {
     () => this.fifthDigit,
     () => this.sixthDigit
   ]
-  enteredEmail: string = 'a@example.com';
+  enteredEmail: string = 'No Email found';
+  dataFromRegistration: any;
 
   countDownToResendCode: number = 25;
   countDownRef = setInterval(() => {
@@ -57,20 +60,43 @@ export class SecurityCodePageComponent {
     () => this.digit6
   ];
 
+  constructor(private router: Router,
+              private routerDataTransfer: RouterDataTransferService) {
+    this.routerDataTransfer.getObject.subscribe(obj => this.dataFromRegistration = obj);
+  }
+
+
   ngOnInit(): void {
+    if (this.dataFromRegistration['apiResponse']) {
+      this.hideEmail(this.dataFromRegistration);
+      this.sendVerificationEmail(this.enteredEmail);
+    } else {
+      this.router.navigate(['/register']);
+    }
+  }
+
+  ngAfterViewInit(): void {
+    this.firstDigit.nativeElement.focus();
+  }
+
+  sendVerificationEmail(email: string) {
+    // Todo: Send verification email to the API
+  }
+
+  hideEmail(navigationData: any) {
+    const apiRepsonse = navigationData['apiResponse'];
+    this.enteredEmail = apiRepsonse.message!;
     const indexOfAt = this.enteredEmail.indexOf('@');
+
     let nameSubstring = 2;
     let domainSubstring = 1;
+
     if (indexOfAt < 3) {
       nameSubstring = 1;
       domainSubstring = 0;
     }
 
     this.enteredEmail = this.enteredEmail.substring(0, nameSubstring) + '***' + this.enteredEmail.substring(indexOfAt - domainSubstring);
-  }
-
-  ngAfterViewInit(): void {
-    this.firstDigit.nativeElement.focus();
   }
 
   moveForward(event: any, divNumber: number): void {

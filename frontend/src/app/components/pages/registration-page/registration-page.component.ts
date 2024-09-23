@@ -10,6 +10,10 @@ import {MatTooltip} from "@angular/material/tooltip";
 import {HttpClient} from "@angular/common/http";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 import {provideNativeDateAdapter} from '@angular/material/core';
+import {ActivatedRoute, Router} from "@angular/router";
+import {
+  RouterDataTransferService,
+} from "../../../services/router-data-transfer-service.service";
 
 
 @Component({
@@ -65,7 +69,9 @@ export class RegistrationPageComponent {
   surnameError = '';
   passwordError = '';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private router: Router,
+              private routerDataTransfer: RouterDataTransferService) {
     Object.entries(this.registrationForm.controls).forEach(control => {
       console.log(control);
       control[1].statusChanges.subscribe(status => {
@@ -79,6 +85,7 @@ export class RegistrationPageComponent {
 
   ngOnInit(): void {
     this.today.setFullYear(this.today.getFullYear() - 18);
+
   }
 
   onSubmit(): void {
@@ -90,16 +97,17 @@ export class RegistrationPageComponent {
     this.http.post('http://localhost:8080/auth/register', this.registrationForm.value)
       .subscribe({
         next: (response) => {
-          console.log(response);
+          this.routerDataTransfer.setObject({apiResponse: response})
+          this.router.navigate(['/validate-email'], {state: {data: response}});
         },
         error: (e) => {
-          console.warn(e);
+          // todo: display error, such as email already in use
         },
         complete: () => {
+
         }
       });
   }
-
 
   updateError(control: [string, FormControl]): void {
     const name = control[0];

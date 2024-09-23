@@ -8,6 +8,7 @@ import milan.backend.model.dto.RegistrationDTO;
 import milan.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Optional;
 
@@ -37,24 +38,30 @@ public class UserService {
     }
 
     private void validateUser(User user) throws ServiceVerificationException {
-        boolean doesUserExist = userRepository.findUserByEmailEquals(user.getEmail()).isPresent();
+        Optional<User> userOptional = userRepository.findUserByEmailEquals(user.getEmail());
 
-        if (doesUserExist) {
+        userOptional.ifPresent(value -> user.setId(value.getId()));
+        userOptional.ifPresent(value -> user.setSignUpTime(LocalDateTime.now()));
+
+        if (userOptional.isPresent() && userOptional.get().isVerified()) {
             log.error("Failed to validate user");
             throw new ServiceVerificationException("Email already in use");
         }
 
+        boolean isValidDateOfBirth = isValidDateOfBirthEntered(user);
+        if (!isValidDateOfBirth) {
+            log.error("Failed to validate user");
+            throw new ServiceVerificationException("User is not age of 18");
+        }
+    }
+
+    private boolean isValidDateOfBirthEntered(User user) {
         Calendar today = Calendar.getInstance();
 
         Calendar dateOffset = Calendar.getInstance();
         dateOffset.setTime(user.getDateOfBirth());
         dateOffset.add(Calendar.YEAR, 18);
 
-        boolean isValidDateOfBirth = dateOffset.compareTo(today) <= 0;
-
-        if (!isValidDateOfBirth) {
-            log.error("Failed to validate user");
-            throw new ServiceVerificationException("User is not age of 18");
-        }
+        return dateOffset.compareTo(today) <= 0;
     }
 }

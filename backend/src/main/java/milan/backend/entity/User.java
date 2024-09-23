@@ -31,7 +31,7 @@ public class User implements UserDetails {
 
     @Column
     private String surname;
-
+    
     @Column
     private String email;
 
@@ -43,6 +43,9 @@ public class User implements UserDetails {
 
     @Column
     private String password;
+
+    @Column
+    private boolean verified;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
