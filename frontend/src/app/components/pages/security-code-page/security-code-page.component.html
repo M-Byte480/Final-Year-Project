@@ -5,7 +5,7 @@
   </div>
   <div class="flex flex-row justify-center">
     <input id="1" #1 type="text" maxlength="1" class="code" [(ngModel)]="digit1"
-           (input)="moveForward($event, 2)"
+           (input)="moveForward($event, 2)" (paste)="handlePaste($event)"
     >
     <input id="2" #2 type="text" maxlength="1" class="code" [(ngModel)]="digit2"
            (input)="moveForward($event, 3)"

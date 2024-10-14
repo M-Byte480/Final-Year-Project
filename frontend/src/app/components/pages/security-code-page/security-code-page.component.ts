@@ -50,7 +50,6 @@ export class SecurityCodePageComponent {
   digit5: string = '';
   digit6: string = '';
 
-
   allDigits = [
     () => this.digit1,
     () => this.digit2,
@@ -67,7 +66,7 @@ export class SecurityCodePageComponent {
 
 
   ngOnInit(): void {
-    if (this.dataFromRegistration['apiResponse']) {
+    if (!this.dataFromRegistration['apiResponse']) {
       this.hideEmail(this.dataFromRegistration);
       this.sendVerificationEmail(this.enteredEmail);
     } else {
@@ -78,6 +77,28 @@ export class SecurityCodePageComponent {
   ngAfterViewInit(): void {
     this.firstDigit.nativeElement.focus();
   }
+
+  handlePaste(event: ClipboardEvent) {
+    event.preventDefault();
+
+    const pasteData = event.clipboardData?.getData("text");
+    if (!pasteData) {
+      return;
+    }
+    if (pasteData.length !== 6) {
+      return;
+    }
+
+    for (let i = 0; i < 6; i++) {
+      const digit = pasteData[i].toString();
+      const classDigitField = 'digit' + (i + 1) as keyof this;
+      // @ts-ignore
+      this[classDigitField] = digit;
+    }
+
+    this.onSubmit();
+  }
+
 
   sendVerificationEmail(email: string) {
     // Todo: Send verification email to the API
