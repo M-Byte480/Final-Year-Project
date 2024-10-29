@@ -14,15 +14,15 @@ import java.util.Random;
 
 @Service
 @Slf4j
-public class AuthenticationService {
+public class RegistrationService {
 
     private final AdminRepository adminRepository;
     private final VerificationCodesRepository verificationCodesRepository;
     private final UserService userService;
 
-    public AuthenticationService(AdminRepository adminRepository,
-                                 VerificationCodesRepository verificationCodesRepository,
-                                 UserService userService) {
+    public RegistrationService(AdminRepository adminRepository,
+                               VerificationCodesRepository verificationCodesRepository,
+                               UserService userService) {
         this.adminRepository = adminRepository;
         this.userService = userService;
         this.verificationCodesRepository = verificationCodesRepository;

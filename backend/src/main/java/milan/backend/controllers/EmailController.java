@@ -1,4 +1,4 @@
-package milan.backend.controller;
+package milan.backend.controllers;
 
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;

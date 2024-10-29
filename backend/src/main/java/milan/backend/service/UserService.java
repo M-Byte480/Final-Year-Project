@@ -6,6 +6,7 @@ import milan.backend.exception.ServiceVerificationException;
 import milan.backend.mapper.UserMapper;
 import milan.backend.model.dto.RegistrationDTO;
 import milan.backend.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,16 +18,18 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void createUser(RegistrationDTO registeredUser) {
         User user = UserMapper.INSTANCE.fromDto(registeredUser);
 
         validateUser(user);
-
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
@@ -40,8 +43,10 @@ public class UserService {
     private void validateUser(User user) throws ServiceVerificationException {
         Optional<User> userOptional = userRepository.findUserByEmailEquals(user.getEmail());
 
-        userOptional.ifPresent(value -> user.setId(value.getId()));
-        userOptional.ifPresent(value -> user.setSignUpTime(LocalDateTime.now()));
+        userOptional.ifPresent(value -> {
+            user.setId(value.getId());
+            user.setSignUpTime(LocalDateTime.now());
+        });
 
         if (userOptional.isPresent() && userOptional.get().isVerified()) {
             log.error("Failed to validate user");

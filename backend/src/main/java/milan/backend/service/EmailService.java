@@ -21,16 +21,16 @@ import java.util.Optional;
 public class EmailService {
     private final JavaMailSender emailSender;
     private final SpringTemplateEngine templateEngine;
-    private final AuthenticationService authenticationService;
+    private final RegistrationService registrationService;
     private final VerificationCodesRepository verificationCodesRepository;
 
     public EmailService(JavaMailSender emailSender,
                         SpringTemplateEngine templateEngine,
-                        AuthenticationService authenticationService,
+                        RegistrationService registrationService,
                         VerificationCodesRepository verificationCodesRepository) {
         this.emailSender = emailSender;
         this.templateEngine = templateEngine;
-        this.authenticationService = authenticationService;
+        this.registrationService = registrationService;
         this.verificationCodesRepository = verificationCodesRepository;
     }
 
@@ -58,7 +58,7 @@ public class EmailService {
     public void sendEmail(String to, String subject) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
-        String verificationCode = authenticationService.generateCodeForUser(to);
+        String verificationCode = registrationService.generateCodeForUser(to);
 
         Context context = new Context();
         context.setVariable("verificationCode", verificationCode);
