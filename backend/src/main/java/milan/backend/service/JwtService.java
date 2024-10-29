@@ -32,7 +32,7 @@ public class JwtService {
 
     public JwtService(@Value("${jwt.secret}") String secretKey,
                       @Value("${jwt.expiration}") long jwtExpiration,
-                      @Value("${JWT_REFRESH_EXPIRATION}") long jwtRefreshExpiration) {
+                      @Value("${jwt.refresh.expiration}") long jwtRefreshExpiration) {
         this.secretKey = secretKey;
         this.jwtExpiration = jwtExpiration;
         this.jwtRefreshExpiration = jwtRefreshExpiration;

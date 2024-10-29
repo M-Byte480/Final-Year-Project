@@ -35,7 +35,9 @@ public class AuthenticationController {
     public AuthenticationController(
             RegistrationService registrationService,
             UserService userService,
-            LoginService loginService, JwtService jwtService, @Qualifier("userDetailsService") UserDetailsService userDetailsService) {
+            LoginService loginService,
+            JwtService jwtService,
+            @Qualifier("userDetailsService") UserDetailsService userDetailsService) {
         this.registrationService = registrationService;
         this.userService = userService;
         this.loginService = loginService;
@@ -70,7 +72,7 @@ public class AuthenticationController {
         String jwtToken = jwtService.generateToken(authenticatedUser);
         String refreshToken = jwtService.generateRefreshToken(authenticatedUser);
 
-        JwtDTO jwtDTO = new JwtDTO(jwtToken, jwtService.getExpirationTime(), refreshToken, jwtService.getRefreshExpirationTime());
+        JwtDTO jwtDTO = new JwtDTO(jwtToken, refreshToken);
 
         return ResponseEntity
                 .ok()
@@ -86,7 +88,7 @@ public class AuthenticationController {
         if (jwtService.isRefreshTokenValid(refreshToken, userDetails)) {
             String newAccessToken = jwtService.generateToken(userDetails);
 
-            return ResponseEntity.ok(new JwtDTO(newAccessToken, jwtService.getExpirationTime(), refreshToken, refreshTokenDTO.getRefreshTokenExpirationTime()));
+            return ResponseEntity.ok(new JwtDTO(newAccessToken, refreshToken));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
