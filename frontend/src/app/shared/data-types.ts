@@ -9,3 +9,15 @@ export interface Endpoints {
   registerUser: EndpointConfig;
   sendVerificationEmail: EndpointConfig;
 }
+
+export interface Site {
+  name: string,
+  description: string,
+  url: string,
+  id: string
+}
+
+export interface PanelItem {
+  panelName: string,
+  onClick: () => void
+}

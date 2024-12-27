@@ -1,0 +1,24 @@
+<div class="container" [class.is-mobile]="isMobile()">
+  <mat-toolbar class="toolbar">
+    <button mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="app-name">Website Builder</h1>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-container"
+                         [style.marginTop.px]="isMobile() ? 56 : 0">
+    <mat-sidenav #snav [mode]="isMobile() ? 'over' : 'side'"
+                 [fixedInViewport]="isMobile()" fixedTopGap="56">
+      <mat-nav-list>
+        @for (nav of fillerNav; track nav) {
+          <a mat-list-item routerLink="." (click)="nav.onClick()">{{ nav.panelName }}</a>
+        }
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <ng-content></ng-content>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
