@@ -19,5 +19,5 @@ export interface Site {
 
 export interface PanelItem {
   panelName: string,
-  onClick: () => void
+  component: any
 }

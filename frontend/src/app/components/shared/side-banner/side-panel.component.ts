@@ -8,7 +8,17 @@ import {MatNavList} from '@angular/material/list';
 import {MatSidenav, MatSidenavContainer} from '@angular/material/sidenav';
 import {MatIcon} from '@angular/material/icon';
 import {MatToolbar} from '@angular/material/toolbar';
-import {Component, OnDestroy, inject, signal} from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  inject,
+  signal,
+  Input,
+  ViewContainerRef,
+  ViewChild,
+  EventEmitter,
+  Output, OnInit, AfterContentInit, AfterViewInit
+} from '@angular/core';
 import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
@@ -38,22 +48,13 @@ import {PanelItem} from "../../../shared/data-types";
 })
 
 
-export class SidePanelComponent implements OnDestroy {
-  protected readonly fillerNav: PanelItem[] = Array.from(
-    {length: 50},
-    (_, i) => `Nav Item ${i + 1}`
-  ).map((name, index) => {
-      return {
-        panelName: name,
-        onClick: () => {
-          console.log(`Nav Item ${index + 1} clicked`);
-        }
-      };
-    }
-  );
+export class SidePanelComponent implements AfterViewInit, OnDestroy {
+  @Input() panelItems: PanelItem[] = [];
+  @Output() panelSelected = new EventEmitter<PanelItem>();
+  @ViewChild('dynamicContainer', {read: ViewContainerRef}) dynamicContainer!: ViewContainerRef;
 
   protected readonly isMobile = signal(true);
-
+  private currentRoute = window.location.href;
   private readonly _mobileQuery: MediaQueryList;
   private readonly _mobileQueryListener: () => void;
 
@@ -64,6 +65,24 @@ export class SidePanelComponent implements OnDestroy {
     this.isMobile.set(this._mobileQuery.matches);
     this._mobileQueryListener = () => this.isMobile.set(this._mobileQuery.matches);
     this._mobileQuery.addEventListener('change', this._mobileQueryListener);
+  }
+
+  // Default init
+  ngAfterViewInit(): void {
+    this.panelItems.forEach(item => {
+      if (item.panelName == 'Overview') {
+        this.panelSelected.emit(item);
+      }
+    })
+  }
+
+  onPanelClick(item: PanelItem): void {
+    if (item.component === null && item.panelName === 'Composer') {
+      // open new window with endpoint
+      window.open(this.currentRoute + '/composer', "_blank");
+      return;
+    }
+    this.panelSelected.emit(item);
   }
 
   ngOnDestroy(): void {

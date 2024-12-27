@@ -25,15 +25,15 @@ export const routes: Routes = [
     component: SecurityCodePageComponent
   },
   {
-    path: 'manager',
+    path: 'overview',
     component: SiteManagerComponent
   },
   {
-    path: 'manager/:siteId',
+    path: 'overview/:siteId',
     component: SiteDashboardComponent
   },
   {
-    path: 'manager/:siteId/composer',
+    path: 'overview/:siteId/composer',
     component: SiteComposerComponent
   },
   {

@@ -1,1 +1,3 @@
-<app-side-panel/>
+<app-side-panel
+  [panelItems]="panelActions"
+  (panelSelected)="onPanelSelected($event)"/>

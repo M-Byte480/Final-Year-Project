@@ -2,11 +2,6 @@
 Code snippets taken from material angular documentation
 https://material.angular.io/components/sidenav/examples
  */
-
-.root {
-  background-color: blue;
-}
-
 .container {
   display: flex;
   flex-direction: column;
