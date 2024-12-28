@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.management.relation.Role;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -44,7 +43,7 @@ public class User implements UserDetails {
     @Column
     private boolean verified;
 
-    private Collection<Role> roles;
+//    private Collection<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
