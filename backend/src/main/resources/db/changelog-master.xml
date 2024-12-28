@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
     <changeSet id="0" author="Milan" context="Creating tables">
         <createTable tableName="users">
-            <column name="id" type="int" autoIncrement="true">
+            <column name="id" type="uuid">
                 <constraints primaryKey="true" primaryKeyName="PK_USERS" nullable="false"/>
             </column>
             <column name="firstname" type="VARCHAR2(255)"/>
@@ -20,7 +20,7 @@
         </createTable>
 
         <createTable tableName="admins">
-            <column name="user_id" type="int">
+            <column name="user_id" type="uuid">
                 <constraints primaryKey="true" foreignKeyName="users.id" nullable="false"/>
             </column>
         </createTable>
@@ -39,4 +39,58 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="1" author="Milan">
+        <createTable tableName="user_table_management">
+            <column name="user_id" type="uuid">
+                <constraints primaryKey="true" foreignKeyName="users.id" nullable="false"/>
+            </column>
+            <column name="site_id" type="uuid"/>
+        </createTable>
+        <createTable tableName="site_composer_autosave_states">
+            <column name="table_id" type="uuid">
+                <constraints primaryKey="true" foreignKeyName="user_table_management.user_id" nullable="false"/>
+            </column>
+            <column name="state" type="longtext"/>
+            <column name="updated_timestamp" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+        <createTable tableName="site_composer_saved_states">
+            <column name="table_id" type="uuid">
+                <constraints primaryKey="true" foreignKeyName="user_table_management.user_id" nullable="false"/>
+            </column>
+            <column name="state" type="longtext"/>
+            <column name="updated_timestamp" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+        <createTable tableName="image_resources">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="uploader_id" type="uuid">
+                <constraints foreignKeyName="users.id" nullable="false"/>
+            </column>
+            <column name="filename" type="text"/>
+            <column name="file" type="longblob"/>
+        </createTable>
+        <createTable tableName="site_roles">
+            <column name="user_id" type="uuid">
+                <constraints primaryKey="true" foreignKeyName="users.id" nullable="false"/>
+            </column>
+            <column name="site_id" type="uuid">
+                <constraints primaryKey="true" foreignKeyName="user_table_management.site_id" nullable="false"/>
+            </column>
+            <column name="role" type="text"/>
+        </createTable>
+        <createTable tableName="recovery_codes">
+            <column name="email" type="text">
+                <constraints primaryKey="true" foreignKeyName="users.email" nullable="false"/>
+            </column>
+            <column name="code" type="text"/>
+            <column name="timestamp" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+        <createTable tableName="site_manager_state">
+            <column name="site_id" type="uuid">
+                <constraints primaryKey="true" foreignKeyName="user_table_management.site_id" nullable="false"/>
+            </column>
+            <column name="updated_timestamp" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>
