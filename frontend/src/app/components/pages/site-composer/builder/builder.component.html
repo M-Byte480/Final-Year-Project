@@ -1,0 +1,9 @@
+<ng-container *ngIf="empty">
+  <app-content-element
+    (elementToAdd)="addElement($event)"
+  />
+</ng-container>
+
+<ng-container *ngIf="!empty">
+  <app-content-loader/>
+</ng-container>

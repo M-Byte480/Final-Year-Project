@@ -1,1 +1,10 @@
-<p>content-element works!</p>
+<div class="p-1.5 w-full h-full">
+  <button class="w-full h-full bg-blue-300 text-3xl text-purple-700 text-opacity-75" (click)="showSelectionPopup()">
+    +
+  </button>
+</div>
+
+<app-selection-modal *ngIf="showModal"
+                     [(displayState)]="showModal"
+                     (elementToAddEvent)="addElement($event)"
+                     class="block h-screen w-screen fixed left-0 top-0 z-50"/>
