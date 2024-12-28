@@ -97,7 +97,7 @@ public class AuthenticationController {
     @PostMapping(value = "/admin", consumes = "application/json")
     public ResponseEntity<ApiResponseDTO> addUserToAdmin(@Valid @RequestBody UserAdminDTO userAdminDTO) {
         // todo: Validate who is sending the request
-        registrationService.addUserToAdmin(userAdminDTO);
+//        registrationService.addUserToAdmin(userAdminDTO);
 
         ApiResponseDTO response = new ApiResponseDTO("User has been promoted to admin");
         return ResponseEntity.ok(response);

@@ -36,7 +36,7 @@ public class RegistrationService {
 
     public void addUserToAdmin(UserAdminDTO user) {
         UserAdmin admin = new UserAdmin();
-        admin.setUserId(user.getUserId());
+//        admin.setUserId(user.getUserId());
         adminRepository.save(admin);
         log.info("Promoting user: {}", user.getUserId());
     }
