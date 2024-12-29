@@ -1,6 +1,6 @@
 package milan.backend.mapper;
 
-import milan.backend.entity.User;
+import milan.backend.entity.UserEntity;
 import milan.backend.model.dto.RegistrationDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -9,5 +9,5 @@ import org.mapstruct.factory.Mappers;
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    User fromDto(RegistrationDTO dto);
+    UserEntity fromDto(RegistrationDTO dto);
 }

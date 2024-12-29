@@ -3,7 +3,9 @@ import {FormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import {ButtonComponent} from "../../shared/button/button.component";
 import {Router} from "@angular/router";
-import {RouterDataTransferService} from "../../../services/router-data-transfer-service.service";
+import {RouterDataTransferService} from "../../../services/registration-service/router-data-transfer-service.service";
+import {HttpApiService} from "../../../services/http/http-api.service";
+import {ENDPOINTS} from "../../../services/http/endpoints";
 
 @Component({
   selector: 'app-security-code-page',
@@ -35,13 +37,9 @@ export class SecurityCodePageComponent {
   enteredEmail: string = 'No Email found';
   dataFromRegistration: any;
 
-  countDownToResendCode: number = 25;
-  countDownRef = setInterval(() => {
-    this.countDownToResendCode--;
-    if (this.countDownToResendCode === 0) {
-      clearInterval(this.countDownRef);
-    }
-  }, 1_000);
+  awaitMessage = 'Waiting to send email';
+  countDownToResendCode: number | null = null;
+  countDownRef: any;
 
   digit1: string = '';
   digit2: string = '';
@@ -60,17 +58,18 @@ export class SecurityCodePageComponent {
   ];
 
   constructor(private router: Router,
-              private routerDataTransfer: RouterDataTransferService) {
-    this.routerDataTransfer.getObject.subscribe(obj => this.dataFromRegistration = obj);
+              private routerDataTransfer: RouterDataTransferService,
+              private httpService: HttpApiService) {
+    this.dataFromRegistration = this.routerDataTransfer.getState();
   }
 
 
   ngOnInit(): void {
-    if (!this.dataFromRegistration['apiResponse']) {
-      this.hideEmail(this.dataFromRegistration);
-      this.sendVerificationEmail(this.enteredEmail);
-    } else {
-      this.router.navigate(['/register']);
+    if (this.dataFromRegistration['apiResponse']) {
+      const email = this.dataFromRegistration['apiResponse'].message;
+      this.enteredEmail = email;
+      this.hideEmail();
+      this.sendVerificationEmail(email);
     }
   }
 
@@ -99,14 +98,35 @@ export class SecurityCodePageComponent {
     this.onSubmit();
   }
 
+  private startCountdown() {
+    this.countDownToResendCode = 60;
+    this.countDownRef = setInterval(() => {
+      if (this.countDownToResendCode && this.countDownToResendCode > 0) {
+        this.countDownToResendCode--;
+      }
 
-  sendVerificationEmail(email: string) {
-    // Todo: Send verification email to the API
+      if (this.countDownToResendCode === 0) {
+        clearInterval(this.countDownRef);
+      }
+    }, 1_000);
   }
 
-  hideEmail(navigationData: any) {
-    const apiRepsonse = navigationData['apiResponse'];
-    this.enteredEmail = apiRepsonse.message!;
+  sendVerificationEmail(email: string) {
+    const emailPayload = {
+      email: email
+    };
+
+    this.httpService.call(ENDPOINTS.sendVerificationEmail, emailPayload).subscribe(
+      (response) => {
+        this.startCountdown();
+      },
+      (error) => {
+        console.error('Error sending verification email');
+      }
+    );
+  }
+
+  hideEmail() {
     const indexOfAt = this.enteredEmail.indexOf('@');
 
     let nameSubstring = 2;

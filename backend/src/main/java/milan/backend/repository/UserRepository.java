@@ -1,6 +1,6 @@
 package milan.backend.repository;
 
-import milan.backend.entity.User;
+import milan.backend.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, UUID> {
+public interface UserRepository extends JpaRepository<UserEntity, UUID> {
 
-    Optional<User> findUserByEmailEquals(String email);
+    Optional<UserEntity> findUserByEmailEquals(String email);
 }

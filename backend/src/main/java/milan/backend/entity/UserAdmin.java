@@ -21,5 +21,5 @@ public class UserAdmin {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private User user;
+    private UserEntity userEntity;
 }

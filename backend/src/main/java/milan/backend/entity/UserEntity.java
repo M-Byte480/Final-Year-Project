@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -16,9 +16,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @Table(name = "users")
-public class User implements UserDetails {
+public class UserEntity implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
     @Column
     private UUID id;
 
@@ -35,7 +35,7 @@ public class User implements UserDetails {
     private Date dateOfBirth;
 
     @Column(name = "signed_up", insertable = false)
-    private LocalDateTime signUpTime;
+    private Instant signUpTime;
 
     @Column
     private String password;

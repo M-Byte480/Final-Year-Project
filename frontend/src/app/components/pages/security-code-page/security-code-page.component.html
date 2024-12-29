@@ -26,9 +26,11 @@
   </div>
   <app-button (click)="onSubmit()" [disabled]="isFormComplete()" [label]="'Submit'"/>
 
-  <div *ngIf="countDownToResendCode > 0">{{ countDownToResendCode }}s</div>
   <div>
-    <app-button (click)="onResendCode()" [disabled]="countDownToResendCode > 0" [label]="'Resend Code'"/>
+    <app-button (click)="onResendCode()" [disabled]="countDownToResendCode === null || countDownToResendCode > 0"
+                [label]="'Resend Code'"/>
   </div>
+  <div *ngIf="countDownToResendCode !== null && countDownToResendCode > 0">{{ countDownToResendCode }}s</div>
+  <div *ngIf="countDownToResendCode === null" class="italic">{{ awaitMessage }}</div>
 
 </main>

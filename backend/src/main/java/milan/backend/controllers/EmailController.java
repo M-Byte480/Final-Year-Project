@@ -11,17 +11,12 @@ import milan.backend.model.dto.VerificationDTO;
 import milan.backend.service.EmailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.exceptions.TemplateInputException;
 
 @Slf4j
-@Controller
-@RequestMapping("/email")
+@RestController
+@RequestMapping("/api/email")
 public class EmailController {
     private static final String VERIFICATION_SUBJECT = "Verification code for Milanify";
     private final EmailService emailService;
@@ -31,7 +26,6 @@ public class EmailController {
     }
 
     @GetMapping("/send-verification")
-    @ResponseBody
     public ResponseEntity<ApiResponseDTO> sendVerificationEmail(@Valid @RequestBody VerificationDTO verificationRequest) {
         ApiResponseDTO response = new ApiResponseDTO();
 
@@ -48,7 +42,6 @@ public class EmailController {
     }
 
     @PostMapping("/verify")
-    @ResponseBody
     public ResponseEntity<ApiResponseDTO> submitVerificationCode(@Valid @RequestBody VerificationDTO verificationDTO) {
         String email = verificationDTO.getEmail();
         String code = verificationDTO.getCode();

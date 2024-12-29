@@ -1,7 +1,7 @@
 
 package milan.backend.service;
 
-import milan.backend.entity.User;
+import milan.backend.entity.UserEntity;
 import milan.backend.model.dto.LoginDTO;
 import milan.backend.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,7 +19,7 @@ public class LoginService {
         this.authenticationManager = authenticationManager;
     }
 
-    public User login(LoginDTO input) {
+    public UserEntity login(LoginDTO input) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         input.getEmail(),

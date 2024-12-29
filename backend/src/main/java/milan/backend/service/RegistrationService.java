@@ -9,7 +9,7 @@ import milan.backend.repository.AdminRepository;
 import milan.backend.repository.VerificationCodesRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Random;
 
 @Service
@@ -52,7 +52,7 @@ public class RegistrationService {
         VerificationCode verificationCode = new VerificationCode();
         verificationCode.setCode(code);
         verificationCode.setEmail(email);
-        verificationCode.setTimestamp(LocalDateTime.now());
+        verificationCode.setTimestamp(Instant.now());
         verificationCodesRepository.save(verificationCode);
     }
 

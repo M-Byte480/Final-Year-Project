@@ -2,7 +2,7 @@ package milan.backend.controllers;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import milan.backend.entity.User;
+import milan.backend.entity.UserEntity;
 import milan.backend.exception.ServiceVerificationException;
 import milan.backend.model.bean.ErrorBean;
 import milan.backend.model.dto.*;
@@ -67,10 +67,10 @@ public class AuthenticationController {
 
     @PostMapping(value = "/login", consumes = "application/json")
     public ResponseEntity<JwtDTO> loginUser(@Valid @RequestBody LoginDTO loginDTO) {
-        User authenticatedUser = loginService.login(loginDTO);
+        UserEntity authenticatedUserEntity = loginService.login(loginDTO);
 
-        String jwtToken = jwtService.generateToken(authenticatedUser);
-        String refreshToken = jwtService.generateRefreshToken(authenticatedUser);
+        String jwtToken = jwtService.generateToken(authenticatedUserEntity);
+        String refreshToken = jwtService.generateRefreshToken(authenticatedUserEntity);
 
         JwtDTO jwtDTO = new JwtDTO(jwtToken, refreshToken);
 
