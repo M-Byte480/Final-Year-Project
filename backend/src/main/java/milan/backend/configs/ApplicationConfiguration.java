@@ -5,6 +5,7 @@
 package milan.backend.configs;
 
 import milan.backend.repository.UserRepository;
+import milan.backend.service.UserDetailsServiceImplementation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,7 +13,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
@@ -25,9 +25,7 @@ public class ApplicationConfiguration {
 
     @Bean
     UserDetailsService userDetailsService() {
-        return username -> userRepository.findUserByEmailEquals(username).orElseThrow(
-                () -> new UsernameNotFoundException("User with email " + username + " not found")
-        );
+        return new UserDetailsServiceImplementation(userRepository);
     }
 
     @Bean

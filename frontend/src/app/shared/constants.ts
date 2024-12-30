@@ -3,5 +3,6 @@ export enum REQUEST_TYPES {
   GET = "GET",
   DELETE = "DELETE",
   UPDATE = "UPDATE",
-  OPTION = "OPTION"
+  OPTION = "OPTION",
+  PUT = "PUT"
 }

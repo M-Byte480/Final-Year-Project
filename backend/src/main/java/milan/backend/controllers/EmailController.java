@@ -3,35 +3,39 @@ package milan.backend.controllers;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import milan.backend.entity.userManagement.UserEntity;
 import milan.backend.exception.ServiceVerificationException;
 import milan.backend.exception.ValidationException;
 import milan.backend.model.dto.ApiResponseDTO;
 import milan.backend.model.dto.ErrorDTO;
 import milan.backend.model.dto.VerificationDTO;
 import milan.backend.service.EmailService;
+import milan.backend.service.RolesService;
+import milan.backend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.exceptions.TemplateInputException;
 
 @Slf4j
-@Controller
-@RequestMapping("/email")
+@RestController
+@RequestMapping("/api/email")
 public class EmailController {
     private static final String VERIFICATION_SUBJECT = "Verification code for Milanify";
     private final EmailService emailService;
+    private final UserService userService;
+    private final RolesService rolesService;
 
-    public EmailController(EmailService emailService) {
+    public EmailController(EmailService emailService, UserService userService, RolesService rolesService) {
         this.emailService = emailService;
+        this.userService = userService;
+        this.rolesService = rolesService;
     }
 
-    @GetMapping("/send-verification")
-    @ResponseBody
+    @PostMapping("/send-verification")
     public ResponseEntity<ApiResponseDTO> sendVerificationEmail(@Valid @RequestBody VerificationDTO verificationRequest) {
         ApiResponseDTO response = new ApiResponseDTO();
 
@@ -48,7 +52,6 @@ public class EmailController {
     }
 
     @PostMapping("/verify")
-    @ResponseBody
     public ResponseEntity<ApiResponseDTO> submitVerificationCode(@Valid @RequestBody VerificationDTO verificationDTO) {
         String email = verificationDTO.getEmail();
         String code = verificationDTO.getCode();
@@ -57,6 +60,8 @@ public class EmailController {
 
         try {
             emailService.verifyUserEmailCorrelation(email, code);
+            UserEntity user = userService.setEmailVerificationState(email, true);
+            rolesService.addRoleToUserId(user.getId(), "USER");
         } catch (ValidationException e) {
             error.setError(e.getWhat());
             error.setReason(e.getReason());

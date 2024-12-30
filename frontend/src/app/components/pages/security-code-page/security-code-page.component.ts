@@ -3,7 +3,9 @@ import {FormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import {ButtonComponent} from "../../shared/button/button.component";
 import {Router} from "@angular/router";
-import {RouterDataTransferService} from "../../../services/router-data-transfer-service.service";
+import {RouterDataTransferService} from "../../../services/registration-service/router-data-transfer-service.service";
+import {HttpApiService} from "../../../services/http/http-api.service";
+import {ENDPOINTS} from "../../../services/http/endpoints";
 
 @Component({
   selector: 'app-security-code-page',
@@ -32,16 +34,13 @@ export class SecurityCodePageComponent {
     () => this.fifthDigit,
     () => this.sixthDigit
   ]
-  enteredEmail: string = 'No Email found';
+  enteredEmail: string = '';
+  displayedEmail: string = 'No Email found';
   dataFromRegistration: any;
 
-  countDownToResendCode: number = 25;
-  countDownRef = setInterval(() => {
-    this.countDownToResendCode--;
-    if (this.countDownToResendCode === 0) {
-      clearInterval(this.countDownRef);
-    }
-  }, 1_000);
+  awaitMessage = 'Waiting to send email';
+  countDownToResendCode: number | null = null;
+  countDownRef: any;
 
   digit1: string = '';
   digit2: string = '';
@@ -60,17 +59,18 @@ export class SecurityCodePageComponent {
   ];
 
   constructor(private router: Router,
-              private routerDataTransfer: RouterDataTransferService) {
-    this.routerDataTransfer.getObject.subscribe(obj => this.dataFromRegistration = obj);
+              private routerDataTransfer: RouterDataTransferService,
+              private httpService: HttpApiService) {
+    this.dataFromRegistration = this.routerDataTransfer.getState();
   }
 
 
   ngOnInit(): void {
-    if (!this.dataFromRegistration['apiResponse']) {
-      this.hideEmail(this.dataFromRegistration);
+    if (this.dataFromRegistration['apiResponse']) {
+      this.enteredEmail = this.dataFromRegistration['apiResponse'].message;
+      this.displayedEmail = this.enteredEmail;
+      this.hideEmail();
       this.sendVerificationEmail(this.enteredEmail);
-    } else {
-      this.router.navigate(['/register']);
     }
   }
 
@@ -99,15 +99,35 @@ export class SecurityCodePageComponent {
     this.onSubmit();
   }
 
+  private startCountdown() {
+    this.countDownToResendCode = 60;
+    this.countDownRef = setInterval(() => {
+      if (this.countDownToResendCode && this.countDownToResendCode > 0) {
+        this.countDownToResendCode--;
+      }
 
-  sendVerificationEmail(email: string) {
-    // Todo: Send verification email to the API
+      if (this.countDownToResendCode === 0) {
+        clearInterval(this.countDownRef);
+      }
+    }, 1_000);
   }
 
-  hideEmail(navigationData: any) {
-    const apiRepsonse = navigationData['apiResponse'];
-    this.enteredEmail = apiRepsonse.message!;
-    const indexOfAt = this.enteredEmail.indexOf('@');
+  sendVerificationEmail(email: string) {
+    const emailPayload = {
+      email: email
+    };
+    this.httpService.call(ENDPOINTS['sendVerificationEmail'], emailPayload).subscribe({
+      next: () => {
+        this.startCountdown();
+      },
+      error: () => {
+        console.error('Error sending verification email');
+      }
+    });
+  }
+
+  hideEmail() {
+    const indexOfAt = this.displayedEmail.indexOf('@');
 
     let nameSubstring = 2;
     let domainSubstring = 1;
@@ -117,7 +137,7 @@ export class SecurityCodePageComponent {
       domainSubstring = 0;
     }
 
-    this.enteredEmail = this.enteredEmail.substring(0, nameSubstring) + '***' + this.enteredEmail.substring(indexOfAt - domainSubstring);
+    this.displayedEmail = this.displayedEmail.substring(0, nameSubstring) + '***' + this.displayedEmail.substring(indexOfAt - domainSubstring);
   }
 
   moveForward(event: any, divNumber: number): void {
@@ -136,7 +156,18 @@ export class SecurityCodePageComponent {
   }
 
   onSubmit(): void {
-    console.log('Submit');
+    const verificationCode = this.allDigits.map(digit => digit()).join('');
+    this.httpService.call(ENDPOINTS['submitRegistrationVerificationCode'], {
+      email: this.enteredEmail,
+      code: verificationCode
+    }).subscribe({
+      next: () => {
+        this.router.navigate(['/login']).then(r => console.log('Navigated to login'));
+      },
+      error: () => {
+        console.error('Error submitting verification code');
+      }
+    });
   }
 
   onResendCode(): void {

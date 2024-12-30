@@ -1,15 +1,15 @@
 package milan.backend.service;
 
 import lombok.extern.slf4j.Slf4j;
-import milan.backend.entity.UserAdmin;
-import milan.backend.entity.VerificationCode;
+import milan.backend.entity.userManagement.UserAdmin;
+import milan.backend.entity.codes.VerificationCode;
 import milan.backend.mapper.UserAdminMapper;
 import milan.backend.model.dto.UserAdminDTO;
 import milan.backend.repository.AdminRepository;
 import milan.backend.repository.VerificationCodesRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Random;
 
 @Service
@@ -36,7 +36,7 @@ public class RegistrationService {
 
     public void addUserToAdmin(UserAdminDTO user) {
         UserAdmin admin = new UserAdmin();
-        admin.setUserId(user.getUserId());
+//        admin.setUserId(user.getUserId());
         adminRepository.save(admin);
         log.info("Promoting user: {}", user.getUserId());
     }
@@ -52,7 +52,7 @@ public class RegistrationService {
         VerificationCode verificationCode = new VerificationCode();
         verificationCode.setCode(code);
         verificationCode.setEmail(email);
-        verificationCode.setTimestamp(LocalDateTime.now());
+        verificationCode.setCreatedAt(Instant.now());
         verificationCodesRepository.save(verificationCode);
     }
 

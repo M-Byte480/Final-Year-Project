@@ -13,7 +13,7 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {
   RouterDataTransferService,
-} from "../../../services/router-data-transfer-service.service";
+} from "../../../services/registration-service/router-data-transfer-service.service";
 
 
 @Component({
@@ -97,8 +97,8 @@ export class RegistrationPageComponent {
     this.http.post('http://localhost:8080/auth/register', this.registrationForm.value)
       .subscribe({
         next: (response) => {
-          this.routerDataTransfer.setObject({apiResponse: response})
-          this.router.navigate(['/validate-email'], {state: {data: response}});
+          this.routerDataTransfer.setState({apiResponse: response});
+          this.router.navigate(['/validate-email']);
         },
         error: (e) => {
           // todo: display error, such as email already in use

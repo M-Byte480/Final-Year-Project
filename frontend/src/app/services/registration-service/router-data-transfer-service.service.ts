@@ -6,12 +6,13 @@ import {BehaviorSubject} from "rxjs";
 })
 export class RouterDataTransferService {
   private object = new BehaviorSubject({});
-  getObject = this.object.asObservable();
+  state$ = this.object.asObservable();
 
-  constructor() {
+  setState(state: any) {
+    this.object.next(state);
   }
 
-  setObject(object: any) {
-    this.object.next(object);
+  getState() {
+    return this.object.getValue();
   }
 }

@@ -1,6 +1,6 @@
 package milan.backend.repository;
 
-import milan.backend.entity.VerificationCode;
+import milan.backend.entity.codes.VerificationCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
