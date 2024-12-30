@@ -34,7 +34,8 @@ export class SecurityCodePageComponent {
     () => this.fifthDigit,
     () => this.sixthDigit
   ]
-  enteredEmail: string = 'No Email found';
+  enteredEmail: string = '';
+  displayedEmail: string = 'No Email found';
   dataFromRegistration: any;
 
   awaitMessage = 'Waiting to send email';
@@ -66,10 +67,10 @@ export class SecurityCodePageComponent {
 
   ngOnInit(): void {
     if (this.dataFromRegistration['apiResponse']) {
-      const email = this.dataFromRegistration['apiResponse'].message;
-      this.enteredEmail = email;
+      this.enteredEmail = this.dataFromRegistration['apiResponse'].message;
+      this.displayedEmail = this.enteredEmail;
       this.hideEmail();
-      this.sendVerificationEmail(email);
+      this.sendVerificationEmail(this.enteredEmail);
     }
   }
 
@@ -115,19 +116,18 @@ export class SecurityCodePageComponent {
     const emailPayload = {
       email: email
     };
-
-    this.httpService.call(ENDPOINTS.sendVerificationEmail, emailPayload).subscribe(
-      (response) => {
+    this.httpService.call(ENDPOINTS['sendVerificationEmail'], emailPayload).subscribe({
+      next: () => {
         this.startCountdown();
       },
-      (error) => {
+      error: () => {
         console.error('Error sending verification email');
       }
-    );
+    });
   }
 
   hideEmail() {
-    const indexOfAt = this.enteredEmail.indexOf('@');
+    const indexOfAt = this.displayedEmail.indexOf('@');
 
     let nameSubstring = 2;
     let domainSubstring = 1;
@@ -137,7 +137,7 @@ export class SecurityCodePageComponent {
       domainSubstring = 0;
     }
 
-    this.enteredEmail = this.enteredEmail.substring(0, nameSubstring) + '***' + this.enteredEmail.substring(indexOfAt - domainSubstring);
+    this.displayedEmail = this.displayedEmail.substring(0, nameSubstring) + '***' + this.displayedEmail.substring(indexOfAt - domainSubstring);
   }
 
   moveForward(event: any, divNumber: number): void {
@@ -156,7 +156,18 @@ export class SecurityCodePageComponent {
   }
 
   onSubmit(): void {
-    console.log('Submit');
+    const verificationCode = this.allDigits.map(digit => digit()).join('');
+    this.httpService.call(ENDPOINTS['submitRegistrationVerificationCode'], {
+      email: this.enteredEmail,
+      code: verificationCode
+    }).subscribe({
+      next: () => {
+        this.router.navigate(['/login']).then(r => console.log('Navigated to login'));
+      },
+      error: () => {
+        console.error('Error submitting verification code');
+      }
+    });
   }
 
   onResendCode(): void {

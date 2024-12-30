@@ -6,8 +6,7 @@ export interface EndpointConfig {
 }
 
 export interface Endpoints {
-  registerUser: EndpointConfig;
-  sendVerificationEmail: EndpointConfig;
+  [key: string]: EndpointConfig;
 }
 
 export interface Site {

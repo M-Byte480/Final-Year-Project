@@ -21,7 +21,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(request -> {
-                    request.requestMatchers("/auth/login", "/auth/register", "/api/email/send-verification").permitAll();
+                    request.requestMatchers("/auth/login", "/auth/register", "/api/email/send-verification", "api/email/verify").permitAll();
 //                    request.anyRequest().authenticated();
                 })
 //                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

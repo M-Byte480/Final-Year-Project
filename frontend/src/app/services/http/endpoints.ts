@@ -13,5 +13,9 @@ export const ENDPOINTS: Endpoints = {
   sendVerificationEmail: {
     endpoint: "/api/email/send-verification",
     requestType: REQUEST_TYPES.POST
-  }
-}
+  },
+  submitRegistrationVerificationCode: {
+    endpoint: "/api/email/verify",
+    requestType: REQUEST_TYPES.POST
+  },
+};

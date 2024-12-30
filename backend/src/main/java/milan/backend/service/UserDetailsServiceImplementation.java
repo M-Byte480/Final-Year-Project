@@ -55,7 +55,7 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
 
     private Set<GrantedAuthority> getAuthorities(Set<RoleEntity> roles) {
         return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRoleName()))
                 .collect(Collectors.toSet());
     }
 

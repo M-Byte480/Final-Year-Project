@@ -11,11 +11,11 @@ import {EndpointConfig, Endpoints} from "../../shared/data-types";
 export class HttpApiService {
 
   private url = "http://localhost:8080";
-  
+
   constructor(private http: HttpClient) {
   }
 
-  public call(endpoint: EndpointConfig, payload: any): Observable<any> {
+  public call(endpoint: EndpointConfig, payload?: any): Observable<any> {
     switch (endpoint.requestType) {
       case REQUEST_TYPES.POST:
         return this.http.post(this.url + endpoint.endpoint, payload);

@@ -14,5 +14,7 @@ import lombok.Data;
 @Table(name = "roles")
 public class RoleEntity {
     @Id
-    private String name;
+    private Integer roleId;
+
+    private String roleName;
 }

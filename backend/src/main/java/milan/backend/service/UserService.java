@@ -32,7 +32,7 @@ public class UserService {
 
     public void createUser(RegistrationDTO registeredUser) {
         UserEntity userEntity = UserMapper.INSTANCE.fromDto(registeredUser);
-        
+
         validateUser(userEntity);
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword() + this.SALT));
         userRepository.save(userEntity);
@@ -63,6 +63,13 @@ public class UserService {
             log.error("Failed to validate user");
             throw new ServiceVerificationException("User is not age of 18");
         }
+    }
+
+    public UserEntity setEmailVerificationState(String email, boolean state) {
+        Optional<UserEntity> user = userRepository.findUserEntityByEmailEquals(email);
+        UserEntity userRow = user.orElseThrow(() -> new ServiceVerificationException("User does not exists provided by the given email: " + email));
+        userRow.setVerified(state);
+        return userRepository.save(userRow);
     }
 
     private boolean isValidDateOfBirthEntered(UserEntity userEntity) {

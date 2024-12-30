@@ -56,6 +56,7 @@ public class EmailService {
             throw new CodeValidationException("code validation", "Code does not match");
         }
     }
+    
 
     public void sendEmail(String to, String subject) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
