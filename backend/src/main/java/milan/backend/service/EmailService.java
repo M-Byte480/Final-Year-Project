@@ -2,7 +2,7 @@ package milan.backend.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import milan.backend.entity.VerificationCode;
+import milan.backend.entity.codes.VerificationCode;
 import milan.backend.exception.CodeValidationException;
 import milan.backend.exception.ExpiredException;
 import milan.backend.exception.ServiceVerificationException;
@@ -46,7 +46,7 @@ public class EmailService {
         VerificationCode verificationCodeEntity = verificationCodeOptional.get();
         Instant now = Instant.now();
         Instant expirationTimeLimit = now.minusSeconds(FIVE_MINS_IN_SEC);
-        Instant codeCreationTime = verificationCodeEntity.getTimestamp();
+        Instant codeCreationTime = verificationCodeEntity.getCreatedAt();
 
         if (!expirationTimeLimit.isBefore(codeCreationTime)) {
             throw new ExpiredException("code validation", "Expired");

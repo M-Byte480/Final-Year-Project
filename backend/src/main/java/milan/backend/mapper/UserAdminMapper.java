@@ -1,6 +1,6 @@
 package milan.backend.mapper;
 
-import milan.backend.entity.UserAdmin;
+import milan.backend.entity.userManagement.UserAdmin;
 import milan.backend.model.dto.UserAdminDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

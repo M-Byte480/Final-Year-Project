@@ -2,7 +2,7 @@
  * Citation: This file was generated with the help of GitHub Copilot 2024
  */
 
-package milan.backend.entity;
+package milan.backend.entity.resources;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

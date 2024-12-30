@@ -1,7 +1,7 @@
 
 package milan.backend.service;
 
-import milan.backend.entity.UserEntity;
+import milan.backend.entity.userManagement.UserEntity;
 import milan.backend.model.dto.LoginDTO;
 import milan.backend.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,7 +27,7 @@ public class LoginService {
                 )
         );
 
-        return userRepository.findUserByEmailEquals(input.getEmail())
+        return userRepository.findUserEntityByEmailEquals(input.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

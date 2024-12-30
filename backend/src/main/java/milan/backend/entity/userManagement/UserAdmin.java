@@ -1,4 +1,8 @@
-package milan.backend.entity;
+/*
+ * Citation: This file was generated with the help of GitHub Copilot 2024
+ */
+
+package milan.backend.entity.userManagement;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

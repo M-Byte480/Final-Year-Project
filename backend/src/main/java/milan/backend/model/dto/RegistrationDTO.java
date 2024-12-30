@@ -4,7 +4,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,15 +13,11 @@ import java.sql.Date;
 @Setter
 public class RegistrationDTO {
 
-    @Size(min = 2,
-            message = "Firstname too short")
-    @NotNull
     private String firstname;
 
-    @Size(min = 2,
-            message = "Surname too short")
-    @NotNull
     private String surname;
+
+    private String username;
 
     @Email(message = "Email must be valid")
     @NotNull(message = "Email not provided")

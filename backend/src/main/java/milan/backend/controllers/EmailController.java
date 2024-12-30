@@ -25,7 +25,7 @@ public class EmailController {
         this.emailService = emailService;
     }
 
-    @GetMapping("/send-verification")
+    @PostMapping("/send-verification")
     public ResponseEntity<ApiResponseDTO> sendVerificationEmail(@Valid @RequestBody VerificationDTO verificationRequest) {
         ApiResponseDTO response = new ApiResponseDTO();
 

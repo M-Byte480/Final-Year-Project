@@ -1,7 +1,7 @@
 package milan.backend.service;
 
 import lombok.extern.slf4j.Slf4j;
-import milan.backend.entity.UserEntity;
+import milan.backend.entity.userManagement.UserEntity;
 import milan.backend.exception.ServiceVerificationException;
 import milan.backend.mapper.UserMapper;
 import milan.backend.model.dto.RegistrationDTO;
@@ -32,21 +32,21 @@ public class UserService {
 
     public void createUser(RegistrationDTO registeredUser) {
         UserEntity userEntity = UserMapper.INSTANCE.fromDto(registeredUser);
-
+        
         validateUser(userEntity);
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword() + this.SALT));
         userRepository.save(userEntity);
     }
 
     public void validateUserExistsByEmail(String email) throws ServiceVerificationException {
-        Optional<UserEntity> user = userRepository.findUserByEmailEquals(email);
+        Optional<UserEntity> user = userRepository.findUserEntityByEmailEquals(email);
         if (user.isEmpty()) {
             throw new ServiceVerificationException("User does not exists provided by the given email: " + email);
         }
     }
 
     private void validateUser(UserEntity userEntity) throws ServiceVerificationException {
-        Optional<UserEntity> userOptional = userRepository.findUserByEmailEquals(userEntity.getEmail());
+        Optional<UserEntity> userOptional = userRepository.findUserEntityByEmailEquals(userEntity.getEmail());
 
         userOptional.ifPresent(value -> {
             userEntity.setId(value.getId());

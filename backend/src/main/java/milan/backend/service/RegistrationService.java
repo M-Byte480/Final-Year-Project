@@ -1,8 +1,8 @@
 package milan.backend.service;
 
 import lombok.extern.slf4j.Slf4j;
-import milan.backend.entity.UserAdmin;
-import milan.backend.entity.VerificationCode;
+import milan.backend.entity.userManagement.UserAdmin;
+import milan.backend.entity.codes.VerificationCode;
 import milan.backend.mapper.UserAdminMapper;
 import milan.backend.model.dto.UserAdminDTO;
 import milan.backend.repository.AdminRepository;
@@ -52,7 +52,7 @@ public class RegistrationService {
         VerificationCode verificationCode = new VerificationCode();
         verificationCode.setCode(code);
         verificationCode.setEmail(email);
-        verificationCode.setTimestamp(Instant.now());
+        verificationCode.setCreatedAt(Instant.now());
         verificationCodesRepository.save(verificationCode);
     }
 
