@@ -18,4 +18,8 @@ export const ENDPOINTS: Endpoints = {
     endpoint: "/api/email/verify",
     requestType: REQUEST_TYPES.POST
   },
+  loginUser: {
+    endpoint: "/auth/login",
+    requestType: REQUEST_TYPES.POST
+  },
 };
