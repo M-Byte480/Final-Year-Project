@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {PanelComposerComponent} from "../panel-composer/panel-composer.component";
-import {SelectionModalComponent} from "./selection-modal/selection-modal.component";
-import {NgIf} from "@angular/common";
+import {SelectionModalComponent} from "./grid/selection-modal/selection-modal.component";
+import {NgComponentOutlet, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-content-element',
@@ -9,7 +9,8 @@ import {NgIf} from "@angular/common";
   imports: [
     PanelComposerComponent,
     SelectionModalComponent,
-    NgIf
+    NgIf,
+    NgComponentOutlet
   ],
   templateUrl: './content-element.component.html',
   styleUrl: './content-element.component.css'
@@ -18,8 +19,6 @@ export class ContentElementComponent {
   @Output() hideModal = new EventEmitter<boolean>();
   @Output() elementToAdd = new EventEmitter<string>();
 
-  protected childElements: any = null;
-  protected properties: any = null;
   protected showModal: boolean = false;
 
   public showSelectionPopup() {

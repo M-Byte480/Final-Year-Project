@@ -13,6 +13,7 @@ export class DesignerStateServiceService {
   state$ = this.stateSubject.asObservable();
 
   setState(state: any) {
+    console.log("Hook state updated", state);
     this.stateSubject.next(state);
   }
 

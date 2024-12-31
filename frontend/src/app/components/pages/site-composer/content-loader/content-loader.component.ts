@@ -5,6 +5,7 @@ import {GridComponent} from "../content-element/grid/grid.component";
 import {ButtonComponent} from "../../../shared/button/button.component";
 import {ImageComponent} from "../content-element/image/image.component";
 import {NgComponentOutlet} from "@angular/common";
+import {ContentElementComponent} from "../content-element/content-element.component";
 
 @Component({
   selector: 'app-content-loader',
@@ -32,14 +33,17 @@ export class ContentLoaderComponent {
   }
 
   protected getComponent(componentName: string) {
+    console.log("getcomponent", componentName);
     if (componentName === 'text') {
       return TextComponent;
     } else if (componentName === 'image') {
       return ImageComponent;
     } else if (componentName === 'button') {
       return ButtonComponent;
-    } else {
+    } else if (componentName === 'grid') {
       return GridComponent;
+    } else {
+      return ContentElementComponent;
     }
   }
 }
