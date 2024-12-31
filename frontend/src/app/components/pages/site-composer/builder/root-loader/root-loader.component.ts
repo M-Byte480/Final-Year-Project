@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/co
 import {DesignerStateServiceService} from "../../../../../services/designer-service/designer-state-service.service";
 import {ContentElementComponent} from "../../content-element/content-element.component";
 import {ContentLoaderComponent} from "../../content-loader/content-loader.component";
+import {GridComponent} from "../../content-element/grid/grid.component";
 import {NgIf} from "@angular/common";
 
 @Component({

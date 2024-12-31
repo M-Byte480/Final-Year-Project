@@ -1,12 +1,7 @@
 import {
-  Component,
-  ComponentFactoryResolver,
-  InjectionToken,
-  Injector, Input,
-  ViewChild,
-  ViewContainerRef
+  AfterViewInit,
+  Component, Input, OnInit, ViewChild, ViewContainerRef,
 } from '@angular/core';
-import {DesignerStateServiceService} from "../../../../services/designer-service/designer-state-service.service";
 import {TextComponent} from "../content-element/text/text.component";
 import {GridComponent} from "../content-element/grid/grid.component";
 import {ButtonComponent} from "../../../shared/button/button.component";
@@ -24,9 +19,10 @@ import {ContentElementComponent} from "../content-element/content-element.compon
   templateUrl: './content-loader.component.html',
   styleUrl: './content-loader.component.css'
 })
-export class ContentLoaderComponent {
+export class ContentLoaderComponent implements OnInit{
   @Input() node: any;
-
+  @ViewChild('container', { read: ViewContainerRef, static: true })
+  container!: ViewContainerRef;
   constructor() {
 
   }
@@ -41,14 +37,18 @@ export class ContentLoaderComponent {
 
   // Help of ChatGPT
   protected parseContent(node: any): any {
-    if (!node) return null;
+    if (!node) {
+      console.log("no node provided");
+      return null;
+    }
     const component = this.getComponent(node.name);
     if (!component) return null;
 
-    return {component: component, properties: {...node['properties']}};
+    return {component: component, properties: {...node['properties'] || {}}};
   }
 
   protected getComponent(componentName: string) {
+    console.log("Selected component", componentName);
     if (componentName === 'text') {
       return TextComponent;
     } else if (componentName === 'image') {

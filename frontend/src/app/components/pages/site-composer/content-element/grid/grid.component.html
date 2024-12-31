@@ -5,8 +5,14 @@
   <ng-container *ngFor="let r of rowsArray; let rowIndex = index">
     <div *ngFor="let c of columnsArray; let colIndex = index" class="h-100 w-100">
       <div>{{ rowIndex }} {{ colIndex }}</div>
-      <app-content-loader
-        />
+<!--      <app-content-loader-->
+<!--        [node]="children[rowIndex * columns + colIndex]"-->
+<!--        />-->
+      <ng-container #slot></ng-container>
+<!--      <app-content-loader-->
+<!--        *ngIf="children && children[rowIndex * columns + colIndex]"-->
+<!--        [node]="children[rowIndex * columns + colIndex]"-->
+<!--      ></app-content-loader>-->
     </div>
   </ng-container>
 </div>
