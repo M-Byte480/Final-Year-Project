@@ -5,6 +5,10 @@
   <ng-container *ngFor="let r of rowsArray; let rowIndex = index">
     <div *ngFor="let c of columnsArray; let colIndex = index" class="h-100 w-100">
       <div>{{ rowIndex }} {{ colIndex }}</div>
+      <app-content-loader
+        [node]="children[rowIndex * columns + colIndex]"
+      />
+
     </div>
   </ng-container>
 </div>

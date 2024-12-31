@@ -9,8 +9,10 @@ import {BehaviorSubject} from "rxjs";
   providedIn: 'root'
 })
 export class DesignerStateServiceService {
-  private stateSubject = new BehaviorSubject<any>(null);
-  state$ = this.stateSubject.asObservable();
+  private stateSubject = new BehaviorSubject<Object>({
+    name: 'content-element',
+    properties: {children: []},
+  });
 
   setState(state: any) {
     console.log("Hook state updated", state);
@@ -18,6 +20,6 @@ export class DesignerStateServiceService {
   }
 
   getState() {
-    return this.stateSubject.getValue();
+    return this.stateSubject.asObservable();
   }
 }

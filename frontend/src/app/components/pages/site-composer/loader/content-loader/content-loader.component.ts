@@ -1,11 +1,11 @@
-import {Component} from '@angular/core';
-import {DesignerStateServiceService} from "../../../../services/designer-service/designer-state-service.service";
-import {TextComponent} from "../content-element/text/text.component";
-import {GridComponent} from "../content-element/grid/grid.component";
-import {ButtonComponent} from "../../../shared/button/button.component";
-import {ImageComponent} from "../content-element/image/image.component";
+import {Component, Input, OnInit} from '@angular/core';
+import {DesignerStateServiceService} from "../../../../../services/designer-service/designer-state-service.service";
+import {TextComponent} from "../../content-element/text/text.component";
+import {GridComponent} from "../../content-element/grid/grid.component";
+import {ButtonComponent} from "../../../../shared/button/button.component";
+import {ImageComponent} from "../../content-element/image/image.component";
 import {NgComponentOutlet} from "@angular/common";
-import {ContentElementComponent} from "../content-element/content-element.component";
+import {ContentElementComponent} from "../../content-element/content-element.component";
 
 @Component({
   selector: 'app-content-loader',
@@ -16,11 +16,20 @@ import {ContentElementComponent} from "../content-element/content-element.compon
   templateUrl: './content-loader.component.html',
   styleUrl: './content-loader.component.css'
 })
-export class ContentLoaderComponent {
-  state: any;
+export class ContentLoaderComponent implements OnInit {
+  @Input() node: any;
+  providedNode: any;
 
-  constructor(private stateService: DesignerStateServiceService) {
-    this.state = this.stateService.getState();
+  constructor() {
+  }
+
+  ngOnInit() {
+    console.log("content-loader", this.node);
+    if (this.node) {
+      this.providedNode = this.node;
+    } else {
+      this.providedNode = this.getComponent('content-element');
+    }
   }
 
   // Help of ChatGPT

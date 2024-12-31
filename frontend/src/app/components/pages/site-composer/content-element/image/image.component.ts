@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-image',
@@ -9,4 +9,7 @@ import { Component } from '@angular/core';
 })
 export class ImageComponent {
 
+  getImage() {
+    return "C:\\Users\\kmila\\IdeaProjects\\FinalYearProject\\frontend\\src\\app\\components\\pages\\site-composer\\content-element\\image\\sample.jpg";
+  }
 }

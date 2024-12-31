@@ -5,6 +5,7 @@ import {TextComponent} from "../text/text.component";
 import {NgClass, NgComponentOutlet, NgForOf, NgIf} from "@angular/common";
 import {ContentElementComponent} from "../content-element.component";
 import {DesignerStateServiceService} from "../../../../../services/designer-service/designer-state-service.service";
+import {ContentLoaderComponent} from "../../loader/content-loader/content-loader.component";
 
 @Component({
   selector: 'app-grid',
@@ -14,7 +15,8 @@ import {DesignerStateServiceService} from "../../../../../services/designer-serv
     NgClass,
     NgComponentOutlet,
     NgIf,
-    ContentElementComponent
+    ContentElementComponent,
+    ContentLoaderComponent
   ],
   templateUrl: './grid.component.html',
   styleUrl: './grid.component.css'
