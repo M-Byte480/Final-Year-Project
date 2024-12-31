@@ -52,7 +52,8 @@ export class ContentElementComponent {
           name: 'grid',
           properties: {
             columns: 2,
-            rows: 2
+            rows: 2,
+            children: [null, null, null, null]
           }
         };
         break;

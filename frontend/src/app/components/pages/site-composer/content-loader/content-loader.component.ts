@@ -21,7 +21,7 @@ import {ContentElementComponent} from "../content-element/content-element.compon
 })
 export class ContentLoaderComponent implements OnInit{
   @Input() node: any;
-  @ViewChild('container', { read: ViewContainerRef, static: true })
+  @ViewChild('container', { read: ViewContainerRef, static: false })
   container!: ViewContainerRef;
   constructor() {
 

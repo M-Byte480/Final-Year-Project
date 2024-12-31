@@ -1,18 +1,21 @@
 <div
   class="grid h-full w-full"
-  [ngClass]="{'grid-cols-2': columns === 2, 'grid-cols-3': columns === 3, 'grid-cols-4': columns === 4}"
+  [ngClass]="{
+  'grid-cols-2': columns === 2,
+  'grid-cols-3': columns === 3,
+  'grid-cols-4': columns === 4}"
+  [style.gridTemplateRows]="'repeat(' + rows +', 1fr)'"
+  [style.gridTemplateColumns]="'repeat(' + columns +', 1fr)'"
 >
-  <ng-container *ngFor="let r of rowsArray; let rowIndex = index">
-    <div *ngFor="let c of columnsArray; let colIndex = index" class="h-100 w-100">
-      <div>{{ rowIndex }} {{ colIndex }}</div>
-<!--      <app-content-loader-->
-<!--        [node]="children[rowIndex * columns + colIndex]"-->
-<!--        />-->
-      <ng-container #slot></ng-container>
-<!--      <app-content-loader-->
-<!--        *ngIf="children && children[rowIndex * columns + colIndex]"-->
-<!--        [node]="children[rowIndex * columns + colIndex]"-->
-<!--      ></app-content-loader>-->
+  <div
+    *ngFor="let r of rowsArray; let rowIndex = index; trackBy: trackByIndex"
+    class="h-full w-full"
+  >
+    <div
+      *ngFor="let c of columnsArray; let colIndex = index; trackBy: trackByIndex"
+      class="grid-cell h-full w-full"
+    >
+      <div class="h-100 w-100" #slot></div>
     </div>
-  </ng-container>
+  </div>
 </div>

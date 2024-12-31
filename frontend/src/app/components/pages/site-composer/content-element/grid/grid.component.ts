@@ -1,10 +1,20 @@
-import {Component, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+  ViewContainerRef
+} from '@angular/core';
 import {ButtonComponent} from "../button/button.component";
 import {ImageComponent} from "../image/image.component";
 import {TextComponent} from "../text/text.component";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {ContentLoaderComponent} from "../../content-loader/content-loader.component";
 import {ContentElementComponent} from "../content-element.component";
+import {repeat} from "rxjs";
 
 @Component({
   selector: 'app-grid',
@@ -18,12 +28,12 @@ import {ContentElementComponent} from "../content-element.component";
   templateUrl: './grid.component.html',
   styleUrl: './grid.component.css'
 })
-export class GridComponent implements OnInit {
+export class GridComponent implements OnInit, AfterViewInit {
   @Input() rows: any;
   @Input() columns: any;
   @Input() children: any;
-  @ViewChild('slot', { read: ViewContainerRef, static: true })
-  slotContainer!: ViewContainerRef;
+  @ViewChildren('slot', { read: ViewContainerRef })
+  slots!: QueryList<ViewContainerRef>;
   rowsArray: any;
   columnsArray: any;
 
@@ -32,27 +42,32 @@ export class GridComponent implements OnInit {
   ngOnInit() {
     this.rowsArray = Array.from({ length: this.rows });
     this.columnsArray = Array.from({ length: this.columns });
+
+  }
+
+  ngAfterViewInit() {
     this.renderChildren();
   }
 
   renderChildren() {
-    const totalSlots = this.rows * this.columns;
+    const slotsArray = this.slots.toArray();
 
-    for (let i = 0; i < totalSlots; i++) {
+    for (let i = 0; i < slotsArray.length; i++) {
+      const slot = slotsArray[i];
+
       const node = this.children[i] || { name: null };
-      this.renderChild(node);
+      this.renderChild(slot, node);
     }
   }
 
-  private renderChild(node: any) {
+  private renderChild(slot: any, node: any) {
     if (!node.name) {
-      return; // Skip empty slots
+      node.name = 'builder';
     }
-
     const component = this.getComponent(node.name);
+
     if (component) {
-      const componentRef = this.slotContainer.createComponent(component);
-      // @ts-ignore
+      const componentRef = slot.createComponent(component);
       Object.assign(componentRef.instance, node.properties);
     }
   }
@@ -70,6 +85,10 @@ export class GridComponent implements OnInit {
       default:
         return null;
     }
+  }
+
+  trackByIndex(index: number, item: any): number {
+    return index;
   }
 
   // ngOnInit() {
@@ -90,6 +109,5 @@ export class GridComponent implements OnInit {
   // get columnsArray() {
   //   return new Array(this.columns);
   // }
-
 
 }
