@@ -2,13 +2,16 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ButtonComponent} from "../button/button.component";
 import {ImageComponent} from "../image/image.component";
 import {TextComponent} from "../text/text.component";
-import {NgForOf} from "@angular/common";
+import {NgClass, NgForOf} from "@angular/common";
+import {ContentLoaderComponent} from "../../content-loader/content-loader.component";
 
 @Component({
   selector: 'app-grid',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    NgClass,
+    ContentLoaderComponent
   ],
   templateUrl: './grid.component.html',
   styleUrl: './grid.component.css'
@@ -24,6 +27,14 @@ export class GridComponent implements OnInit {
     if (!this.children) {
       this.children = [];
     }
+  }
+
+  get rowsArray() {
+    return new Array(this.rows);
+  }
+
+  get columnsArray() {
+    return new Array(this.columns);
   }
 
 

@@ -1,3 +1,12 @@
-<ng-container>
-
-</ng-container>
+<div
+  class="grid h-full w-full"
+  [ngClass]="{'grid-cols-2': columns === 2, 'grid-cols-3': columns === 3, 'grid-cols-4': columns === 4}"
+>
+  <ng-container *ngFor="let r of rowsArray; let rowIndex = index">
+    <div *ngFor="let c of columnsArray; let colIndex = index" class="h-100 w-100">
+      <div>{{ rowIndex }} {{ colIndex }}</div>
+      <app-content-loader
+        />
+    </div>
+  </ng-container>
+</div>

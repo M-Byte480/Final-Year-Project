@@ -2,6 +2,7 @@ import {Component, EventEmitter, Output} from '@angular/core';
 import {PanelComposerComponent} from "../panel-composer/panel-composer.component";
 import {SelectionModalComponent} from "./selection-modal/selection-modal.component";
 import {NgIf} from "@angular/common";
+import {DesignerStateServiceService} from "../../../../services/designer-service/designer-state-service.service";
 
 @Component({
   selector: 'app-content-element',
@@ -16,10 +17,12 @@ import {NgIf} from "@angular/common";
 })
 export class ContentElementComponent {
   @Output() hideModal = new EventEmitter<boolean>();
-  @Output() elementToAdd = new EventEmitter<any>();
 
   protected properties: any = null;
   protected showModal: boolean = false;
+
+  constructor(private designerStateService: DesignerStateServiceService) {
+  }
 
   public showSelectionPopup() {
     this.showModal = !this.showModal;
@@ -27,6 +30,7 @@ export class ContentElementComponent {
 
   protected addElement(element: string) {
     let component = null;
+    console.log('Trying to add element', element);
     switch (element) {
       case 'text':
         component = {
@@ -54,6 +58,6 @@ export class ContentElementComponent {
         };
         break;
     }
-    this.elementToAdd.emit(component);
+    this.designerStateService.setState(component);
   }
 }

@@ -2,7 +2,7 @@ import {
   Component,
   ComponentFactoryResolver,
   InjectionToken,
-  Injector,
+  Injector, Input,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
@@ -12,6 +12,7 @@ import {GridComponent} from "../content-element/grid/grid.component";
 import {ButtonComponent} from "../../../shared/button/button.component";
 import {ImageComponent} from "../content-element/image/image.component";
 import {NgComponentOutlet, NgIf} from "@angular/common";
+import {ContentElementComponent} from "../content-element/content-element.component";
 
 @Component({
   selector: 'app-content-loader',
@@ -24,13 +25,18 @@ import {NgComponentOutlet, NgIf} from "@angular/common";
   styleUrl: './content-loader.component.css'
 })
 export class ContentLoaderComponent {
-  state: any;
-  @ViewChild('container', {read: ViewContainerRef, static: true})
-  container!: ViewContainerRef;
+  @Input() node: any;
 
-  constructor(private stateService: DesignerStateServiceService) {
-    this.state = this.stateService.getState();
-    console.log(this.state);
+  constructor() {
+
+  }
+
+  ngOnInit(){
+    if (!this.node){
+      this.node = {
+        name: 'builder'
+      }
+    }
   }
 
   // Help of ChatGPT
@@ -42,13 +48,6 @@ export class ContentLoaderComponent {
     return {component: component, properties: {...node['properties']}};
   }
 
-  customInjector = Injector.create({
-    providers: [{
-      provide: new InjectionToken<any>('something'),
-      useValue: 'Hello, World!'
-    }]
-  })
-
   protected getComponent(componentName: string) {
     if (componentName === 'text') {
       return TextComponent;
@@ -56,6 +55,8 @@ export class ContentLoaderComponent {
       return ImageComponent;
     } else if (componentName === 'button') {
       return ButtonComponent;
+    } else if (componentName === 'builder') {
+      return ContentElementComponent;
     } else {
       return GridComponent;
     }

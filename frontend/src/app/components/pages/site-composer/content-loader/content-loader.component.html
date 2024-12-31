@@ -1,9 +1,7 @@
 <!--<ng-container>-->
 <!--  <ng-container *ngComponentOutlet="parseContent(state) "/>-->
 <!--</ng-container>-->
-<ng-container #container></ng-container>
-
-<ng-container *ngIf="parseContent(state) as content">
+<ng-container *ngIf="parseContent(node) as content">
   <ng-container
     *ngComponentOutlet="content.component; inputs: content.properties"
   ></ng-container>
