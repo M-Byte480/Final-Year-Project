@@ -1,5 +1,26 @@
-<ol>
-  <li *ngFor="let site of listOfUserSites">
-    <a [routerLink]="['/overview', site.id]">{{ site.name }}</a>
+<div class="w-100 h-100 min-h-[100vh] bg-gradient-to-br from-cyan-400 to-pink-600">
+
+<ol
+  class="grid-cols-1 gap-4 grid p-7 md:grid-cols-3 sm:p-3 max-w-screen-lg mx-auto"
+>
+  <li
+    class="border-4 border-gray-300 rounded-xl bg-blend-luminosity p-5 pt-10
+      content-end text-center transition ease-in-out
+      hover:scale-105 hover:cursor-pointer font-size-3 font-medium text-lg text-gray-100 h-48 bg-icon"
+    (click)="onCreateNewSite()"
+  >
+    <div>Add new project</div>
+  </li>
+  <li *ngFor="let site of listOfUserSites"
+      class="border-4 border-gray-300 rounded-xl bg-blend-luminosity p-5 pt-10 pb-10
+      content-center text-center transition ease-in-out
+      hover:scale-105 hover:cursor-pointer font-size-3 font-medium text-lg text-gray-100 h-48"
+      (click)="onSiteClick(site.id)"
+  >
+    <div>
+      {{ site.name }}
+    </div>
   </li>
 </ol>
+
+</div>

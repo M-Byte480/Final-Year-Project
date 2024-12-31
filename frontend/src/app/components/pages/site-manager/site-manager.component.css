@@ -1,0 +1,6 @@
+.bg-icon {
+  background-image: url('/public/plus-icon.svg');
+  background-size: 80px 80px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
