@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ButtonComponent} from "../button/button.component";
 import {ImageComponent} from "../image/image.component";
 import {TextComponent} from "../text/text.component";
@@ -13,23 +13,18 @@ import {NgForOf} from "@angular/common";
   templateUrl: './grid.component.html',
   styleUrl: './grid.component.css'
 })
-export class GridComponent {
-  @Input() children: any[] = [];
+export class GridComponent implements OnInit {
+  @Input() rows: any;
+  @Input() columns: any;
+  @Input() children: any;
 
-  // childComponent(node: any) {
-  //   const componentMap = {
-  //     text: TextComponent,
-  //     image: ImageComponent,
-  //     button: ButtonComponent,
-  //     grid: GridComponent,
-  //   };
-  //
-  //   return {
-  //     component: componentMap[node.name],
-  //     inputs: {
-  //       props: node.props,
-  //       children: node.children || [],
-  //     },
-  //   };
-  // }
+  ngOnInit() {
+    console.log(this.rows);
+    console.log(this.columns);
+    if (!this.children) {
+      this.children = [];
+    }
+  }
+
+
 }

@@ -30,14 +30,12 @@ export class BuilderComponent {
 
   }
 
-  protected addElement(element: string) {
+  protected addElement(element: any) {
     let state = this.designerStateService.getState();
     if (state === null) {
-      state = {};
       this.empty = false;
     }
-    state['name'] = element;
-    state['children'] = [];
+    state = element;
 
     console.log(state);
     this.designerStateService.setState(state);

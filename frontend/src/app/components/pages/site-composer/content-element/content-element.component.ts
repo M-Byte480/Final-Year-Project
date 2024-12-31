@@ -16,9 +16,8 @@ import {NgIf} from "@angular/common";
 })
 export class ContentElementComponent {
   @Output() hideModal = new EventEmitter<boolean>();
-  @Output() elementToAdd = new EventEmitter<string>();
+  @Output() elementToAdd = new EventEmitter<any>();
 
-  protected childElements: any = null;
   protected properties: any = null;
   protected showModal: boolean = false;
 
@@ -27,6 +26,34 @@ export class ContentElementComponent {
   }
 
   protected addElement(element: string) {
-    this.elementToAdd.emit(element);
+    let component = null;
+    switch (element) {
+      case 'text':
+        component = {
+          name: 'text',
+          properties: {
+            text: 'Hello, World!'
+          }
+        };
+        break;
+      case 'image':
+        component = {
+          name: 'image',
+          properties: {
+            src: 'https://via.placeholder.com/150'
+          }
+        };
+        break;
+      case 'grid':
+        component = {
+          name: 'grid',
+          properties: {
+            columns: 2,
+            rows: 2
+          }
+        };
+        break;
+    }
+    this.elementToAdd.emit(component);
   }
 }
