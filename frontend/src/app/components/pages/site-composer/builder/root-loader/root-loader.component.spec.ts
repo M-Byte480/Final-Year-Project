@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeployComponent } from './deploy.component';
+import { RootLoaderComponent } from './root-loader.component';
 
-describe('DeployComponent', () => {
-  let component: DeployComponent;
-  let fixture: ComponentFixture<DeployComponent>;
+describe('RootLoaderComponent', () => {
+  let component: RootLoaderComponent;
+  let fixture: ComponentFixture<RootLoaderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DeployComponent]
+      imports: [RootLoaderComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DeployComponent);
+    fixture = TestBed.createComponent(RootLoaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

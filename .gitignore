@@ -1,3 +1,5 @@
 logs/
 .idea
 .env
+*.idea
+.idea/*

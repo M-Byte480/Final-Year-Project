@@ -3,6 +3,7 @@ import {ContentElementComponent} from "../content-element/content-element.compon
 import {NgIf} from "@angular/common";
 import {DesignerStateServiceService} from '../../../../services/designer-service/designer-state-service.service';
 import {ContentLoaderComponent} from "../content-loader/content-loader.component";
+import {RootLoaderComponent} from "./root-loader/root-loader.component";
 
 @Component({
   selector: 'app-builder',
@@ -10,7 +11,8 @@ import {ContentLoaderComponent} from "../content-loader/content-loader.component
   imports: [
     ContentElementComponent,
     NgIf,
-    ContentLoaderComponent
+    ContentLoaderComponent,
+    RootLoaderComponent
   ],
   templateUrl: './builder.component.html',
   styleUrl: './builder.component.css'
@@ -30,14 +32,12 @@ export class BuilderComponent {
 
   }
 
-  protected addElement(element: string) {
+  protected addElement(element: any) {
     let state = this.designerStateService.getState();
     if (state === null) {
-      state = {};
       this.empty = false;
     }
-    state['name'] = element;
-    state['children'] = [];
+    state = element;
 
     console.log(state);
     this.designerStateService.setState(state);

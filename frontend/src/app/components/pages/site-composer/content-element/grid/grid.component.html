@@ -1,6 +1,21 @@
-<div>
-  Grid component
-  <ng-container *ngFor="let child of children">
-    <!--    <ng-container *ngComponentOutlet="childComponent(child)"></ng-container>-->
-  </ng-container>
+<div
+  class="grid h-full w-full"
+  [ngClass]="{
+  'grid-cols-2': columns === 2,
+  'grid-cols-3': columns === 3,
+  'grid-cols-4': columns === 4}"
+  [style.gridTemplateRows]="'repeat(' + rows +', 1fr)'"
+  [style.gridTemplateColumns]="'repeat(' + columns +', 1fr)'"
+>
+  <div
+    *ngFor="let r of rowsArray; let rowIndex = index; trackBy: trackByIndex"
+    class="h-full w-full"
+  >
+    <div
+      *ngFor="let c of columnsArray; let colIndex = index; trackBy: trackByIndex"
+      class="grid-cell h-full w-full"
+    >
+      <div class="h-100 w-100" #slot></div>
+    </div>
+  </div>
 </div>
