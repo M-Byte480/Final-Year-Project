@@ -22,4 +22,8 @@ export const ENDPOINTS: Endpoints = {
     endpoint: "/auth/login",
     requestType: REQUEST_TYPES.POST
   },
+  getUserSites: {
+    endpoint: "/api/manager/sites",
+    requestType: REQUEST_TYPES.GET
+  }
 };

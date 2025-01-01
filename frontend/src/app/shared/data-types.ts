@@ -11,7 +11,6 @@ export interface Endpoints {
 
 export interface Site {
   name: string,
-  description: string,
   url: string,
   id: string
 }

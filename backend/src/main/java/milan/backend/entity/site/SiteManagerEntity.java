@@ -6,18 +6,26 @@ package milan.backend.entity.site;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import milan.backend.entity.id.classes.UserSiteId;
 
-import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "site_manager_state")
+@Table(name = "user_to_site")
+@Data
+@IdClass(UserSiteId.class)
+@NoArgsConstructor
+@AllArgsConstructor
 public class SiteManagerEntity {
     @Id
-    private UUID id;
+    private UUID userId;
 
-    @UpdateTimestamp
-    Instant lastUpdate;
+    @Id
+    private UUID siteId;
+
 }
