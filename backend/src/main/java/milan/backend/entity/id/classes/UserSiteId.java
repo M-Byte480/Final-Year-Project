@@ -1,7 +1,3 @@
-/*
- * Citation: This file was generated with the help of GitHub Copilot 2024
- */
-
 package milan.backend.entity.id.classes;
 
 import lombok.AllArgsConstructor;
@@ -14,7 +10,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRoleId implements Serializable {
+public class UserSiteId implements Serializable {
     private UUID userId;
-    private Integer roleId;
+    private UUID siteId;
 }

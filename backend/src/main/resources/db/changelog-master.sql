@@ -59,48 +59,54 @@ CREATE TABLE IF NOT EXISTS milanify.sites(
     PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS milanify.pages(
+    id uuid,
+    site_id uuid,
+    page_name VARCHAR(255),
+    PRIMARY KEY (id),
+    FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
+);
+
 CREATE TABLE IF NOT EXISTS milanify.user_to_site(
     user_id uuid,
     site_id uuid,
-    role_id int,
     PRIMARY KEY (user_id, site_id),
     FOREIGN KEY (user_id) REFERENCES milanify.users(id),
-    FOREIGN KEY (site_id) REFERENCES milanify.sites(id),
-    FOREIGN KEY (role_id) REFERENCES milanify.roles(role_id)
+    FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
 );
 
 CREATE TABLE IF NOT EXISTS milanify.composer_autosave_states(
-    site_id uuid,
+    page_id uuid,
     saved_state json,
     updated_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    PRIMARY KEY (site_id),
-    FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
+    PRIMARY KEY (page_id),
+    FOREIGN KEY (page_id) REFERENCES milanify.pages(id)
 );
 
 CREATE TABLE IF NOT EXISTS milanify.composer_last_saved_states(
-    site_id uuid,
+    page_id uuid,
     saved_state json,
     updated_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    PRIMARY KEY (site_id),
-    FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
+    PRIMARY KEY (page_id),
+    FOREIGN KEY (page_id) REFERENCES milanify.pages(id)
 );
 
 CREATE TABLE IF NOT EXISTS milanify.composer_published_states(
-    site_id uuid,
+    page_id uuid,
     published_state json,
     updated_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    PRIMARY KEY (site_id),
-    FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
+    PRIMARY KEY (page_id),
+    FOREIGN KEY (page_id) REFERENCES milanify.pages(id)
 );
 
 CREATE TABLE IF NOT EXISTS milanify.image_resources(
     id uuid,
     uploader_id uuid,
-    site_id uuid,
+    page_id uuid,
     image_url VARCHAR(255),
     PRIMARY KEY (id),
     FOREIGN KEY (uploader_id) REFERENCES milanify.users(id),
-    FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
+    FOREIGN KEY (page_id) REFERENCES milanify.pages(id)
 );
 
 CREATE TABLE IF NOT EXISTS milanify.recovery_codes(

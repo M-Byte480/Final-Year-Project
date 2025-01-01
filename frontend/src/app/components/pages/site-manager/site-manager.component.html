@@ -9,7 +9,7 @@
       hover:scale-105 hover:cursor-pointer font-size-3 font-medium text-lg text-gray-100 h-48 bg-icon"
     (click)="onCreateNewSite()"
   >
-    <div>Add new project</div>
+    <div>New project</div>
   </li>
   <li *ngFor="let site of listOfUserSites"
       class="border-4 border-gray-300 rounded-xl bg-blend-luminosity p-5 pt-10 pb-10
@@ -24,3 +24,10 @@
 </ol>
 
 </div>
+
+<app-site-name-modal
+  *ngIf="showModal"
+  [(displayState)]="showModal"
+  (nameOfSite)="createSite($event)"
+  class="block h-screen w-screen fixed left-0 top-0 z-50"
+/>

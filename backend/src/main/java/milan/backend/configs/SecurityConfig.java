@@ -17,6 +17,7 @@ public class SecurityConfig {
 //        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
 //    }
 
+    // todo: review exposed endpoints
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -25,7 +26,8 @@ public class SecurityConfig {
                             "/auth/login",
                             "/auth/register",
                             "/api/email/send-verification",
-                            "/api/email/verify").permitAll();
+                            "/api/email/verify",
+                            "/api/manager/sites").permitAll();
 //                    request.anyRequest().authenticated();
                 })
 //                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
