@@ -6,6 +6,7 @@ import {ProductManagerComponent} from "./product-manager/product-manager.compone
 import {AnalyticsComponent} from "./analytics/analytics.component";
 import {DeployComponent} from "./deploy/deploy.component";
 import {OverviewComponent} from "./overview/overview.component";
+import {ComposerSelectorComponent} from "./composer-selector/composer-selector.component";
 
 @Component({
   selector: 'app-site-dashboard',
@@ -49,8 +50,8 @@ export class SiteDashboardComponent {
   };
 
   protected composer: PanelItem = {
-    panelName: 'Composer',
-    component: null
+    panelName: 'Composer Selector',
+    component: ComposerSelectorComponent
   };
 
   protected productManager: PanelItem = {

@@ -77,11 +77,7 @@ export class SidePanelComponent implements AfterViewInit, OnDestroy {
   }
 
   onPanelClick(item: PanelItem): void {
-    if (item.component === null && item.panelName === 'Composer') {
-      // open new window with endpoint
-      window.open(this.currentRoute + '/composer', "_blank");
-      return;
-    }
+
     this.panelSelected.emit(item);
   }
 
