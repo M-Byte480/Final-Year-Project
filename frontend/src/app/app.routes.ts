@@ -33,7 +33,7 @@ export const routes: Routes = [
     component: SiteDashboardComponent
   },
   {
-    path: 'overview/:siteId/composer',
+    path: 'overview/:siteId/composer/:pageId',
     component: SiteComposerComponent
   },
   {
