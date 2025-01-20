@@ -17,11 +17,14 @@ import {DesignerStateServiceService} from "../../../../services/designer-service
 })
 export class ContentElementComponent {
   @Output() hideModal = new EventEmitter<boolean>();
+  @Output() elementAdded = new EventEmitter<{ element: string; targetIndex: number }>();
+  protected targetIndex: number | null = null;
 
   protected properties: any = null;
   protected showModal: boolean = false;
 
-  constructor(private designerStateService: DesignerStateServiceService) {
+
+  constructor() {
   }
 
   public showSelectionPopup() {
@@ -29,38 +32,52 @@ export class ContentElementComponent {
   }
 
   protected addElement(element: string) {
-    let component = null;
-    switch (element) {
-      case 'text':
-        component = {
-          name: 'text',
-          properties: {
-            text: 'Hello, World!'
-          }
-        };
-        break;
-      case 'image':
-        component = {
-          name: 'image',
-          properties: {
-            src: 'https://via.placeholder.com/150'
-          }
-        };
-        break;
-      case 'grid':
-        component = {
-          name: 'grid',
-          properties: {
-            columns: 2,
-            rows: 2,
-            children: [null, null, null, null]
-          }
-        };
-        break;
-    }
-    console.log('Trying to add element', component);
-    this.designerStateService.setState(component);
+    console.log("ContentElement addElemenet: " , element, " with index ", this.targetIndex);
+    // @ts-ignore
+    this.elementAdded.emit({ element, targetIndex: this.targetIndex });
   }
+
+  // protected addElement(element: string, targetIndex: number) {
+  //   let component = null;
+  //   switch (element) {
+  //     case 'text':
+  //       component = {
+  //         name: 'text',
+  //         properties: {
+  //           text: 'Hello, World!'
+  //         }
+  //       };
+  //       break;
+  //     case 'image':
+  //       component = {
+  //         name: 'image',
+  //         properties: {
+  //           src: 'https://via.placeholder.com/150'
+  //         }
+  //       };
+  //       break;
+  //     case 'grid':
+  //       component = {
+  //         name: 'grid',
+  //         properties: {
+  //           columns: 2,
+  //           rows: 2,
+  //           children: [null, null, null, null]
+  //         }
+  //       };
+  //       break;
+  //   }
+  //   console.log('Trying to add element', component);
+  //   if (targetIndex === -1){
+  //     this.designerStateService.setState(component);
+  //   } else if (component){
+  //     const currentState = this.designerStateService.getState();
+  //     if (currentState && currentState.properties && currentState.properties.children) {
+  //       currentState.properties.children[targetIndex] = component;
+  //       this.designerStateService.setState(component);
+  //     }
+  //   }
+  // }
 
   /*
   protected addElement(element: string, targetRow: number, targetColumn: number) {

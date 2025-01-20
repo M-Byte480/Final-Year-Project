@@ -22,6 +22,7 @@ export class SelectionModalComponent {
   }
 
   addElement(element: string): void {
+    console.log("SelectionModal: ", element);
     this.elementToAddEvent.emit(element);
   }
 
