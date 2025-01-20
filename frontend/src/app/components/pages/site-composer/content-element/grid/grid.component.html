@@ -15,7 +15,9 @@
       *ngFor="let c of columnsArray; let colIndex = index; trackBy: trackByIndex"
       class="grid-cell h-full w-full"
     >
-      <div class="h-100 w-100" #slot></div>
+      <div class="h-100 w-100" #slot
+      (click)="handleSlotClick(rowIndex, colIndex)"
+      ></div>
     </div>
   </div>
 </div>

@@ -60,7 +60,15 @@ export class GridComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private renderChild(slot: any, node: any) {
+  handleSlotClick(row: number, column: number): void {
+    console.log('Slot clicked', row, column);
+    const index = row * this.columns + column;
+
+    // const component =
+  }
+
+  private renderChild(slot: any, node: any, targetIndex: number = 1) {
+    console.log('Rendering child', node);
     if (!node.name) {
       node.name = 'builder';
     }
@@ -69,7 +77,73 @@ export class GridComponent implements OnInit, AfterViewInit {
     if (component) {
       const componentRef = slot.createComponent(component);
       Object.assign(componentRef.instance, node.properties);
+      Object.assign(componentRef.instance, {
+        ...node.properties,
+        targetIndex,
+      });
+
+      if (node.name === 'builder') {
+        componentRef.instance.targetIndex = targetIndex;
+        componentRef.instance.elementAdded.subscribe(({element, targetIndex}:{ element: string, targetIndex: number}) => {
+          this.addElement(element, targetIndex);
+        });
+      }
     }
+  }
+
+  private addElement(element: string, targetIndex: number) {
+    console.log("Adding element", element, "at index", targetIndex);
+    const currentState = this.children;
+
+    if (targetIndex >= 0 && targetIndex < currentState.length) {
+      let newElement = null;
+
+      switch (element) {
+        case 'text':
+          newElement = {
+            name: 'text',
+            properties: {
+              text: 'Hello, World!',
+            },
+          };
+          break;
+        case 'image':
+          newElement = {
+            name: 'image',
+            properties: {
+              src: 'https://via.placeholder.com/150',
+            },
+          };
+          break;
+        case 'grid':
+          newElement = {
+            name: 'grid',
+            properties: {
+              columns: 2,
+              rows: 2,
+              children: [null, null, null, null],
+            },
+          };
+          break;
+        default:
+          console.error('Unsupported element type:', element);
+          return;
+      }
+
+      // Update the children array with the new element at the target index
+      currentState[targetIndex] = newElement;
+
+      // Notify the parent or state service about the change
+      // Assuming the parent component or a service is responsible for managing the state
+      console.log('Adding element at index', targetIndex, newElement);
+      this.notifyStateChange();
+    } else {
+      console.error('Invalid target index:', targetIndex);
+    }
+  }
+
+  private notifyStateChange() {
+    console.log('State updated, notify parent or service.');
   }
 
   private getComponent(name: string) {

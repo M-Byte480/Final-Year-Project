@@ -8,6 +8,7 @@ import {ButtonComponent} from "../../../shared/button/button.component";
 import {ImageComponent} from "../content-element/image/image.component";
 import {NgComponentOutlet, NgIf} from "@angular/common";
 import {ContentElementComponent} from "../content-element/content-element.component";
+import {DesignerStateServiceService} from "../../../../services/designer-service/designer-state-service.service";
 
 @Component({
   selector: 'app-content-loader',
@@ -23,15 +24,22 @@ export class ContentLoaderComponent implements OnInit{
   @Input() node: any;
   @ViewChild('container', { read: ViewContainerRef, static: false })
   container!: ViewContainerRef;
-  constructor() {
-
+  constructor( private stateService: DesignerStateServiceService) {
+    stateService.state$.subscribe((state) => {
+      this.node = state;
+    });
   }
 
   ngOnInit(){
     if (!this.node){
-      this.node = {
-        name: 'builder'
-      }
+      this.stateService.setState({
+        name: 'grid',
+        properties: {
+          columns: 1,
+          rows: 1,
+          children: [null],
+        },
+      });
     }
   }
 
