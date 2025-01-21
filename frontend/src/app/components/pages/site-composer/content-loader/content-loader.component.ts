@@ -32,14 +32,17 @@ export class ContentLoaderComponent implements OnInit{
 
   ngOnInit(){
     if (!this.node){
-      this.stateService.setState({
-        name: 'grid',
-        properties: {
-          columns: 1,
-          rows: 1,
-          children: [null],
-        },
-      });
+      const defaultState = {
+        1: {id: 1, name: 'grid', properties: { rows: 1, columns: 1, children: []}},
+        root: 1
+      };
+      // Not a great solution, but it is convenient for now
+      // The issue is with the rendering and binding of the parent component, which believes the node is null
+      // Thus it renders to be null, yet the state has changed. The timeout allows it to re-trigger the binding during
+      // the next event loop
+      setTimeout(() => {
+        this.stateService.setState(defaultState);
+      }, 0);
     }
   }
 

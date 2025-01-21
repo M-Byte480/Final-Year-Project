@@ -19,3 +19,16 @@ export interface PanelItem {
   panelName: string,
   component: any
 }
+
+export interface RootComponent {
+  components: {
+    [key: number]: ComponentConfig
+  },
+  root: number
+}
+
+export interface ComponentConfig {
+  id: number,
+  name: string,
+  properties: any
+}

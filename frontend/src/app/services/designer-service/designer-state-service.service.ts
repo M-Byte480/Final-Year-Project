@@ -4,12 +4,13 @@
 
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
+import {RootComponent} from "../../shared/data-types";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DesignerStateServiceService {
-  private stateSubject = new BehaviorSubject<any>(null);
+  private stateSubject = new BehaviorSubject<RootComponent | null>(null);
   state$ = this.stateSubject.asObservable();
 
   setState(state: any) {
