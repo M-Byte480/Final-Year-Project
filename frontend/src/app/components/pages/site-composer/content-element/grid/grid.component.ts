@@ -89,14 +89,14 @@ export class GridComponent implements OnInit, AfterViewInit {
         state: this.state,
       });
 
-      if (node.name === 'builder') {
-        // @ts-ignore
-        componentRef.instance.targetIndex = targetIndex;
-        // @ts-ignore
-        componentRef.instance.elementAdded.subscribe(({element, targetIndex}:{ element: string, targetIndex: number}) => {
-          this.addElement(element, targetIndex);
-        });
-      }
+      // if (node.name === 'builder') {
+      //   // @ts-ignore
+      //   componentRef.instance.targetIndex = targetIndex;
+      //   // @ts-ignore
+      //   componentRef.instance.elementAdded.subscribe(({element, targetIndex}:{ element: string, targetIndex: number}) => {
+      //     this.addElement(element, targetIndex);
+      //   });
+      // }
     }
   }
 

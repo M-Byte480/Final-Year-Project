@@ -54,10 +54,10 @@ export class ContentLoaderComponent implements OnInit{
     if (!this.node) {
       const defaultState = {
         1: { id: 1, name: 'grid', properties: { rows: 2, columns: 2, children: [2,3,4,5] } },
-        2: { id: 2, name: 'grid', properties: { rows: 1, columns: 1, children: [] } },
-        3: { id: 3, name: 'grid', properties: { rows: 1, columns: 1, children: [] } },
-        4: { id: 4, name: 'grid', properties: { rows: 1, columns: 1, children: [] } },
-        5: { id: 5, name: 'grid', properties: { rows: 1, columns: 1, children: [] } },
+        2: { id: 2, name: 'builder', properties: {  } },
+        3: { id: 3, name: 'builder', properties: {  } },
+        4: { id: 4, name: 'builder', properties: {  } },
+        5: { id: 5, name: 'builder', properties: {  } },
         // 3: { id: 3, name: 'text', properties: { text: 'Hello, World!' } },
         // 4: { id: 4, name: 'image', properties: { src: 'https://via.placeholder.com/150' } },
         // 5: { id: 5, name: 'button', properties: { label: 'Click Me!' } },
