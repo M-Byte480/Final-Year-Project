@@ -15,6 +15,7 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {ContentLoaderComponent} from "../../content-loader/content-loader.component";
 import {ContentElementComponent} from "../content-element.component";
 import {repeat} from "rxjs";
+import {DesignerStateServiceService} from "../../../../../services/designer-service/designer-state-service.service";
 
 @Component({
   selector: 'app-grid',
@@ -29,20 +30,22 @@ import {repeat} from "rxjs";
   styleUrl: './grid.component.css'
 })
 export class GridComponent implements OnInit, AfterViewInit {
-  @Input() rows: any;
-  @Input() columns: any;
-  @Input() children: any;
-  @ViewChildren('slot', { read: ViewContainerRef })
-  slots!: QueryList<ViewContainerRef>;
+  @Input() rows: number = 1;
+  @Input() columns: number = 1;
+  @Input() children: number[] = [];
+  @Input() state: any = {};
+
+  @ViewChildren('slot', { read: ViewContainerRef }) slots!: QueryList<ViewContainerRef>;
+
   rowsArray: any;
   columnsArray: any;
 
-  constructor() {}
+  constructor(private stateService: DesignerStateServiceService) {}
 
   ngOnInit() {
     this.rowsArray = Array.from({ length: this.rows });
     this.columnsArray = Array.from({ length: this.columns });
-
+    this.state = this.stateService.getState();
   }
 
   ngAfterViewInit() {
@@ -51,12 +54,18 @@ export class GridComponent implements OnInit, AfterViewInit {
 
   renderChildren() {
     const slotsArray = this.slots.toArray();
-
+    console.log(this.state);
     for (let i = 0; i < slotsArray.length; i++) {
       const slot = slotsArray[i];
 
-      const node = this.children[i] || { name: null };
-      this.renderChild(slot, node);
+      const childId = this.children[i];
+      const childNode = this.state[childId];
+      console.log("childId", childId, "childNode", childNode);
+      if (childNode) {
+        this.renderChild(slot, childNode, i);
+      } else {
+        console.warn(`Child with ID ${childId} not found in state.`);
+      }
     }
   }
 
@@ -67,23 +76,23 @@ export class GridComponent implements OnInit, AfterViewInit {
     // const component =
   }
 
-  private renderChild(slot: any, node: any, targetIndex: number = 1) {
+  private renderChild(slot: ViewContainerRef, node: any, targetIndex: number) {
     console.log('Rendering child', node);
-    if (!node.name) {
-      node.name = 'builder';
-    }
+
     const component = this.getComponent(node.name);
 
     if (component) {
       const componentRef = slot.createComponent(component);
-      Object.assign(componentRef.instance, node.properties);
       Object.assign(componentRef.instance, {
         ...node.properties,
-        targetIndex,
+        children: node.properties.children || [],
+        state: this.state,
       });
 
       if (node.name === 'builder') {
+        // @ts-ignore
         componentRef.instance.targetIndex = targetIndex;
+        // @ts-ignore
         componentRef.instance.elementAdded.subscribe(({element, targetIndex}:{ element: string, targetIndex: number}) => {
           this.addElement(element, targetIndex);
         });
@@ -92,54 +101,56 @@ export class GridComponent implements OnInit, AfterViewInit {
   }
 
   private addElement(element: string, targetIndex: number) {
-    console.log("Adding element", element, "at index", targetIndex);
-    const currentState = this.children;
+    console.log('Adding element', element, 'at index', targetIndex);
+    const newElementId = Math.max(...Object.keys(this.state).map(Number)) + 1;
 
-    if (targetIndex >= 0 && targetIndex < currentState.length) {
-      let newElement = null;
+    let newElement = null;
 
-      switch (element) {
-        case 'text':
-          newElement = {
-            name: 'text',
-            properties: {
-              text: 'Hello, World!',
-            },
-          };
-          break;
-        case 'image':
-          newElement = {
-            name: 'image',
-            properties: {
-              src: 'https://via.placeholder.com/150',
-            },
-          };
-          break;
-        case 'grid':
-          newElement = {
-            name: 'grid',
-            properties: {
-              columns: 2,
-              rows: 2,
-              children: [null, null, null, null],
-            },
-          };
-          break;
-        default:
-          console.error('Unsupported element type:', element);
-          return;
-      }
-
-      // Update the children array with the new element at the target index
-      currentState[targetIndex] = newElement;
-
-      // Notify the parent or state service about the change
-      // Assuming the parent component or a service is responsible for managing the state
-      console.log('Adding element at index', targetIndex, newElement);
-      this.notifyStateChange();
-    } else {
-      console.error('Invalid target index:', targetIndex);
+    switch (element) {
+      case 'text':
+        newElement = {
+          id: newElementId,
+          name: 'text',
+          properties: {
+            text: 'Hello, World!',
+          },
+        };
+        break;
+      case 'image':
+        newElement = {
+          id: newElementId,
+          name: 'image',
+          properties: {
+            src: 'https://via.placeholder.com/150',
+          },
+        };
+        break;
+      case 'grid':
+        newElement = {
+          id: newElementId,
+          name: 'grid',
+          properties: {
+            columns: 2,
+            rows: 2,
+            children: [null, null, null, null],
+          },
+        };
+        break;
+      default:
+        console.error('Unsupported element type:', element);
+        return;
     }
+
+    // Update the state with the new element
+    this.state[newElementId] = newElement;
+
+    // Update the children array for the parent
+    this.children[targetIndex] = newElementId;
+
+    console.log('State after adding element:', this.state);
+
+    // Notify parent or service about the state change
+    this.notifyStateChange();
   }
 
   private notifyStateChange() {
@@ -156,8 +167,11 @@ export class GridComponent implements OnInit, AfterViewInit {
         return ButtonComponent;
       case 'builder':
         return ContentElementComponent;
+      case 'grid':
+        return GridComponent;
       default:
-        return null;
+        console.error('Component not found for name:', name);
+        return ContentElementComponent;
     }
   }
 
