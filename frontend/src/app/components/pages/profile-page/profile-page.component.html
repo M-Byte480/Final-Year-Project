@@ -1,0 +1,41 @@
+<app-navigation-bar/>
+
+<div class="flex align-center justify-center flex-col-reverse md:flex-row max-w-screen-lg mx-auto text-left text-lg w-100">
+  <div>
+    <div class="flex lg:justify-evenly align-center m-3 flex-col sm:flex-row">
+      <div class="p-2 w-full">
+        <div class="font-medium">
+          Firstname
+        </div>
+        <input class="text-center rounded-lg text-xl h-10 w-full sm:w-auto" type="text" [(ngModel)]="user.firstname" [disabled]="true"/>
+      </div>
+
+      <div class="p-2 w-50">
+        <div class="font-medium">
+          Surnames
+        </div>
+        <input class="text-center rounded-lg text-xl h-10 w-full sm:w-auto" type="text" [(ngModel)]="user.surname" [disabled]="true"/>
+      </div>
+    </div>
+
+    <div class="m-3 bg-orange-300 w-100">
+      <div class="p-2 font-medium">
+        Email
+      </div>
+      <input class="w-full text-center rounded-lg text-xl h-10" type="text" [(ngModel)]="user.email" [disabled]="true"/>
+    </div>
+  </div>
+
+  <div class="m-3 flex justify-center">
+    <div class="">
+      <div class="font-medium">
+        Profile Picture
+      </div>
+      <img
+        class="w-60 lg:w-full max-w-xs aspect-square object-cover"
+        src="https://placehold.co/600x400"
+        alt="profile picture"
+      />
+    </div>
+  </div>
+</div>
