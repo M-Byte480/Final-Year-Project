@@ -7,6 +7,7 @@ import {Subscription} from "rxjs";
 import {HttpApiService} from "../../../services/http/http-api.service";
 import {ENDPOINTS} from "../../../services/http/endpoints";
 import {SiteNameModalComponent} from "./site-name-modal/site-name-modal.component";
+import {NavigationBarComponent} from "../../shared/navigation-bar/navigation-bar.component";
 
 @Component({
   selector: 'app-site-manager',
@@ -17,7 +18,8 @@ import {SiteNameModalComponent} from "./site-name-modal/site-name-modal.componen
     NgOptimizedImage,
     SiteNameModalComponent,
     NgIf,
-    DatePipe
+    DatePipe,
+    NavigationBarComponent
   ],
   templateUrl: './site-manager.component.html',
   styleUrl: './site-manager.component.css'
