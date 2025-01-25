@@ -20,6 +20,11 @@
     <div>
       {{ site.name }}
     </div>
+    <div class="text-sm">
+      {{ site.lastUpdated | date: 'HH:mm:ss' }}
+      <br>
+      {{ site.lastUpdated | date: 'dd/MM/yyyy' }}
+    </div>
   </li>
 </ol>
 

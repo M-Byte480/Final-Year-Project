@@ -12,7 +12,8 @@ export interface Endpoints {
 export interface Site {
   name: string,
   url: string,
-  id: string
+  id: string,
+  lastUpdated?: string
 }
 
 export interface PanelItem {
