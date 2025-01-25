@@ -61,8 +61,5 @@ export class ComposerSelectorComponent {
   onDelete(page: any){
     console.log('delete page', page);
   }
-//   if (item.component === null && item.panelName === 'Composer') {
-//   // open new window with endpoint
 
-// }
 }

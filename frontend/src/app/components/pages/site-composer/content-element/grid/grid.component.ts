@@ -179,23 +179,4 @@ export class GridComponent implements OnInit, AfterViewInit {
     return index;
   }
 
-  // ngOnInit() {
-  //   console.log(this.rows);
-  //   console.log(this.columns);
-  //   if (!this.children) {
-  //     this.children = [];
-  //     for (let i = 0; i < this.rows * this.columns; i++) {
-  //       this.children.push(null);
-  //     }
-  //   }
-  // }
-  //
-  // get rowsArray() {
-  //   return new Array(this.rows);
-  // }
-  //
-  // get columnsArray() {
-  //   return new Array(this.columns);
-  // }
-
 }
