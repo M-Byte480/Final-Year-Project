@@ -6,6 +6,7 @@ import {SecurityCodePageComponent} from "./components/pages/security-code-page/s
 import {SiteManagerComponent} from "./components/pages/site-manager/site-manager.component";
 import {SiteDashboardComponent} from "./components/pages/site-dashboard/site-dashboard.component";
 import {SiteComposerComponent} from "./components/pages/site-composer/site-composer.component";
+import {ProfilePageComponent} from "./components/pages/profile-page/profile-page.component";
 
 export const routes: Routes = [
   {
@@ -25,6 +26,10 @@ export const routes: Routes = [
     component: SecurityCodePageComponent
   },
   {
+    path: 'profile',
+    component: ProfilePageComponent
+  },
+  {
     path: 'overview',
     component: SiteManagerComponent
   },
@@ -33,7 +38,7 @@ export const routes: Routes = [
     component: SiteDashboardComponent
   },
   {
-    path: 'overview/:siteId/composer',
+    path: 'overview/:siteId/composer/:pageId',
     component: SiteComposerComponent
   },
   {

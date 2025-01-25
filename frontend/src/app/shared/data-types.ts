@@ -12,10 +12,24 @@ export interface Endpoints {
 export interface Site {
   name: string,
   url: string,
-  id: string
+  id: string,
+  lastUpdated?: string
 }
 
 export interface PanelItem {
   panelName: string,
   component: any
+}
+
+export interface RootComponent {
+  components: {
+    [key: number]: ComponentConfig
+  },
+  root: number
+}
+
+export interface ComponentConfig {
+  id: number,
+  name: string,
+  properties: any
 }

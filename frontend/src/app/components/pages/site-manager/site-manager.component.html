@@ -1,3 +1,5 @@
+<app-navigation-bar />
+
 <div class="w-100 h-100 min-h-[100vh] bg-gradient-to-br from-cyan-400 to-pink-600">
 
 <ol
@@ -19,6 +21,11 @@
   >
     <div>
       {{ site.name }}
+    </div>
+    <div class="text-sm">
+      {{ site.lastUpdated | date: 'HH:mm:ss' }}
+      <br>
+      {{ site.lastUpdated | date: 'dd/MM/yyyy' }}
     </div>
   </li>
 </ol>

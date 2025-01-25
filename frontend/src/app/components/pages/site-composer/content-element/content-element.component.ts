@@ -17,11 +17,14 @@ import {DesignerStateServiceService} from "../../../../services/designer-service
 })
 export class ContentElementComponent {
   @Output() hideModal = new EventEmitter<boolean>();
+  @Output() elementAdded = new EventEmitter<{ element: string; targetIndex: number }>();
+  protected targetIndex: number | null = null;
 
   protected properties: any = null;
   protected showModal: boolean = false;
 
-  constructor(private designerStateService: DesignerStateServiceService) {
+
+  constructor() {
   }
 
   public showSelectionPopup() {
@@ -29,100 +32,8 @@ export class ContentElementComponent {
   }
 
   protected addElement(element: string) {
-    let component = null;
-    switch (element) {
-      case 'text':
-        component = {
-          name: 'text',
-          properties: {
-            text: 'Hello, World!'
-          }
-        };
-        break;
-      case 'image':
-        component = {
-          name: 'image',
-          properties: {
-            src: 'https://via.placeholder.com/150'
-          }
-        };
-        break;
-      case 'grid':
-        component = {
-          name: 'grid',
-          properties: {
-            columns: 2,
-            rows: 2,
-            children: [null, null, null, null]
-          }
-        };
-        break;
-    }
-    console.log('Trying to add element', component);
-    this.designerStateService.setState(component);
+    console.log("ContentElement addElemenet: " , element, " with index ", this.targetIndex);
+    // @ts-ignore
+    this.elementAdded.emit({ element, targetIndex: this.targetIndex });
   }
-
-  /*
-  protected addElement(element: string, targetRow: number, targetColumn: number) {
-  let component = null;
-  switch (element) {
-    case 'text':
-      component = {
-        name: 'text',
-        properties: { text: 'Hello, World!' },
-      };
-      break;
-    case 'image':
-      component = {
-        name: 'image',
-        properties: { src: 'https://via.placeholder.com/150' },
-      };
-      break;
-    case 'grid':
-      component = {
-        name: 'grid',
-        properties: { columns: 2, rows: 2 },
-        children: [], // Add default children as needed
-      };
-      break;
-  }
-
-  if (component) {
-    this.designerStateService.updateState((state) => {
-      this.addToGridSlot(state, targetRow, targetColumn, component);
-    });
-  }
-}
-
-private addToGridSlot(node: any, targetRow: number, targetColumn: number, component: any) {
-  if (node.name === 'grid' && node.children) {
-    const slotIndex = this.getSlotIndex(node, targetRow, targetColumn);
-    if (slotIndex !== -1 && node.children[slotIndex]?.name === null) {
-      // Assign component to the specified slot
-      Object.assign(node.children[slotIndex], component);
-    }
-    return;
-  }
-
-  // Recursively check children for nested grids
-  if (node.children) {
-    for (let child of node.children) {
-      this.addToGridSlot(child, targetRow, targetColumn, component);
-    }
-  }
-}
-
-private getSlotIndex(gridNode: any, targetRow: number, targetColumn: number): number {
-  const { rows, columns } = gridNode.properties;
-  if (!rows || !columns || !gridNode.children) {
-    return -1;
-  }
-
-  // Convert row-column to a 1D index
-  const totalSlots = rows * columns;
-  const slotIndex = (targetRow - 1) * columns + (targetColumn - 1);
-
-  return slotIndex >= 0 && slotIndex < totalSlots ? slotIndex : -1;
-}
-   */
 }

@@ -2,15 +2,6 @@
 Code snippets taken from material angular documentation
 https://material.angular.io/components/sidenav/examples
  */
-.container {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
 
 .is-mobile .toolbar {
   position: fixed;
