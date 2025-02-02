@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {DesignerStateServiceService} from "../../../../../services/designer-service/designer-state-service.service";
+import {DesignerStateServiceService} from "../../../../../services/states/designer-service/designer-state-service.service";
 
 @Component({
   selector: 'app-selection-modal',
@@ -22,7 +22,6 @@ export class SelectionModalComponent {
   }
 
   addElement(element: string): void {
-    console.log("SelectionModal: ", element);
     this.elementToAddEvent.emit(element);
   }
 

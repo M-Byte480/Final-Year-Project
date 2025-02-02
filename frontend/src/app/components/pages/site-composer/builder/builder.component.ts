@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ContentElementComponent} from "../content-element/content-element.component";
 import {NgIf} from "@angular/common";
-import {DesignerStateServiceService} from '../../../../services/designer-service/designer-state-service.service';
+import {DesignerStateServiceService} from '../../../../services/states/designer-service/designer-state-service.service';
 import {ContentLoaderComponent} from "../content-loader/content-loader.component";
 import {RootLoaderComponent} from "./root-loader/root-loader.component";
 

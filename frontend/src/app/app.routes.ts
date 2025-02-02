@@ -7,6 +7,8 @@ import {SiteManagerComponent} from "./components/pages/site-manager/site-manager
 import {SiteDashboardComponent} from "./components/pages/site-dashboard/site-dashboard.component";
 import {SiteComposerComponent} from "./components/pages/site-composer/site-composer.component";
 import {ProfilePageComponent} from "./components/pages/profile-page/profile-page.component";
+import {PreviewPageComponent} from "./components/pages/preview/preview-page/preview-page.component";
+import {SitePreviewComponent} from "./components/pages/preview/site-preview/site-preview.component";
 
 export const routes: Routes = [
   {
@@ -40,6 +42,14 @@ export const routes: Routes = [
   {
     path: 'overview/:siteId/composer/:pageId',
     component: SiteComposerComponent
+  },
+  {
+    path: 'overview/:siteId/composer/:pageId/preview',
+    component: PreviewPageComponent
+  },
+  {
+    path: 'overview/:siteId/preview',
+    component: SitePreviewComponent
   },
   {
     path: '',

@@ -12,7 +12,7 @@ import {ButtonComponent} from "../../../shared/button/button.component";
 import {ImageComponent} from "../content-element/image/image.component";
 import {NgComponentOutlet, NgIf} from "@angular/common";
 import {ContentElementComponent} from "../content-element/content-element.component";
-import {DesignerStateServiceService} from "../../../../services/designer-service/designer-state-service.service";
+import {DesignerStateServiceService} from "../../../../services/states/designer-service/designer-state-service.service";
 
 @Component({
   selector: 'app-content-loader',
@@ -24,7 +24,7 @@ import {DesignerStateServiceService} from "../../../../services/designer-service
   templateUrl: './content-loader.component.html'
 })
 export class ContentLoaderComponent implements OnInit{
-  @Input() node: any;
+  @Input() node: any = 1;
   @ViewChild('container', { read: ViewContainerRef, static: false })
   container!: ViewContainerRef;
   constructor( private stateService: DesignerStateServiceService,
@@ -68,7 +68,6 @@ export class ContentLoaderComponent implements OnInit{
   }
 
   public render(){
-    console.log('render');
     this.rerender();
   }
 
@@ -78,8 +77,6 @@ export class ContentLoaderComponent implements OnInit{
     const state = this.stateService.getState();
     // @ts-ignore
     const currentNode = state[node];
-
-    console.log('Current node:', currentNode);
 
     if (!currentNode) {
       console.error('Node not found:', this.node);
@@ -115,8 +112,6 @@ export class ContentLoaderComponent implements OnInit{
     const state = this.stateService.getState();
     // @ts-ignore
     const currentNode = state[this.node];
-
-    console.log('Current node:', currentNode);
 
     if (!currentNode) {
       console.error('Node not found:', this.node);

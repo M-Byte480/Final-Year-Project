@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
-import {DesignerStateServiceService} from "../../../../../services/designer-service/designer-state-service.service";
+import {DesignerStateServiceService} from "../../../../../services/states/designer-service/designer-state-service.service";
 import {ContentElementComponent} from "../../content-element/content-element.component";
 import {ContentLoaderComponent} from "../../content-loader/content-loader.component";
 import {GridComponent} from "../../content-element/grid/grid.component";

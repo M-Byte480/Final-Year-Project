@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {DesignerStateServiceService} from "../../../../services/designer-service/designer-state-service.service";
+import {DesignerStateServiceService} from "../../../../services/states/designer-service/designer-state-service.service";
 
 @Component({
   selector: 'app-tree-viewer',

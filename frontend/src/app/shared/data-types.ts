@@ -34,3 +34,11 @@ export interface ComponentConfig {
   name: string,
   properties: any
 }
+
+export interface NavBarStateStruct {
+
+}
+
+export interface FooterStateStruct {
+
+}
