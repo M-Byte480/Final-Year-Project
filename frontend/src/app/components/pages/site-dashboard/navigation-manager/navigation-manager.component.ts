@@ -4,8 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-navigation-manager',
   standalone: true,
   imports: [],
-  templateUrl: './navigation-manager.component.html',
-  styleUrl: './navigation-manager.component.css'
+  templateUrl: './navigation-manager.component.html'
 })
 export class NavigationManagerComponent {
 

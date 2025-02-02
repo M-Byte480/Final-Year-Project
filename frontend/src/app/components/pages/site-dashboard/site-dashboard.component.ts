@@ -17,8 +17,7 @@ import {NavigationBarComponent} from "../../shared/navigation-bar/navigation-bar
     SidePanelComponent,
     NavigationBarComponent
   ],
-  templateUrl: './site-dashboard.component.html',
-  styleUrl: './site-dashboard.component.css'
+  templateUrl: './site-dashboard.component.html'
 })
 export class SiteDashboardComponent {
   @ViewChild(SidePanelComponent) sidePanel!: SidePanelComponent;

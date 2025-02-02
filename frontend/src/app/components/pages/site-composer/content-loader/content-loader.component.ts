@@ -3,7 +3,7 @@ This file was made with the help of ChatGPT to re-render the UI
  */
 
 import {
-  AfterViewInit, ChangeDetectorRef,
+  ChangeDetectorRef,
   Component, Input, OnInit, ViewChild, ViewContainerRef,
 } from '@angular/core';
 import {TextComponent} from "../content-element/text/text.component";
@@ -21,8 +21,7 @@ import {DesignerStateServiceService} from "../../../../services/designer-service
     NgComponentOutlet,
     NgIf
   ],
-  templateUrl: './content-loader.component.html',
-  styleUrl: './content-loader.component.css'
+  templateUrl: './content-loader.component.html'
 })
 export class ContentLoaderComponent implements OnInit{
   @Input() node: any;

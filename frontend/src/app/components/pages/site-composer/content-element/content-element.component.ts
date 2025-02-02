@@ -13,8 +13,7 @@ import {SiteStateManagerService} from "../../../../services/state-manager/site-s
     SelectionModalComponent,
     NgIf
   ],
-  templateUrl: './content-element.component.html',
-  styleUrl: './content-element.component.css'
+  templateUrl: './content-element.component.html'
 })
 export class ContentElementComponent {
   @Output() hideModal = new EventEmitter<boolean>();

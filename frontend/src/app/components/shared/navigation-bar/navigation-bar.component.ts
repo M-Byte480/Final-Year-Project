@@ -7,8 +7,7 @@ import {NgIf} from "@angular/common";
   imports: [
     NgIf
   ],
-  templateUrl: './navigation-bar.component.html',
-  styleUrl: './navigation-bar.component.css'
+  templateUrl: './navigation-bar.component.html'
 })
 export class NavigationBarComponent {
   navbarHidden = true;

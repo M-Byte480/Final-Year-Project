@@ -14,8 +14,7 @@ import {RootLoaderComponent} from "./root-loader/root-loader.component";
     ContentLoaderComponent,
     RootLoaderComponent
   ],
-  templateUrl: './builder.component.html',
-  styleUrl: './builder.component.css'
+  templateUrl: './builder.component.html'
 })
 export class BuilderComponent {
   protected empty: boolean = true;

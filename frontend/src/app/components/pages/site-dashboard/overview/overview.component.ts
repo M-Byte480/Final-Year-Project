@@ -7,8 +7,7 @@ import {DomainManagerComponent} from "./domain-manager/domain-manager.component"
   imports: [
     DomainManagerComponent
   ],
-  templateUrl: './overview.component.html',
-  styleUrl: './overview.component.css'
+  templateUrl: './overview.component.html'
 })
 export class OverviewComponent {
   protected siteName = 'Site Name';

@@ -8,8 +8,7 @@ import {SiteStateManagerService} from "../../../../services/state-manager/site-s
   imports: [
     TreeViewerComponent
   ],
-  templateUrl: './panel-composer.component.html',
-  styleUrl: './panel-composer.component.css'
+  templateUrl: './panel-composer.component.html'
 })
 export class PanelComposerComponent {
 

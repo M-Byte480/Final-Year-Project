@@ -4,8 +4,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   selector: 'app-site-name-modal',
   standalone: true,
   imports: [],
-  templateUrl: './site-name-modal.component.html',
-  styleUrl: './site-name-modal.component.css'
+  templateUrl: './site-name-modal.component.html'
 })
 export class SiteNameModalComponent {
   @Output() displayStateChange: EventEmitter<boolean> = new EventEmitter<boolean>();
