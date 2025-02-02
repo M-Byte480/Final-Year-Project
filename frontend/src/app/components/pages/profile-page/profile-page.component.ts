@@ -11,8 +11,7 @@ import {FormsModule} from "@angular/forms";
     NgOptimizedImage,
     FormsModule
   ],
-  templateUrl: './profile-page.component.html',
-  styleUrl: './profile-page.component.css'
+  templateUrl: './profile-page.component.html'
 })
 export class ProfilePageComponent {
   user = {

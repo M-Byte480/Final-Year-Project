@@ -4,8 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-resend-code',
   standalone: true,
   imports: [],
-  templateUrl: './resend-code.component.html',
-  styleUrl: './resend-code.component.css'
+  templateUrl: './resend-code.component.html'
 })
 export class ResendCodeComponent {
 

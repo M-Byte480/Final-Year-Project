@@ -5,8 +5,7 @@ import {DesignerStateServiceService} from "../../../../services/designer-service
   selector: 'app-tree-viewer',
   standalone: true,
   imports: [],
-  templateUrl: './tree-viewer.component.html',
-  styleUrl: './tree-viewer.component.css'
+  templateUrl: './tree-viewer.component.html'
 })
 export class TreeViewerComponent {
 

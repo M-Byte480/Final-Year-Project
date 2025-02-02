@@ -11,8 +11,7 @@ import {NgClass} from "@angular/common";
     FormsModule,
     NgClass
   ],
-  templateUrl: './delete.component.html',
-  styleUrl: './delete.component.css'
+  templateUrl: './delete.component.html'
 })
 export class DeleteComponent {
   acceptConsequences = false;

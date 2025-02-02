@@ -4,8 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-analytics',
   standalone: true,
   imports: [],
-  templateUrl: './analytics.component.html',
-  styleUrl: './analytics.component.css'
+  templateUrl: './analytics.component.html'
 })
 export class AnalyticsComponent {
 

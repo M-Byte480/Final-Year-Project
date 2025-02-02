@@ -4,7 +4,6 @@ import {
   Input,
   OnInit,
   QueryList,
-  ViewChild,
   ViewChildren,
   ViewContainerRef
 } from '@angular/core';
@@ -14,7 +13,6 @@ import {TextComponent} from "../text/text.component";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {ContentLoaderComponent} from "../../content-loader/content-loader.component";
 import {ContentElementComponent} from "../content-element.component";
-import {repeat} from "rxjs";
 import {DesignerStateServiceService} from "../../../../../services/designer-service/designer-state-service.service";
 
 @Component({
@@ -85,18 +83,10 @@ export class GridComponent implements OnInit, AfterViewInit {
       const componentRef = slot.createComponent(component);
       Object.assign(componentRef.instance, {
         ...node.properties,
+        id: node.id,
         children: node.properties.children || [],
         state: this.state,
       });
-
-      // if (node.name === 'builder') {
-      //   // @ts-ignore
-      //   componentRef.instance.targetIndex = targetIndex;
-      //   // @ts-ignore
-      //   componentRef.instance.elementAdded.subscribe(({element, targetIndex}:{ element: string, targetIndex: number}) => {
-      //     this.addElement(element, targetIndex);
-      //   });
-      // }
     }
   }
 

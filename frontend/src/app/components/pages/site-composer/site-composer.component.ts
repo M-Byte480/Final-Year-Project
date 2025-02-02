@@ -9,8 +9,7 @@ import {BuilderComponent} from "./builder/builder.component";
     PanelComposerComponent,
     BuilderComponent
   ],
-  templateUrl: './site-composer.component.html',
-  styleUrl: './site-composer.component.css'
+  templateUrl: './site-composer.component.html'
 })
 export class SiteComposerComponent {
 

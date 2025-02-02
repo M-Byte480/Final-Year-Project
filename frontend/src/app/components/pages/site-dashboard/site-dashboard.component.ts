@@ -1,4 +1,4 @@
-import {Component, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {SidePanelComponent} from "../../shared/side-banner/side-panel.component";
 import {PanelItem} from "../../../shared/data-types";
 import {DeleteComponent} from "./delete/delete.component";
@@ -8,15 +8,16 @@ import {DeployComponent} from "./deploy/deploy.component";
 import {OverviewComponent} from "./overview/overview.component";
 import {ComposerSelectorComponent} from "./composer-selector/composer-selector.component";
 import {NavigationManagerComponent} from "./navigation-manager/navigation-manager.component";
+import {NavigationBarComponent} from "../../shared/navigation-bar/navigation-bar.component";
 
 @Component({
   selector: 'app-site-dashboard',
   standalone: true,
   imports: [
-    SidePanelComponent
+    SidePanelComponent,
+    NavigationBarComponent
   ],
-  templateUrl: './site-dashboard.component.html',
-  styleUrl: './site-dashboard.component.css'
+  templateUrl: './site-dashboard.component.html'
 })
 export class SiteDashboardComponent {
   @ViewChild(SidePanelComponent) sidePanel!: SidePanelComponent;

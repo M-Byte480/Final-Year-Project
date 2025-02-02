@@ -8,8 +8,7 @@ import {Router} from "@angular/router";
   imports: [
     ButtonComponent,
   ],
-  templateUrl: './login-dashboard.component.html',
-  styleUrl: './login-dashboard.component.css'
+  templateUrl: './login-dashboard.component.html'
 })
 export class LoginDashboardComponent {
 

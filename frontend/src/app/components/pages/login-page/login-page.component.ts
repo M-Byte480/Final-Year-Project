@@ -20,8 +20,7 @@ import {ENDPOINTS} from "../../../services/http/endpoints";
     MatIconModule,
     MatSuffix
   ],
-  templateUrl: './login-page.component.html',
-  styleUrl: './login-page.component.css'
+  templateUrl: './login-page.component.html'
 })
 export class LoginPageComponent {
   hide = signal<boolean>(true);

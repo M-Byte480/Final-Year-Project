@@ -10,7 +10,7 @@ import {MatTooltip} from "@angular/material/tooltip";
 import {HttpClient} from "@angular/common/http";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 import {provideNativeDateAdapter} from '@angular/material/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {
   RouterDataTransferService,
 } from "../../../services/registration-service/router-data-transfer-service.service";
@@ -37,8 +37,7 @@ import {
     MatDatepicker,
     MatDatepickerInput
   ],
-  templateUrl: './registration-page.component.html',
-  styleUrl: './registration-page.component.css'
+  templateUrl: './registration-page.component.html'
 })
 export class RegistrationPageComponent {
   private today = new Date();

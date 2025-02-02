@@ -29,8 +29,7 @@ import {Router} from "@angular/router";
     MatRowDef,
     MatButton
   ],
-  templateUrl: './composer-selector.component.html',
-  styleUrl: './composer-selector.component.css'
+  templateUrl: './composer-selector.component.html'
 })
 export class ComposerSelectorComponent {
   private currentRoute = window.location.href;
@@ -50,7 +49,7 @@ export class ComposerSelectorComponent {
     }
   ];
 
-  constructor(private router: Router) {
+  constructor() {
   }
 
   onEdit(page: any){

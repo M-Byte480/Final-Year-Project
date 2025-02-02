@@ -4,8 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-domain-manager',
   standalone: true,
   imports: [],
-  templateUrl: './domain-manager.component.html',
-  styleUrl: './domain-manager.component.css'
+  templateUrl: './domain-manager.component.html'
 })
 export class DomainManagerComponent {
 
