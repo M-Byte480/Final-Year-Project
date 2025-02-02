@@ -6,5 +6,5 @@
 
 <app-selection-modal *ngIf="showModal"
                      [(displayState)]="showModal"
-                     (elementToAddEvent)="addElement($event)"
+                     (elementToAddEvent)="replaceBuilder($event)"
                      class="block h-screen w-screen fixed left-0 top-0 z-50"/>

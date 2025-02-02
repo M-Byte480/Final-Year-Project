@@ -14,8 +14,7 @@ export class DesignerStateServiceService {
   state$ = this.stateSubject.asObservable();
 
   setState(state: any) {
-    console.log('Setting state', state);
-    this.stateSubject.next(state);
+    this.stateSubject.next({...state});
     console.log('State set', this.stateSubject.getValue());
   }
 

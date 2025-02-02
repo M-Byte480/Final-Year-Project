@@ -25,7 +25,8 @@ export interface RootComponent {
   components: {
     [key: number]: ComponentConfig
   },
-  root: number
+  root: number,
+  maxId: number
 }
 
 export interface ComponentConfig {
