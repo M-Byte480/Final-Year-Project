@@ -71,14 +71,25 @@ export class MapperComponent implements OnInit{
     this.mappedObjectsChange.emit(this.mappedObjects);
   }
 
+
+
   onDelete(item: any) {
-    this.mappedObjects = this.mappedObjects.filter((obj: any) => obj[this.col1key] !== item[this.col1key]);
+    const filterMethod = (obj: any) => {
+      // Remove all rows where the clicked object was requested to remove.
+      return !(obj[this.col1key] === item[this.col1key] && obj[this.col2key] === item[this.col2key]);
+    }
+
+    this.mappedObjects = this.mappedObjects.filter(filterMethod);
     this.dataSource = new MatTableDataSource<any>(this.mappedObjects);
     this.updateMappedObjects();
   }
 
   onAddEmptyRow(){
-    this.mappedObjects.push({[this.col1key]: 'test', [this.col2key]: 'test'});
+    if(this.col2key === 'socialMedia'){
+      this.mappedObjects.push({[this.col1key]: '', [this.col2key]: 'linkedin'});
+    } else {
+      this.mappedObjects.push({[this.col1key]: '', [this.col2key]: ''});
+    }
     this.dataSource = new MatTableDataSource<any>(this.mappedObjects);
     this.updateMappedObjects();
   }

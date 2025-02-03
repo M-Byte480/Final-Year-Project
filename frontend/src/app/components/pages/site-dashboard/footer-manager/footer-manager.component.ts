@@ -1,67 +1,60 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
-import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
-import {
-  faBlogger,
-  faDiscord,
-  faFacebook,
-  faGithub,
-  faInstagram,
-  faLinkedin, faMedium, faPinterest, faQuora, faReddit, faSlack, faSnapchat, faTelegram, faTiktok, faTumblr,
-  faTwitter, faWhatsapp, faWordpress,
-  faYoutube, IconDefinition
-} from "@fortawesome/free-brands-svg-icons";
+import {FaIconComponent, FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {MapperComponent} from "../../../shared/mapper/mapper.component";
+import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
+import {FooterStateService} from "../../../../services/states/footer-state/footer-state.service";
+import {FooterMapper} from "../../../../shared/data-types";
+import {COMPONENT_NAME, SOCIAL_MEDIA_LOOKUP} from "../../../../shared/constants";
+import {FooterRendererComponent} from "../../../shared/footer-renderer/footer-renderer.component";
 
 @Component({
-  selector: 'app-footer-manager',
-  standalone: true,
-  imports: [
-    MatIcon,
-    FontAwesomeModule,
-    MapperComponent
-  ],
-  templateUrl: './footer-manager.component.html',
-  styleUrl: './footer-manager.component.css'
+    selector: 'app-footer-manager',
+    standalone: true,
+    imports: [
+        MatIcon,
+        FontAwesomeModule,
+        MapperComponent,
+        CdkDrag,
+        CdkDropList,
+        FooterRendererComponent
+    ],
+    templateUrl: './footer-manager.component.html',
+    styleUrl: './footer-manager.component.css'
 })
-export class FooterManagerComponent implements OnInit {
-  hyperlinks = [
-    {socialMedia: 'facebook', hyperlink: 'https://www.facebook.com'},
-  ];
+export class FooterManagerComponent implements OnInit, OnDestroy {
+    hyperlinks: FooterMapper[] = [
+    ];
+    socialMediaKeys = [];
 
-  // @ts-ignore
-  socialMediasLookup: { [key: string]: IconDefinition } = {
-    facebook: faFacebook,
-    twitter: faTwitter,
-    instagram: faInstagram,
-    linkedin: faLinkedin,
-    discord: faDiscord,
-    youtube: faYoutube,
-    github: faGithub,
-    reddit: faReddit,
-    pinterest: faPinterest,
-    snapchat: faSnapchat,
-    tiktok: faTiktok,
-    whatsapp: faWhatsapp,
-    telegram: faTelegram,
-    slack: faSlack,
-    medium: faMedium,
-    tumblr: faTumblr,
-    wordpress: faWordpress,
-    blogger: faBlogger,
-    quora: faQuora,
-  }
+    constructor(private footerStateService: FooterStateService) {
+        this.footerStateService.state$.subscribe(state => {
+            this.hyperlinks = state.links;
+            this.footerStateService.saveSession();
+        })
+    }
 
-  socialMediaKeys = [];
+    ngOnInit() {
+        this.socialMediaKeys = [];
+        // Not a great solution, unfortunately the way the mapper component is designed. This is a soft issue for now
+        const stringNames = Object.keys(SOCIAL_MEDIA_LOOKUP).sort();
+        // @ts-ignore
+        stringNames.forEach(e => this.socialMediaKeys.push({socialMedia: e}));
+    }
 
-  constructor() {}
+    onOpenSocial(link: string): void {
+        window.open(link, '_blank');
+    }
 
-  ngOnInit(){
-    this.socialMediaKeys = [];
-    // Not a great solution, unfortunately the way the mapper component is designed. This is a soft issue for now
-    const stringNames = Object.keys(this.socialMediasLookup).sort();
-    // @ts-ignore
-    stringNames.forEach( e => this.socialMediaKeys.push({ socialMedia: e }));
-    console.log(this.socialMediaKeys);
-  }
+    // Taken from https://material.angular.io/cdk/drag-drop/overview
+    drop(event: CdkDragDrop<string[]>) {
+        moveItemInArray(this.hyperlinks, event.previousIndex, event.currentIndex);
+    }
+
+    ngOnDestroy() {
+        this.footerStateService.saveSession();
+    }
+
+    protected readonly SOCIAL_MEDIA_LOOKUP = SOCIAL_MEDIA_LOOKUP;
+    protected readonly COMPONENT_NAME = COMPONENT_NAME;
 }

@@ -47,10 +47,11 @@ export interface NavMapper {
 }
 
 export interface FooterStateStruct {
-  links: FooterMapper[]
+  links: FooterMapper[],
+  properties: any
 }
 
 export interface FooterMapper {
   hyperlink: string,
-  linkName: string
+  socialMedia: string
 }

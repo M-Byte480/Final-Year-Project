@@ -1,10 +1,11 @@
 /*
 Made with the help of Copilot
  */
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {NavbarStateService} from "../../../services/states/navbar-state/navbar-state.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {NavBarStateStruct} from "../../../shared/data-types";
+import {COMPONENT_NAME} from "../../../shared/constants";
 
 @Component({
   selector: 'app-navbar-renderer',
@@ -19,15 +20,19 @@ import {NavBarStateStruct} from "../../../shared/data-types";
 export class NavbarRendererComponent implements OnInit {
   currentState: NavBarStateStruct = {} as NavBarStateStruct;
   navbarHidden = true;
+  @Input() parentComponent!: string;
 
   constructor(private navbarService: NavbarStateService) {
     this.navbarService.state$.subscribe((state) => {
       this.currentState = state;
+      console.log('Rendered detected change');
     });
   }
 
   ngOnInit() {
-    this.currentState = this.navbarService.getState();
+    if(this.parentComponent === COMPONENT_NAME.PREVIEW_PAGE) {
+      this.currentState = this.navbarService.getSession();
+    }
   }
 
   routeTo(route: string) {
