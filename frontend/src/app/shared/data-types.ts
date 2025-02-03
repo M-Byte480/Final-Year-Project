@@ -34,3 +34,23 @@ export interface ComponentConfig {
   name: string,
   properties: any
 }
+
+export interface NavBarStateStruct {
+  brandName: string,
+  logo: string,
+  routes: NavMapper[]
+}
+
+export interface NavMapper {
+  displayName: string,
+  pageName: string
+}
+
+export interface FooterStateStruct {
+  links: FooterMapper[]
+}
+
+export interface FooterMapper {
+  hyperlink: string,
+  linkName: string
+}

@@ -1,18 +1,23 @@
 import { Component } from '@angular/core';
 import {TreeViewerComponent} from "../tree-viewer/tree-viewer.component";
-import {SiteStateManagerService} from "../../../../services/state-manager/site-state-manager.service";
+import {SiteStateManagerService} from "../../../../services/states/state-manager/site-state-manager.service";
+import {MatButton} from "@angular/material/button";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-panel-composer',
   standalone: true,
   imports: [
-    TreeViewerComponent
+    TreeViewerComponent,
+    MatButton
   ],
   templateUrl: './panel-composer.component.html'
 })
 export class PanelComposerComponent {
 
-  constructor(private treeStateManager: SiteStateManagerService) { }
+  constructor(private treeStateManager: SiteStateManagerService,
+              private router: Router,
+              private activedRoute: ActivatedRoute) { }
 
 
   public addNewComponent(){
@@ -32,5 +37,12 @@ export class PanelComposerComponent {
         },
       }
     )
+  }
+
+  public previewPage(){
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree(['./preview'], {relativeTo: this.activedRoute})
+    );
+    window.open(url, '_blank');
   }
 }

@@ -2,8 +2,8 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {PanelComposerComponent} from "../panel-composer/panel-composer.component";
 import {SelectionModalComponent} from "./selection-modal/selection-modal.component";
 import {NgIf} from "@angular/common";
-import {DesignerStateServiceService} from "../../../../services/designer-service/designer-state-service.service";
-import {SiteStateManagerService} from "../../../../services/state-manager/site-state-manager.service";
+import {DesignerStateServiceService} from "../../../../services/states/designer-service/designer-state-service.service";
+import {SiteStateManagerService} from "../../../../services/states/state-manager/site-state-manager.service";
 
 @Component({
   selector: 'app-content-element',

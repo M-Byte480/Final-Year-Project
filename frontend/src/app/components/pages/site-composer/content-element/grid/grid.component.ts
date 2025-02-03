@@ -13,7 +13,7 @@ import {TextComponent} from "../text/text.component";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {ContentLoaderComponent} from "../../content-loader/content-loader.component";
 import {ContentElementComponent} from "../content-element.component";
-import {DesignerStateServiceService} from "../../../../../services/designer-service/designer-state-service.service";
+import {DesignerStateServiceService} from "../../../../../services/states/designer-service/designer-state-service.service";
 
 @Component({
   selector: 'app-grid',
@@ -52,13 +52,12 @@ export class GridComponent implements OnInit, AfterViewInit {
 
   renderChildren() {
     const slotsArray = this.slots.toArray();
-    console.log(this.state);
     for (let i = 0; i < slotsArray.length; i++) {
       const slot = slotsArray[i];
 
       const childId = this.children[i];
       const childNode = this.state[childId];
-      console.log("childId", childId, "childNode", childNode);
+
       if (childNode) {
         this.renderChild(slot, childNode, i);
       } else {
@@ -75,7 +74,6 @@ export class GridComponent implements OnInit, AfterViewInit {
   }
 
   private renderChild(slot: ViewContainerRef, node: any, targetIndex: number) {
-    console.log('Rendering child', node);
 
     const component = this.getComponent(node.name);
 

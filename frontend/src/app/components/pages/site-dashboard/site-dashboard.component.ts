@@ -9,6 +9,7 @@ import {OverviewComponent} from "./overview/overview.component";
 import {ComposerSelectorComponent} from "./composer-selector/composer-selector.component";
 import {NavigationManagerComponent} from "./navigation-manager/navigation-manager.component";
 import {NavigationBarComponent} from "../../shared/navigation-bar/navigation-bar.component";
+import {FooterManagerComponent} from "./footer-manager/footer-manager.component";
 
 @Component({
   selector: 'app-site-dashboard',
@@ -66,10 +67,15 @@ export class SiteDashboardComponent {
     component: NavigationManagerComponent
   };
 
+  protected footerManager: PanelItem ={
+    panelName: 'Footer Manager',
+    component: FooterManagerComponent
+  };
 
   protected readonly panelActions: PanelItem[] = [
     this.overview,
     this.navigationManager,
+    this.footerManager,
     this.composer,
     this.deploy,
     this.analytics,
