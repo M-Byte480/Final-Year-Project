@@ -1,7 +1,22 @@
-<div class="w-full h-10">
-  <div class="flex justify-between items-center h-full">
-    @for(hyperlink of hyperlinks){
-
-    }
+<div class="w-full min-h-full flex flex-col items-center bg-cyan-300">
+  <div class="w-full h-10 bg-amber-600">
+    <div class="flex justify-between items-center h-full">
+<!--      @for (hyperlink of hyperlinks; track hyperlink) {-->
+<!--        <fa-icon [icon]="socialMedias[hyperlink]"></fa-icon>-->
+<!--      }-->
+    </div>
   </div>
+
+  <div>
+    <app-mapper
+      [(mappedObjects)]="hyperlinks"
+      [col1]="'hyperlink'"
+      [col1key]="'hyperlink'"
+      [col2]="'social media'"
+      [col2key]="'socialMedia'"
+      [options]="socialMediaKeys"
+      [dropdownName]="'Choose Icon'"
+    />
+  </div>
+
 </div>

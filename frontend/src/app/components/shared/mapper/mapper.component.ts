@@ -55,6 +55,7 @@ export class MapperComponent implements OnInit{
   @Input() col2key!: string;
   @Input() options!: any[];
   @Input() reversed: boolean = false;
+  @Input() dropdownName: string = 'Select';
   @Output() mappedObjectsChange = new EventEmitter<any>();
   dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = [];
@@ -62,6 +63,8 @@ export class MapperComponent implements OnInit{
   ngOnInit(){
     this.displayedColumns = [this.col1key, this.col2key, 'action'];
     this.dataSource = new MatTableDataSource<any>(this.mappedObjects);
+
+    console.log(this.options);
   }
 
   updateMappedObjects() {
