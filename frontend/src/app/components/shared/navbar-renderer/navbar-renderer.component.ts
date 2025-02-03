@@ -23,11 +23,13 @@ export class NavbarRendererComponent implements OnInit {
   constructor(private navbarService: NavbarStateService) {
     this.navbarService.state$.subscribe((state) => {
       this.currentState = state;
+      console.log('Rendered detected change');
     });
   }
 
   ngOnInit() {
-    this.currentState = this.navbarService.getState();
+    this.currentState = this.navbarService.getSession();
+    console.log('ngonInit', this.currentState);
   }
 
   routeTo(route: string) {
