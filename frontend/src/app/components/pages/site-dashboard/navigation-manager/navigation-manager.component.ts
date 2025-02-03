@@ -9,6 +9,7 @@ import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {MatInput, MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
+import {COMPONENT_NAME} from "../../../../shared/constants";
 
 @Component({
   selector: 'app-navigation-manager',
@@ -67,4 +68,6 @@ export class NavigationManagerComponent implements OnInit, OnDestroy {
   routeTo(route: string) {
     window.open(route, '_self');
   }
+
+  protected readonly COMPONENT_NAME = COMPONENT_NAME;
 }
