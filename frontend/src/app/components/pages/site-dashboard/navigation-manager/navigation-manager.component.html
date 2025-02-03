@@ -1,0 +1,29 @@
+<div class="w-100 bg-red-200 flex flex-col content-center items-center">
+  <p class="text-2xl p-4">Navigation Manager</p>
+  <div class="w-full mt-4">
+    <app-navbar-renderer />
+  </div>
+  <div>
+    <button mat-stroked-button (click)="onUploadImage()">Upload Logo</button>
+    <mat-form-field>
+      <mat-label>Site Brand Name</mat-label>
+      <input matInput placeholder="Enter Name" [(ngModel)]="navState.brandName">
+    </mat-form-field>
+  </div>
+  <div class="w-5/6 p-4">
+    <div cdkDropList cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
+      @for (navElement of navElements; track navElement) {
+        <div class="example-box" cdkDrag>{{ navElement.displayName }}</div>
+      }
+    </div>
+  </div>
+  <div class="p-2">
+    <app-mapper [(mappedObjects)]="navElements"
+                [col1]="'displayed name'"
+                [col1key]="'displayName'"
+                [col2]="'page component'"
+                [col2key]="'pageName'"
+                [options]="navElements" />
+  </div>
+
+</div>

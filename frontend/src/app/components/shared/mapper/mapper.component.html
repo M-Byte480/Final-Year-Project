@@ -1,0 +1,37 @@
+<!-- Used the help of Copilot -->
+<button (click)="onAddEmptyRow()">Add new element</button>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 page-table ">
+  <ng-container matColumnDef="{{col1key}}" >
+    <th mat-header-cell *matHeaderCellDef>{{col1 | titlecase }}</th>
+    <td mat-cell *matCellDef="let item">
+      <mat-form-field class="m-2">
+        <input  matInput [(ngModel)]="item[col1key]">
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="{{col2key}}">
+    <th mat-header-cell *matHeaderCellDef>{{col2 | titlecase}}</th>
+    <td mat-cell *matCellDef="let item">
+      <mat-form-field class="m-2">
+        <mat-label>Page to bind</mat-label>
+        <mat-select [(ngModel)]="item[col2key]" disableRipple>
+          <mat-option *ngFor="let option of options" [value]="option[col2key]">
+            {{option[col2key]}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <ng-container  matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let item">
+      <button mat-raised-button color="warn" (click)="onDelete(item)">Delete</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row
+      *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

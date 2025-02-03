@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {NavBarStateStruct} from "../../../shared/data-types";
 
@@ -7,8 +7,15 @@ import {NavBarStateStruct} from "../../../shared/data-types";
 })
 export class NavbarStateService {
 
-  private stateSubject = new BehaviorSubject<NavBarStateStruct | null>({
-
+  private stateSubject = new BehaviorSubject<NavBarStateStruct>({
+    routes: [
+      {
+        displayName: 'Home',
+        pageName: 'Home'
+      },
+    ],
+    logo: '',
+    brandName: 'Johnny Bai',
   });
   state$ = this.stateSubject.asObservable();
 
