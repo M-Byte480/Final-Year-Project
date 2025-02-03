@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
-import {FontAwesomeModule, IconDefinition} from "@fortawesome/angular-fontawesome";
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {
   faBlogger,
   faDiscord,
@@ -9,7 +9,7 @@ import {
   faInstagram,
   faLinkedin, faMedium, faPinterest, faQuora, faReddit, faSlack, faSnapchat, faTelegram, faTiktok, faTumblr,
   faTwitter, faWhatsapp, faWordpress,
-  faYoutube
+  faYoutube, IconDefinition
 } from "@fortawesome/free-brands-svg-icons";
 import {MapperComponent} from "../../../shared/mapper/mapper.component";
 
@@ -29,6 +29,7 @@ export class FooterManagerComponent implements OnInit {
     {socialMedia: 'facebook', hyperlink: 'https://www.facebook.com'},
   ];
 
+  // @ts-ignore
   socialMediasLookup: { [key: string]: IconDefinition } = {
     facebook: faFacebook,
     twitter: faTwitter,

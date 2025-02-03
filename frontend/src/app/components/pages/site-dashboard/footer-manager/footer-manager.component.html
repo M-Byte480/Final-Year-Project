@@ -1,9 +1,9 @@
 <div class="w-full min-h-full flex flex-col items-center bg-cyan-300">
   <div class="w-full h-10 bg-amber-600">
     <div class="flex justify-between items-center h-full">
-<!--      @for (hyperlink of hyperlinks; track hyperlink) {-->
-<!--        <fa-icon [icon]="socialMedias[hyperlink]"></fa-icon>-->
-<!--      }-->
+      @for (hyperlink of hyperlinks; track hyperlink) {
+        <fa-icon [icon]="socialMediasLookup[hyperlink.socialMedia]"></fa-icon>
+      }
     </div>
   </div>
 
