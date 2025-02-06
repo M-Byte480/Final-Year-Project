@@ -1,7 +1,8 @@
 <div class="w-100 bg-red-200 flex flex-col content-center items-center">
   <p class="text-2xl p-4">Navigation Manager</p>
   <div class="w-full mt-4">
-    <app-navbar-renderer />
+    <app-navbar-renderer [parentComponent]="COMPONENT_NAME.NAV_MGR" />
+
   </div>
   <div>
     <button mat-stroked-button (click)="onUploadImage()">Upload Logo</button>
@@ -11,6 +12,7 @@
     </mat-form-field>
   </div>
   <div class="w-5/6 p-4">
+    Rearrange!
     <div cdkDropList cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
       @for (navElement of navElements; track navElement) {
         <div class="example-box" cdkDrag>{{ navElement.displayName }}</div>

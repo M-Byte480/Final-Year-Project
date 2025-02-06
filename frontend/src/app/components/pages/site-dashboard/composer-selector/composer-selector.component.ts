@@ -61,4 +61,9 @@ export class ComposerSelectorComponent {
     console.log('delete page', page);
   }
 
+  onPreviewPage(page: any){
+    window.open(`${this.currentRoute}/composer/${page.id}/preview`, "_blank");
+    return;
+  }
+
 }

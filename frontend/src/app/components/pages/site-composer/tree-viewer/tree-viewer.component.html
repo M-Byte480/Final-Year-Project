@@ -1,3 +1,4 @@
-<div>
+<button (click)="onHideTree()">{{ treeStateRepresentationText }} Tree</button>
+<div *ngIf="hidden">
   {{ treeState }}
 </div>

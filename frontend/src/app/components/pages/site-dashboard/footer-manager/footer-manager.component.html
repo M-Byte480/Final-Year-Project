@@ -1,22 +1,27 @@
 <div class="w-full min-h-full flex flex-col items-center bg-cyan-300">
-  <div class="w-full h-10 bg-amber-600">
-    <div class="flex justify-between items-center h-full">
-      @for (hyperlink of hyperlinks; track hyperlink) {
-        <fa-icon [icon]="socialMediasLookup[hyperlink.socialMedia]"></fa-icon>
-      }
+    <div class="w-full">
+        <app-footer-renderer [parentComponent]="COMPONENT_NAME.FOOTER_MGR" />
     </div>
-  </div>
 
-  <div>
-    <app-mapper
-      [(mappedObjects)]="hyperlinks"
-      [col1]="'hyperlink'"
-      [col1key]="'hyperlink'"
-      [col2]="'social media'"
-      [col2key]="'socialMedia'"
-      [options]="socialMediaKeys"
-      [dropdownName]="'Choose Icon'"
-    />
-  </div>
+    <div class="w-5/6 p-4">
+        Rearrange!
+        <div cdkDropList cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
+            @for (socialElement of hyperlinks; track socialElement) {
+                <div class="example-box" cdkDrag>{{ socialElement.socialMedia }}</div>
+            }
+        </div>
+    </div>
+
+    <div>
+        <app-mapper
+                [(mappedObjects)]="hyperlinks"
+                [col1]="'hyperlink'"
+                [col1key]="'hyperlink'"
+                [col2]="'social media'"
+                [col2key]="'socialMedia'"
+                [options]="socialMediaKeys"
+                [dropdownName]="'Choose Icon'"
+        />
+    </div>
 
 </div>
