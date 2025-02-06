@@ -40,6 +40,8 @@ export const COMPOSER_TYPE = {
   BUTTON: 'button'
 }
 
+export const COMPOSER_PROPERTIES = {}
+
 // @ts-ignore
 export const SOCIAL_MEDIA_LOOKUP: { [key: string]: IconDefinition } = {
   facebook: faFacebook,

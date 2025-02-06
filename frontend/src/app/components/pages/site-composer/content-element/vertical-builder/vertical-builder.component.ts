@@ -3,62 +3,52 @@ import {
   DesignerStateServiceService
 } from "../../../../../services/states/designer-service/designer-state-service.service";
 import {ComponentFactoryService} from "../../../../../services/component-factory/component-factory.service";
-import {COMPOSER_TYPE} from "../../../../../shared/constants";
-import {GridManagerService} from "../../../../../services/grid-manager/grid-manager.service";
+import {GridManagerService} from "../../../../../services/managers/grid-manager.service";
+import {ChildComponent} from "../child/child.component";
+import {NgForOf} from "@angular/common";
+import {VerticalManagerService} from "../../../../../services/managers/vertical-manager.service";
 
 @Component({
   selector: 'app-vertical-builder',
   standalone: true,
-  imports: [],
+  imports: [
+    ChildComponent,
+    NgForOf
+  ],
   templateUrl: './vertical-builder.component.html'
 })
 export class VerticalBuilderComponent implements OnInit, AfterViewInit {
-
   @Input() childGridArr: number[] = [];
+  @Input() noElements: number = 0;
+  @Input() id: number = 1;
   @ViewChild('childContainer', { read: ViewContainerRef, static: false })
   childContainer!: ViewContainerRef;
 
-  childAccessorString: string = '';
-  childGrid: any;
-
   ngOnInit(){
-    this.childAccessorString = `${this.childGridArr[0]}`;
-    console.log(this.childAccessorString);
-    // @ts-ignore
-    this.childGrid = this.stateService.getState()[this.childAccessorString];
+    console.log('Verticla builere childgrid', this.childGridArr);
   }
 
   ngAfterViewInit(){
-    console.log(this.childContainer);
-    this.renderChild();
-
   }
 
 
   constructor(private stateService: DesignerStateServiceService,
               private componentFactory: ComponentFactoryService,
-              private gridManager: GridManagerService) {
+              private gridManager: GridManagerService,
+              private verticalManager: VerticalManagerService) {
 
   }
 
-  renderChild(){
-    const gridComponent = this.componentFactory.getComponent(COMPOSER_TYPE.GRID);
-    const componentRef = this.childContainer.createComponent(gridComponent);
-    Object.assign(componentRef.instance, {
-      ...this.childGrid.properties,
-      id: this.childGrid.id,
-      children: this.childGrid.properties.children || [],
-      // @ts-ignore
-      state: this.stateService.getState()[this.childAccessorString]
-    });
-  }
 
   onAddRowTop(){
-    this.gridManager.addRowTop(this.childGrid);
-    // this.updateChildGrid();
+    this.verticalManager.addHorizontalBuilderTop(this.childGridArr, this.id);
   }
 
   onAddRowBottom(){
-    this.gridManager.addRowBottom(this.childGrid);
+    this.verticalManager.addHorizontalBuilderBottom(this.childGridArr, this.id);
+  }
+
+  dupeBottomRow(){
+    this.verticalManager.duplicateLastRow(this.childGridArr, this.id);
   }
 }
