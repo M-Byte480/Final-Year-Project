@@ -5,7 +5,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {NavbarStateService} from "../../../services/states/navbar-state/navbar-state.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {NavBarStateStruct} from "../../../shared/data-types";
-import {COMPONENT_NAME} from "../../../shared/constants";
+import {USER_COMPONENT_NAME} from "../../../shared/constants";
 
 @Component({
   selector: 'app-navbar-renderer',
@@ -30,7 +30,7 @@ export class NavbarRendererComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.parentComponent === COMPONENT_NAME.PREVIEW_PAGE) {
+    if(this.parentComponent === USER_COMPONENT_NAME.PREVIEW_PAGE) {
       this.currentState = this.navbarService.getSession();
     }
   }

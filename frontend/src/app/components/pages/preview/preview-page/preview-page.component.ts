@@ -4,7 +4,7 @@ import {RootComponent} from "../../../../shared/data-types";
 import {PageRendererComponent} from "./page-renderer/page-renderer.component";
 import {NavbarRendererComponent} from "../../../shared/navbar-renderer/navbar-renderer.component";
 import {FooterRendererComponent} from "../../../shared/footer-renderer/footer-renderer.component";
-import {COMPONENT_NAME} from "../../../../shared/constants";
+import {USER_COMPONENT_NAME} from "../../../../shared/constants";
 
 @Component({
   selector: 'app-preview-page',
@@ -29,5 +29,5 @@ export class PreviewPageComponent implements OnInit {
 
   }
 
-  protected readonly COMPONENT_NAME = COMPONENT_NAME;
+  protected readonly COMPONENT_NAME = USER_COMPONENT_NAME;
 }
