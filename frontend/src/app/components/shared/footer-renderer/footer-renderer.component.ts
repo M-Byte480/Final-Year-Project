@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {FooterMapper} from "../../../shared/data-types";
 import {FooterStateService} from "../../../services/states/footer-state/footer-state.service";
@@ -17,7 +17,6 @@ export class FooterRendererComponent implements OnInit{
   hyperlinks: FooterMapper[] = [
   ];
   socialMediaKeys = [];
-  @Input() parentComponent!: string;
 
   constructor(private footerStateService: FooterStateService) {
     this.footerStateService.state$.subscribe(state => {
@@ -26,9 +25,7 @@ export class FooterRendererComponent implements OnInit{
   }
 
   ngOnInit() {
-    if(this.parentComponent === 'preview-page') {
-      this.hyperlinks = this.footerStateService.getSession().links;
-    }
+    this.hyperlinks = this.footerStateService.getSession().links;
 
     this.socialMediaKeys = [];
     // Not a great solution, unfortunately the way the mapper component is designed. This is a soft issue for now

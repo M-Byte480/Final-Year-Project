@@ -24,12 +24,6 @@ export const SESSION_STORAGE = {
   SITE: "site"
 }
 
-export const COMPONENT_NAME = {
-  PREVIEW_PAGE: "preview-page",
-  NAV_MGR: "nav-mgr",
-  FOOTER_MGR: "footer-mgr",
-}
-
 // @ts-ignore
 export const SOCIAL_MEDIA_LOOKUP: { [key: string]: IconDefinition } = {
   facebook: faFacebook,
