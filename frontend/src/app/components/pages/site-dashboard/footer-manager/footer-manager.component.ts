@@ -5,7 +5,8 @@ import {MapperComponent} from "../../../shared/mapper/mapper.component";
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
 import {FooterStateService} from "../../../../services/states/footer-state/footer-state.service";
 import {FooterMapper} from "../../../../shared/data-types";
-import {SOCIAL_MEDIA_LOOKUP} from "../../../../shared/constants";
+import {COMPONENT_NAME, SOCIAL_MEDIA_LOOKUP} from "../../../../shared/constants";
+import {FooterRendererComponent} from "../../../shared/footer-renderer/footer-renderer.component";
 
 @Component({
     selector: 'app-footer-manager',
@@ -15,7 +16,8 @@ import {SOCIAL_MEDIA_LOOKUP} from "../../../../shared/constants";
         FontAwesomeModule,
         MapperComponent,
         CdkDrag,
-        CdkDropList
+        CdkDropList,
+        FooterRendererComponent
     ],
     templateUrl: './footer-manager.component.html',
     styleUrl: './footer-manager.component.css'
@@ -54,4 +56,5 @@ export class FooterManagerComponent implements OnInit, OnDestroy {
     }
 
     protected readonly SOCIAL_MEDIA_LOOKUP = SOCIAL_MEDIA_LOOKUP;
+    protected readonly COMPONENT_NAME = COMPONENT_NAME;
 }
