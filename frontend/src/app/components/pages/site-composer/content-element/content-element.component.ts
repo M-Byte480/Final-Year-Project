@@ -24,8 +24,7 @@ export class ContentElementComponent {
   protected showModal: boolean = false;
 
 
-  constructor(private designerStateService: DesignerStateServiceService,
-              private stateManagerSercice: SiteStateManagerService) {
+  constructor(private stateManagerService: SiteStateManagerService) {
   }
 
   public showSelectionPopup() {
@@ -33,6 +32,6 @@ export class ContentElementComponent {
   }
 
   protected replaceBuilder(element: string) {
-    this.stateManagerSercice.replaceElement(this.id, element);
+    this.stateManagerService.replaceElement(this.id, element);
   }
 }

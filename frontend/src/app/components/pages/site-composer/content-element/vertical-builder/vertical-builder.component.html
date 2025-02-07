@@ -1,0 +1,14 @@
+<div class="flex flex-col items-center h-full min-h-fit w-full">
+  <div>
+    <button (click)="onAddRowTop()">+</button>
+  </div>
+  <div class="flex flex-col items-center">
+      <app-child [id]="id" *ngFor="let id of childGridArr" />
+  </div>
+  <div>
+    <button (click)="onAddRowBottom()">+</button>
+    <button (click)="dupeBottomRow()">d</button>
+  </div>
+</div>
+
+
