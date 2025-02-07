@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit, QueryList, ViewChild, ViewContainerRef} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {
   DesignerStateServiceService
 } from "../../../../../services/states/designer-service/designer-state-service.service";
@@ -7,6 +7,7 @@ import {GridManagerService} from "../../../../../services/managers/grid-manager.
 import {ChildComponent} from "../child/child.component";
 import {NgForOf} from "@angular/common";
 import {VerticalManagerService} from "../../../../../services/managers/vertical-manager.service";
+import {COMPOSER_TYPE} from "../../../../../shared/constants";
 
 @Component({
   selector: 'app-vertical-builder',
@@ -23,9 +24,10 @@ export class VerticalBuilderComponent implements OnInit, AfterViewInit {
   @Input() id: number = 1;
   @ViewChild('childContainer', { read: ViewContainerRef, static: false })
   childContainer!: ViewContainerRef;
+  name = COMPOSER_TYPE.VERTICAL_BUILDER;
 
   ngOnInit(){
-    console.log('Verticla builere childgrid', this.childGridArr);
+
   }
 
   ngAfterViewInit(){
