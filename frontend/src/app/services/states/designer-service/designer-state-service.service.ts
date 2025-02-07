@@ -12,13 +12,11 @@ import {RootComponent} from "../../../shared/data-types";
 export class DesignerStateServiceService {
   private stateSubject = new BehaviorSubject<RootComponent | null>({
     // @ts-ignore
-    1: { id: 1, name: 'grid', properties: { rows: 2, columns: 2, children: [2,3,4,5] } },
-    2: { id: 2, name: 'builder', properties: {  } },
-    3: { id: 3, name: 'builder', properties: {  } },
-    4: { id: 4, name: 'builder', properties: {  } },
-    5: { id: 5, name: 'builder', properties: {  } },
+    1: {id: 1, name: 'vertical-builder', properties: {noElements: 1, childGridArr: [2, 3]}},
+    2: {id: 2, name: 'horizontal-builder', properties: {}},
+    3: {id: 3, name: 'horizontal-builder', properties: {}},
     root: 1,
-    maxId: 5
+    maxId: 3
   });
   state$ = this.stateSubject.asObservable();
 
@@ -28,5 +26,10 @@ export class DesignerStateServiceService {
 
   getState() {
     return this.stateSubject.getValue();
+  }
+
+  getMax(){
+    // @ts-ignore
+    return this.stateSubject.getValue().maxId;
   }
 }
