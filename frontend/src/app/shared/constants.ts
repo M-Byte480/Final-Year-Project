@@ -30,6 +30,16 @@ export const COMPONENT_NAME = {
   FOOTER_MGR: "footer-mgr",
 }
 
+export const COMPOSER_TYPE = {
+  GRID: 'grid',
+  VERTICAL_BUILDER: 'vertical-builder',
+  HORIZONTAL_BUILDER: 'horizontal-builder',
+  BUILDER: 'builder',
+  TEXT: 'text',
+  IMAGE: 'image',
+  BUTTON: 'button'
+}
+
 // @ts-ignore
 export const SOCIAL_MEDIA_LOOKUP: { [key: string]: IconDefinition } = {
   facebook: faFacebook,
