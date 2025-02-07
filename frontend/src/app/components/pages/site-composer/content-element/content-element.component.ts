@@ -4,6 +4,7 @@ import {SelectionModalComponent} from "./selection-modal/selection-modal.compone
 import {NgIf} from "@angular/common";
 import {DesignerStateServiceService} from "../../../../services/states/designer-service/designer-state-service.service";
 import {SiteStateManagerService} from "../../../../services/states/state-manager/site-state-manager.service";
+import {ContentEditorManagerService} from "../../../../services/managers/content-editor-manager.service";
 
 @Component({
   selector: 'app-content-element',
@@ -24,7 +25,8 @@ export class ContentElementComponent {
   protected showModal: boolean = false;
 
 
-  constructor(private stateManagerService: SiteStateManagerService) {
+  constructor(private stateManagerService: SiteStateManagerService,
+              private contentEditorMgr: ContentEditorManagerService) {
   }
 
   public showSelectionPopup() {
@@ -33,5 +35,6 @@ export class ContentElementComponent {
 
   protected replaceBuilder(element: string) {
     this.stateManagerService.replaceElement(this.id, element);
+    this.contentEditorMgr.getStateForId(this.id);
   }
 }

@@ -73,6 +73,7 @@ export class GridComponent implements OnInit, AfterViewInit {
     const component = this.composerFactory.getComponent(node.name);
 
     if (component) {
+      // @ts-ignore
       const componentRef = slot.createComponent(component);
       Object.assign(componentRef.instance, {
         ...node.properties,

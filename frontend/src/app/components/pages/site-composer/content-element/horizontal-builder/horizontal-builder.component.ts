@@ -24,6 +24,7 @@ export class HorizontalBuilderComponent implements OnInit, AfterViewInit {
   @Input() noElements: number = 0;
   @ViewChild('childContainer', { read: ViewContainerRef, static: false })
   childContainer!: ViewContainerRef;
+  name = COMPOSER_TYPE.HORIZONTAL_BUILDER;
 
   constructor(private stateService: DesignerStateServiceService,
               private componentFactory: ComponentFactoryService,

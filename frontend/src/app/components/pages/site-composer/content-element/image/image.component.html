@@ -1,1 +1,9 @@
-<p>image works!</p>
+<div>
+
+  <img *ngIf="properties.src" alt="Image" src="{{properties.src}}"/>
+  <div class="d-flex align-items-center">
+    <button class="btn btn-sm btn-outline-primary" (click)="editImage()">Edit</button>
+    <button class="btn btn-sm btn-outline-danger" (click)="deleteImage()">Delete</button>
+  </div>
+</div>
+

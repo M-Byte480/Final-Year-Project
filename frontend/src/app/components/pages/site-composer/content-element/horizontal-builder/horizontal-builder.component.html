@@ -4,7 +4,7 @@
   </div>
   <div class="flex flex-row items-center">
 <!--    <div class="pl-3 pr-3 h-full w-full">-->
-        <app-child [id]="id" *ngFor="let id of childGridArr" />
+        <app-child [id]="id" [parentName]="name" *ngFor="let id of childGridArr" />
 <!--    </div>-->
   </div>
   <div>

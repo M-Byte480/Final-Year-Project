@@ -1,0 +1,16 @@
+{{ properties | json }}
+<div *ngIf="true">
+  <table>
+    <tr>
+      <th>Property</th>
+      <th>Value</th>
+    </tr>
+    <tr *ngFor="let property of properties | keyvalue; trackBy: trackByKey">
+      <td>{{property.key}}</td>
+      <td>
+        <input type="text" [(ngModel)]="properties[property.key]">
+      </td>
+    </tr>
+
+  </table>
+</div>

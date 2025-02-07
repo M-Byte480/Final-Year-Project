@@ -1,0 +1,5 @@
+<button (click)="onHideButton()">{{hiddenStateText}} tree</button>
+
+<div *ngIf="isHidden">
+  {{ treeState }}
+</div>
