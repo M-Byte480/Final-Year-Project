@@ -9,6 +9,7 @@ import {
 import {NgComponentOutlet, NgIf} from "@angular/common";
 import {DesignerStateServiceService} from "../../../../services/states/designer-service/designer-state-service.service";
 import {ComponentFactoryService} from "../../../../services/component-factory/component-factory.service";
+import {ObjectAssignerManagerService} from "../../../../services/managers/object-assigner-manager.service";
 
 @Component({
   selector: 'app-content-loader',
@@ -25,7 +26,8 @@ export class ContentLoaderComponent implements OnInit{
   container!: ViewContainerRef;
   constructor( private stateService: DesignerStateServiceService,
                private cdRef: ChangeDetectorRef,
-               private composerFactory: ComponentFactoryService) {
+               private composerFactory: ComponentFactoryService,
+               private assignmentMgr: ObjectAssignerManagerService) {
     stateService.state$.subscribe((state) => {
       // @ts-ignore
       this.node = state[1];
@@ -36,7 +38,7 @@ export class ContentLoaderComponent implements OnInit{
   }
 
   ngOnInit() {
-
+    console.log("content-loader");
   }
 
 
@@ -57,7 +59,11 @@ export class ContentLoaderComponent implements OnInit{
     if(content){
       this.container.clear();
       const componentRef = this.container.createComponent(content.component);
-      Object.assign(componentRef.instance as any, content.properties);
+      this.assignmentMgr.assignRenderObject(
+        componentRef,
+        content,
+        false
+      );
 
       if(currentNode.properties.children && currentNode.properties.children.length){
         currentNode.properties.children.forEach((childId: number) => {

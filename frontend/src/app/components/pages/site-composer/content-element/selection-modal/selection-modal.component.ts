@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {DesignerStateServiceService} from "../../../../../services/states/designer-service/designer-state-service.service";
+import {SelectorModalService} from "../../../../../services/managers/selector-modal.service";
 
 @Component({
   selector: 'app-selection-modal',
@@ -13,20 +14,16 @@ export class SelectionModalComponent {
   @Output() displayStateChange: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() elementToAddEvent: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor() {
+  constructor(private modalService: SelectorModalService) {
   }
 
   close(): void {
     this.displayState = false;
+    this.modalService.setDisplayState(false);
     this.displayStateChange.emit(this.displayState);
   }
 
   addElement(element: string): void {
     this.elementToAddEvent.emit(element);
   }
-
-  doNothing(): void {
-  }
-
-
 }

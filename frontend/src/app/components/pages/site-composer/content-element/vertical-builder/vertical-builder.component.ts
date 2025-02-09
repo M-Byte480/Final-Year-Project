@@ -5,7 +5,7 @@ import {
 import {ComponentFactoryService} from "../../../../../services/component-factory/component-factory.service";
 import {GridManagerService} from "../../../../../services/managers/grid-manager.service";
 import {ChildComponent} from "../child/child.component";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {VerticalManagerService} from "../../../../../services/managers/vertical-manager.service";
 import {COMPOSER_TYPE} from "../../../../../shared/constants";
 
@@ -14,7 +14,8 @@ import {COMPOSER_TYPE} from "../../../../../shared/constants";
   standalone: true,
   imports: [
     ChildComponent,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './vertical-builder.component.html'
 })
@@ -22,8 +23,8 @@ export class VerticalBuilderComponent implements OnInit, AfterViewInit {
   @Input() childGridArr: number[] = [];
   @Input() noElements: number = 0;
   @Input() id: number = 1;
-  @ViewChild('childContainer', { read: ViewContainerRef, static: false })
-  childContainer!: ViewContainerRef;
+  @Input() isPreview: boolean = false;
+
   name = COMPOSER_TYPE.VERTICAL_BUILDER;
 
   ngOnInit(){
@@ -34,10 +35,7 @@ export class VerticalBuilderComponent implements OnInit, AfterViewInit {
   }
 
 
-  constructor(private stateService: DesignerStateServiceService,
-              private componentFactory: ComponentFactoryService,
-              private gridManager: GridManagerService,
-              private verticalManager: VerticalManagerService) {
+  constructor(private verticalManager: VerticalManagerService) {
 
   }
 

@@ -1,6 +1,7 @@
-<div>
+<div (click)="onClickOfComponentSendToStyler()"
+[ngClass]="{'cursor-pointer transition ease-in-out hover:scale-110 hover:cursor-pointer': !isPreview}"
+>
   <div #component></div>
-  <div *ngIf="doDisplay(parentName)" class="absolute right-0 top-0">edit</div>
 </div>
 
 

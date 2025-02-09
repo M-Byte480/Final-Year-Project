@@ -1,17 +1,17 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {
   DesignerStateServiceService
-} from "../../../../../services/states/designer-service/designer-state-service.service";
-import {ContentEditorManagerService} from "../../../../../services/managers/content-editor-manager.service";
+} from "../../../../../../services/states/designer-service/designer-state-service.service";
+import {ContentEditorManagerService} from "../../../../../../services/managers/content-editor-manager.service";
 
 @Component({
-  selector: 'app-text',
+  selector: 'app-spacer',
   standalone: true,
   imports: [],
-  templateUrl: './text.component.html',
-  styleUrl: './text.component.css'
+  templateUrl: './spacer.component.html',
+  styleUrl: './spacer.component.css'
 })
-export class TextComponent implements OnInit{
+export class SpacerComponent implements OnInit{
   @Input() properties: any = null;
   @Input() id!: any;
   styling: any = {}
@@ -32,7 +32,8 @@ export class TextComponent implements OnInit{
 
   emitDefaultState(id: any){
     const defaultState = {
-      'content': 'Hello World!',
+      'width': '32',
+      'height': '32',
     };
 
     let nextState = this.designerStateService.getState();

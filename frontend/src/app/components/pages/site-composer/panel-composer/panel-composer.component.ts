@@ -4,6 +4,10 @@ import {SiteStateManagerService} from "../../../../services/states/state-manager
 import {MatButton} from "@angular/material/button";
 import {ActivatedRoute, Router} from "@angular/router";
 import {StyleEditorComponent} from "./style-editor/style-editor.component";
+import {ApiManagerService} from "../../../../services/managers/api-manager.service";
+import {DesignerStateServiceService} from "../../../../services/states/designer-service/designer-state-service.service";
+import {FooterStateService} from "../../../../services/states/footer-state/footer-state.service";
+import {NavbarStateService} from "../../../../services/states/navbar-state/navbar-state.service";
 
 @Component({
   selector: 'app-panel-composer',
@@ -16,10 +20,12 @@ import {StyleEditorComponent} from "./style-editor/style-editor.component";
   templateUrl: './panel-composer.component.html'
 })
 export class PanelComposerComponent {
-
+  private currentRoute = window.location.href;
   constructor(private treeStateManager: SiteStateManagerService,
-              private router: Router,
-              private activedRoute: ActivatedRoute) { }
+              private apiManager: ApiManagerService,
+              private stateService: DesignerStateServiceService,
+              private footerService: FooterStateService,
+              private navbarService: NavbarStateService) { }
 
 
   public addNewComponent(){
@@ -41,10 +47,15 @@ export class PanelComposerComponent {
     )
   }
 
+  onSave(){
+    this.apiManager.savePage("1");
+
+  }
+
   public previewPage(){
-    const url = this.router.serializeUrl(
-      this.router.createUrlTree(['./preview'], {relativeTo: this.activedRoute})
-    );
-    window.open(url, '_blank');
+    this.stateService.saveSession();
+    this.footerService.saveSession();
+    this.navbarService.saveSession();
+    window.open(`${this.currentRoute}/preview`, "_blank");
   }
 }

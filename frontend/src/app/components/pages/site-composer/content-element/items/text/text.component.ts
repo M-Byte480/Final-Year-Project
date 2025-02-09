@@ -1,24 +1,17 @@
-/*
-This component was made with the help of Copilot
- */
 import {Component, Input, OnInit} from '@angular/core';
-import {NgIf, NgOptimizedImage} from "@angular/common";
 import {
   DesignerStateServiceService
-} from "../../../../../services/states/designer-service/designer-state-service.service";
-import {ContentEditorManagerService} from "../../../../../services/managers/content-editor-manager.service";
+} from "../../../../../../services/states/designer-service/designer-state-service.service";
+import {ContentEditorManagerService} from "../../../../../../services/managers/content-editor-manager.service";
 
 @Component({
-  selector: 'app-image',
+  selector: 'app-text',
   standalone: true,
-  imports: [
-    NgOptimizedImage,
-    NgIf
-  ],
-  templateUrl: './image.component.html',
-  styleUrl: './image.component.css'
+  imports: [],
+  templateUrl: './text.component.html',
+  styleUrl: './text.component.css'
 })
-export class ImageComponent implements OnInit{
+export class TextComponent implements OnInit{
   @Input() properties: any = null;
   @Input() id!: any;
   styling: any = {}
@@ -36,19 +29,10 @@ export class ImageComponent implements OnInit{
     }
   }
 
-  editImage(){
-
-  }
-
-  deleteImage(){
-
-  }
 
   emitDefaultState(id: any){
     const defaultState = {
-      'src': 'https://placehold.co/600x400/EEE/31343C',
-      'width': '100%',
-      'height': 'auto',
+      'content': 'Hello World!',
     };
 
     let nextState = this.designerStateService.getState();

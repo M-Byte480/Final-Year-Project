@@ -37,7 +37,8 @@ export const COMPOSER_TYPE = {
   BUILDER: 'builder',
   TEXT: 'text',
   IMAGE: 'image',
-  BUTTON: 'button'
+  BUTTON: 'button',
+  SPACER: 'spacer',
 }
 
 export const COMPOSER_PROPERTIES = {}

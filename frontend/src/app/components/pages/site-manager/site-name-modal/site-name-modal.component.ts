@@ -20,7 +20,4 @@ export class SiteNameModalComponent {
     this.nameOfSite.emit(element);
   }
 
-  doNothing(): void {
-  }
-
 }
