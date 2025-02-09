@@ -5,6 +5,8 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {RootComponent} from "../../../shared/data-types";
+import {SessionStorageService} from "../../session-storage/session-storage.service";
+import {SESSION_STORAGE} from "../../../shared/constants";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +23,13 @@ export class DesignerStateServiceService {
   });
   state$ = this.stateSubject.asObservable();
 
+  constructor(private sessionManager: SessionStorageService){
+    const session = this.sessionManager.getSessionData(SESSION_STORAGE.PAGE);
+    if (session) {
+      this.stateSubject.next(session);
+    }
+  }
+
   setState(state: any) {
     this.stateSubject.next({...state});
   }
@@ -32,5 +41,13 @@ export class DesignerStateServiceService {
   getMax(){
     // @ts-ignore
     return this.stateSubject.getValue().maxId;
+  }
+
+  saveSession(){
+    this.sessionManager.setSessionData(SESSION_STORAGE.PAGE, this.stateSubject.getValue());
+  }
+
+  getSession(){
+    return this.sessionManager.getSessionData(SESSION_STORAGE.PAGE);
   }
 }
