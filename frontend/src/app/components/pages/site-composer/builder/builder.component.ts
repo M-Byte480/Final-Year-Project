@@ -33,14 +33,4 @@ export class BuilderComponent {
 
   }
 
-  protected addElement(element: any) {
-    let state = this.designerStateService.getState();
-    if (state === null) {
-      this.empty = false;
-    }
-    state = element;
-
-    console.log(state);
-    this.designerStateService.setState(state);
-  }
 }

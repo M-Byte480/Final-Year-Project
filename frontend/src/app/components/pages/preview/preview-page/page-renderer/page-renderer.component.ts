@@ -4,6 +4,8 @@ import {ImageComponent} from "../../../site-composer/content-element/items/image
 import {ButtonComponent} from "../../../../shared/button/button.component";
 import {ContentElementComponent} from "../../../site-composer/content-element/content-element.component";
 import {GridComponent} from "../../../site-composer/content-element/items/grid/grid.component";
+import {ComponentFactoryService} from "../../../../../services/component-factory/component-factory.service";
+import {ObjectAssignerManagerService} from "../../../../../services/managers/object-assigner-manager.service";
 
 @Component({
   selector: 'app-page-renderer',
@@ -17,8 +19,11 @@ export class PageRendererComponent implements AfterViewInit{
   @ViewChild('container', { read: ViewContainerRef, static: false })
   container!: ViewContainerRef;
 
+  constructor(private componentFactory: ComponentFactoryService,
+              private assignmentMgr: ObjectAssignerManagerService) {
+  }
+
   ngAfterViewInit() {
-    console.log(this.page);
     this.rerender();
   }
 
@@ -34,33 +39,11 @@ export class PageRendererComponent implements AfterViewInit{
     if(content){
       this.container.clear();
       const componentRef = this.container.createComponent(content.component);
-      Object.assign(componentRef.instance as any, content.properties);
-
-      if(currentNode.properties.children && currentNode.properties.children.length){
-        currentNode.properties.children.forEach((childId: number) => {
-          // @ts-ignore
-          const childContainer = componentRef.instance.container;
-          if (childContainer) {
-            const childComponentRef = childContainer.createComponent(PageRendererComponent);
-            childComponentRef.instance.node = childId;
-          }
-        });
-      }
-    }
-  }
-
-  private renderNode() {
-
-    const state = this.page;
-    // @ts-ignore
-    const currentNode = state[1];
-
-    const content = this.parseContent(currentNode);
-
-    if(content){
-      this.container.clear();
-      const componentRef = this.container.createComponent(content.component);
-      Object.assign(componentRef.instance as any, content.properties);
+      this.assignmentMgr.assignRenderObject(
+        componentRef,
+        content,
+        true
+      );
 
       if(currentNode.properties.children && currentNode.properties.children.length){
         currentNode.properties.children.forEach((childId: number) => {
@@ -81,27 +64,12 @@ export class PageRendererComponent implements AfterViewInit{
       return null;
     }
 
-    const component = this.getComponent(node.name);
+    const component = this.componentFactory.getComponent(node.name);
     if (!component) {
       console.error('Component not found for node:', node.name);
       return null;
     }
 
     return { component, properties: { ...(node.properties || {}) } };
-  }
-
-  protected getComponent(componentName: string) {
-    console.log('Selected component:', componentName);
-    if (componentName === 'text') {
-      return TextComponent;
-    } else if (componentName === 'image') {
-      return ImageComponent;
-    } else if (componentName === 'button') {
-      return ButtonComponent;
-    } else if (componentName === 'builder') {
-      return ContentElementComponent;
-    } else {
-      return GridComponent;
-    }
   }
 }
