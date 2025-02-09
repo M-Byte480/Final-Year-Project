@@ -1,9 +1,9 @@
 import {AfterViewInit, Component, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {TextComponent} from "../../../site-composer/content-element/text/text.component";
-import {ImageComponent} from "../../../site-composer/content-element/image/image.component";
+import {TextComponent} from "../../../site-composer/content-element/items/text/text.component";
+import {ImageComponent} from "../../../site-composer/content-element/items/image/image.component";
 import {ButtonComponent} from "../../../../shared/button/button.component";
 import {ContentElementComponent} from "../../../site-composer/content-element/content-element.component";
-import {GridComponent} from "../../../site-composer/content-element/grid/grid.component";
+import {GridComponent} from "../../../site-composer/content-element/items/grid/grid.component";
 
 @Component({
   selector: 'app-page-renderer',

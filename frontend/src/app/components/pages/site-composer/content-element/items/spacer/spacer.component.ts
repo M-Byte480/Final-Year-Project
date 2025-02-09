@@ -1,24 +1,17 @@
-/*
-This component was made with the help of Copilot
- */
 import {Component, Input, OnInit} from '@angular/core';
-import {NgIf, NgOptimizedImage} from "@angular/common";
 import {
   DesignerStateServiceService
-} from "../../../../../services/states/designer-service/designer-state-service.service";
-import {ContentEditorManagerService} from "../../../../../services/managers/content-editor-manager.service";
+} from "../../../../../../services/states/designer-service/designer-state-service.service";
+import {ContentEditorManagerService} from "../../../../../../services/managers/content-editor-manager.service";
 
 @Component({
-  selector: 'app-image',
+  selector: 'app-spacer',
   standalone: true,
-  imports: [
-    NgOptimizedImage,
-    NgIf
-  ],
-  templateUrl: './image.component.html',
-  styleUrl: './image.component.css'
+  imports: [],
+  templateUrl: './spacer.component.html',
+  styleUrl: './spacer.component.css'
 })
-export class ImageComponent implements OnInit{
+export class SpacerComponent implements OnInit{
   @Input() properties: any = null;
   @Input() id!: any;
   styling: any = {}
@@ -36,11 +29,11 @@ export class ImageComponent implements OnInit{
     }
   }
 
+
   emitDefaultState(id: any){
     const defaultState = {
-      'src': 'https://placehold.co/600x400/EEE/31343C',
-      'width': '100%',
-      'height': 'auto',
+      'width': '32',
+      'height': '32',
     };
 
     let nextState = this.designerStateService.getState();

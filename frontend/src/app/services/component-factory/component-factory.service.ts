@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {TextComponent} from "../../components/pages/site-composer/content-element/text/text.component";
-import {ImageComponent} from "../../components/pages/site-composer/content-element/image/image.component";
+import {TextComponent} from "../../components/pages/site-composer/content-element/items/text/text.component";
+import {ImageComponent} from "../../components/pages/site-composer/content-element/items/image/image.component";
 import {ButtonComponent} from "../../components/shared/button/button.component";
 import {ContentElementComponent} from "../../components/pages/site-composer/content-element/content-element.component";
-import {GridComponent} from "../../components/pages/site-composer/content-element/grid/grid.component";
+import {GridComponent} from "../../components/pages/site-composer/content-element/items/grid/grid.component";
 import {
   VerticalBuilderComponent
 } from "../../components/pages/site-composer/content-element/vertical-builder/vertical-builder.component";
@@ -11,6 +11,7 @@ import {COMPOSER_TYPE} from "../../shared/constants";
 import {
   HorizontalBuilderComponent
 } from "../../components/pages/site-composer/content-element/horizontal-builder/horizontal-builder.component";
+import {SpacerComponent} from "../../components/pages/site-composer/content-element/items/spacer/spacer.component";
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,8 @@ export class ComponentFactoryService {
         return VerticalBuilderComponent;
       case COMPOSER_TYPE.HORIZONTAL_BUILDER:
         return HorizontalBuilderComponent;
+      case COMPOSER_TYPE.SPACER:
+        return SpacerComponent;
       default:
         console.error('Component not found for name:', name);
         return ContentElementComponent;

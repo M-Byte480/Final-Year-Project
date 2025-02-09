@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {
   DesignerStateServiceService
-} from "../../../../../services/states/designer-service/designer-state-service.service";
-import {ContentEditorManagerService} from "../../../../../services/managers/content-editor-manager.service";
+} from "../../../../../../services/states/designer-service/designer-state-service.service";
+import {ContentEditorManagerService} from "../../../../../../services/managers/content-editor-manager.service";
 
 @Component({
   selector: 'app-text',

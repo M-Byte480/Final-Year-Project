@@ -11,11 +11,11 @@ import {ButtonComponent} from "../button/button.component";
 import {ImageComponent} from "../image/image.component";
 import {TextComponent} from "../text/text.component";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
-import {ContentLoaderComponent} from "../../content-loader/content-loader.component";
-import {ContentElementComponent} from "../content-element.component";
-import {DesignerStateServiceService} from "../../../../../services/states/designer-service/designer-state-service.service";
-import {VerticalBuilderComponent} from "../vertical-builder/vertical-builder.component";
-import {ComponentFactoryService} from "../../../../../services/component-factory/component-factory.service";
+import {ContentLoaderComponent} from "../../../content-loader/content-loader.component";
+import {ContentElementComponent} from "../../content-element.component";
+import {DesignerStateServiceService} from "../../../../../../services/states/designer-service/designer-state-service.service";
+import {VerticalBuilderComponent} from "../../vertical-builder/vertical-builder.component";
+import {ComponentFactoryService} from "../../../../../../services/component-factory/component-factory.service";
 
 @Component({
   selector: 'app-grid',
