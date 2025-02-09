@@ -4,16 +4,18 @@ import {NgIf} from "@angular/common";
 import {DesignerStateServiceService} from '../../../../services/states/designer-service/designer-state-service.service';
 import {ContentLoaderComponent} from "../content-loader/content-loader.component";
 import {RootLoaderComponent} from "./root-loader/root-loader.component";
+import {SelectionModalComponent} from "../content-element/selection-modal/selection-modal.component";
 
 @Component({
   selector: 'app-builder',
   standalone: true,
-  imports: [
-    ContentElementComponent,
-    NgIf,
-    ContentLoaderComponent,
-    RootLoaderComponent
-  ],
+    imports: [
+        ContentElementComponent,
+        NgIf,
+        ContentLoaderComponent,
+        RootLoaderComponent,
+        SelectionModalComponent
+    ],
   templateUrl: './builder.component.html'
 })
 export class BuilderComponent {

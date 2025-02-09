@@ -36,14 +36,6 @@ export class ImageComponent implements OnInit{
     }
   }
 
-  editImage(){
-
-  }
-
-  deleteImage(){
-
-  }
-
   emitDefaultState(id: any){
     const defaultState = {
       'src': 'https://placehold.co/600x400/EEE/31343C',

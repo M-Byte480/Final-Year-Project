@@ -5,6 +5,7 @@ import {
 import {COMPOSER_TYPE} from "../../../../../shared/constants";
 import {ComponentFactoryService} from "../../../../../services/component-factory/component-factory.service";
 import {NgIf} from "@angular/common";
+import {ContentEditorManagerService} from "../../../../../services/managers/content-editor-manager.service";
 
 @Component({
   selector: 'app-child',
@@ -18,23 +19,26 @@ export class ChildComponent implements AfterViewInit {
   @Input() id!: any;
   @Input() parentId?: number = -1;
   @Input() parentName: string = '';
+  componentName: string = '';
 
   @ViewChild('component', { read: ViewContainerRef, static: false })
   renderedComponent!: ViewContainerRef;
 
   constructor(private stateService: DesignerStateServiceService,
-              private componentFactory: ComponentFactoryService) {
+              private componentFactory: ComponentFactoryService,
+              private contentEditorMgr: ContentEditorManagerService) {
   }
 
   ngAfterViewInit(){
     this.renderComponent();
-    console.log(this.parentName);
+    console.log("Parent Name", this.parentName);
   }
 
   renderComponent(){
     // @ts-ignore
     const componentDetails = this.stateService.getState()[this.id];
     const component = this.componentFactory.getComponent(componentDetails.name);
+    this.componentName = componentDetails.name;
     // @ts-ignore
     const componentRef = this.renderedComponent.createComponent(component);
     Object.assign(componentRef.instance, {
@@ -57,4 +61,12 @@ export class ChildComponent implements AfterViewInit {
   }
 
   protected readonly parent = parent;
+
+  onClickOfComponentSendToStyler() {
+    if(this.componentName !== COMPOSER_TYPE.BUILDER
+      && this.componentName !== COMPOSER_TYPE.HORIZONTAL_BUILDER
+      && this.componentName !== COMPOSER_TYPE.VERTICAL_BUILDER) {
+      this.contentEditorMgr.getStateForId(this.id);
+    }
+  }
 }
