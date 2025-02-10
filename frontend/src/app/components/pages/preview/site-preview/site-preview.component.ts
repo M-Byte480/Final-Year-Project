@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {environment} from "../../../../../environments/environment";
+import {JwtServiceService} from "../../../../services/authentication/jwt-service.service";
 
 @Component({
   selector: 'app-site-preview',
@@ -6,6 +8,13 @@ import { Component } from '@angular/core';
   imports: [],
   templateUrl: './site-preview.component.html'
 })
-export class SitePreviewComponent {
+export class SitePreviewComponent implements OnInit{
+  constructor(private jwtService: JwtServiceService) {
+  }
 
+  ngOnInit() {
+    if(!environment.dev){
+      this.jwtService.authenticateUser();
+    }
+  }
 }

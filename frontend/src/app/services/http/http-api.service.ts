@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {REQUEST_TYPES} from "../../shared/constants";
 import {Observable} from "rxjs";
 import {EndpointConfig, Endpoints} from "../../shared/data-types";
+import {environment} from "../../../environments/environment";
 
 
 @Injectable({
@@ -10,7 +11,7 @@ import {EndpointConfig, Endpoints} from "../../shared/data-types";
 })
 export class HttpApiService {
 
-  private url = "http://localhost:8080";
+  private url = environment.apiUrl;
 
   constructor(private http: HttpClient) {
   }

@@ -5,6 +5,11 @@ export interface EndpointConfig {
   requestType: REQUEST_TYPES
 }
 
+export interface JwtToken {
+  access_token: string,
+  refresh_token: string
+}
+
 export interface Endpoints {
   [key: string]: EndpointConfig;
 }

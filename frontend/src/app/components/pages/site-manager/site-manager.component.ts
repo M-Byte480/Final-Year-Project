@@ -8,6 +8,8 @@ import {HttpApiService} from "../../../services/http/http-api.service";
 import {ENDPOINTS} from "../../../services/http/endpoints";
 import {SiteNameModalComponent} from "./site-name-modal/site-name-modal.component";
 import {NavigationBarComponent} from "../../shared/navigation-bar/navigation-bar.component";
+import {environment} from "../../../../environments/environment";
+import {JwtServiceService} from "../../../services/authentication/jwt-service.service";
 
 @Component({
   selector: 'app-site-manager',
@@ -55,14 +57,20 @@ export class SiteManagerComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private cacheService: CacheService,
-              private httpService: HttpApiService) {
+              private httpService: HttpApiService,
+              private jwtService: JwtServiceService) {
     this.cacheSubscription = this.cacheService.cache$.subscribe(data => {
 
     });
   }
 
   ngOnInit() {
-    const cachedData = this.cacheService.get('overview');
+
+    if(!environment.dev){
+      this.jwtService.authenticateUser();
+    }
+
+    const cachedData = this.cacheService.get('overview'); // todo: convert this to JWT token and cache the names and dates
 
     if (cachedData) {
       // @ts-ignore

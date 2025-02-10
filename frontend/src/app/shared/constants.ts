@@ -30,6 +30,16 @@ export const COMPONENT_NAME = {
   FOOTER_MGR: "footer-mgr",
 }
 
+export const STORAGE_TYPE = {
+    LOCAL: "local",
+    SESSION: "session"
+}
+
+export const JWT = {
+    ACCESS_TOKEN: 'access_token',
+    REFRESH_TOKEN: 'refresh_token',
+}
+
 export const COMPOSER_TYPE = {
   GRID: 'grid',
   VERTICAL_BUILDER: 'vertical-builder',
