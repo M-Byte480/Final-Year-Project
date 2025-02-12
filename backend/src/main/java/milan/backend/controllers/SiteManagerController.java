@@ -5,9 +5,9 @@
 package milan.backend.controllers;
 
 import milan.backend.model.dto.SiteDTO;
+import milan.backend.service.JwtService;
 import milan.backend.service.SiteManagerService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +22,12 @@ import java.util.UUID;
 @RequestMapping("/api/manager")
 public class SiteManagerController {
     private final SiteManagerService managerService;
+    private final JwtService jwtService;
 
-    public SiteManagerController(SiteManagerService managerService) {
+    public SiteManagerController(SiteManagerService managerService,
+                                 JwtService jwtService) {
         this.managerService = managerService;
+        this.jwtService = jwtService;
     }
 
     // todo: convert this to use the jwt
@@ -37,7 +40,8 @@ public class SiteManagerController {
 
     // todo: convert this to use the jwt
     @GetMapping("/sites")
-    public Set<SiteDTO> getSites(@RequestBody String userId) {
+    public Set<SiteDTO> getSites(@RequestHeader("Authorization") String jwtToken) {
+        String userId = this.jwtService.extractUsername(jwtToken);
         return managerService.getSites(userId);
     }
     

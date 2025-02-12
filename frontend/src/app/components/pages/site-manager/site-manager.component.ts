@@ -67,6 +67,7 @@ export class SiteManagerComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     if(!environment.dev){
+      console.log("R")
       this.jwtService.authenticateUser();
     }
 
@@ -98,6 +99,7 @@ export class SiteManagerComponent implements OnInit, OnDestroy {
 
   protected onCreateNewSite() {
     this.showModal = true;
+    // todo: add logic and update cache
   }
 
   protected closeModal() {

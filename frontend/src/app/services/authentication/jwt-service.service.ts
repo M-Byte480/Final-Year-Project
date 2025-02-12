@@ -9,19 +9,30 @@ import {Router} from "@angular/router";
   providedIn: 'root'
 })
 export class JwtServiceService {
-  public static JWT: null | JwtToken = null;
+  public static JWT: JwtToken = {access_token: "", refresh_token: ""};
 
   constructor(private localStorageMng: LocalStorageManagerService,
               private sessionStorageMgr: SessionStorageService,
-              private router: Router) { }
+              private router: Router) {
+    // @ts-ignore
+    JwtServiceService.JWT[JWT.ACCESS_TOKEN] = this.localStorageMng.getItem(JWT.ACCESS_TOKEN);
+    // @ts-ignore
+    JwtServiceService.JWT[JWT.REFRESH_TOKEN] = this.sessionStorageMgr.getSessionData(JWT.REFRESH_TOKEN);
+  }
+
+  getToken(){
+    // @ts-ignore
+    return JwtServiceService.JWT[JWT.ACCESS_TOKEN];
+  }
 
   validateTokenExists(): boolean {
     return JwtServiceService.JWT !== null;
   }
 
   authenticateUser(){
-    if(JwtServiceService.JWT !== null){
-      this.router.navigate(['auth/login']).then();
+    console.log("Auth user", JwtServiceService.JWT);
+    if(JwtServiceService.JWT === null || JwtServiceService.JWT === undefined){
+      this.router.navigate(['login']).then();
     }
   }
 
@@ -32,15 +43,17 @@ export class JwtServiceService {
   }
 
   saveToken(jwt: JwtToken){
-    this.localStorageMng.setItem(JWT.ACCESS_TOKEN, jwt.access_token);
     // @ts-ignore
-    JwtServiceService[JWT.ACCESS_TOKEN] = jwt.access_token;
+    this.localStorageMng.setItem(JWT.ACCESS_TOKEN, jwt[JWT.ACCESS_TOKEN]);
+    // @ts-ignore
+    JwtServiceService[JWT.ACCESS_TOKEN] = jwt[JWT.ACCESS_TOKEN];
   }
 
   saveRefreshToken(jwt: JwtToken){
-    this.sessionStorageMgr.setSessionData(JWT.REFRESH_TOKEN, jwt.refresh_token);
     // @ts-ignore
-    JwtServiceService[JWT.REFRESH_TOKEN] = jwt.refresh_token;
+    this.sessionStorageMgr.setSessionData(JWT.REFRESH_TOKEN, jwt[JWT.REFRESH_TOKEN]);
+    // @ts-ignore
+    JwtServiceService[JWT.REFRESH_TOKEN] = jwt[JWT.REFRESH_TOKEN];
   }
 
 

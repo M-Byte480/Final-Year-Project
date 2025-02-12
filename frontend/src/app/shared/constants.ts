@@ -36,8 +36,8 @@ export const STORAGE_TYPE = {
 }
 
 export const JWT = {
-    ACCESS_TOKEN: 'access_token',
-    REFRESH_TOKEN: 'refresh_token',
+    ACCESS_TOKEN: 'token',
+    REFRESH_TOKEN: 'refreshToken',
 }
 
 export const COMPOSER_TYPE = {
