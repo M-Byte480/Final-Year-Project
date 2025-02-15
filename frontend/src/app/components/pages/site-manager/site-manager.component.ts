@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
-import {Site} from "../../../shared/data-types";
+import {Site, SiteResponse} from "../../../shared/data-types";
 import {DatePipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {CacheService} from "../../../services/cache/cache.service";
 import {Subscription} from "rxjs";
@@ -31,29 +31,17 @@ export class SiteManagerComponent implements OnInit, OnDestroy {
   @Output() hideModal = new EventEmitter<boolean>();
   showModal = false;
 
-  listOfUserSites: Site[] = [];
-  mockResponse = [
+  listOfUserSites: Site[] | undefined = [];
+  response: SiteResponse[] = [];
+  mockResponse: SiteResponse[] = [
     {
-      "id": "ef96d76c-cd41-42e4-9688-a354ebb824db",
-      "name": "Milanify",
-      "lastUpdated": "2025-01-25 14:30:45"
-    },
-    {
-      "id": "107de139-c41b-40af-b1f7-6b1c831cb545",
-      "name": "Milanify",
-      "lastUpdated": "2025-01-25 14:30:45"
-    },
-    {
-      "id": "595b1730-5ec7-44c6-898a-ff7de726b9c1",
-      "name": "Milanify",
-      "lastUpdated": "2025-01-25 14:30:45"
-    },
-    {
-      "id": "0844cdeb-7d48-4a9b-99c9-6ca36c2dff11",
-      "name": "Milanify",
+      "userId": "",
+      "siteId": "ef96d76c-cd41-42e4-9688-a354ebb824db",
+      "siteName": "Milanify",
       "lastUpdated": "2025-01-25 14:30:45"
     }
   ];
+  site_cache_key = CacheService.CACHE_KEYS['listOfSites'];
 
   constructor(private router: Router,
               private cacheService: CacheService,
@@ -65,26 +53,28 @@ export class SiteManagerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
-    if(!environment.dev){
+    this.response = this.mockResponse;
+    if (!environment.dev) {
       console.log("R")
       this.jwtService.authenticateUser();
+      this.response = [];
+
+      const cachedData = this.cacheService.get(this.site_cache_key);
+
+      if (cachedData) {
+        this.listOfUserSites = this.cacheService.get('overview-list-of-sites');
+      } else {
+        this.httpService.call(ENDPOINTS['getUserSites']).subscribe((data: Site[]) => {
+          this.listOfUserSites = data;
+          this.cacheService.set(this.site_cache_key, data);
+        });
+      }
     }
 
-    const cachedData = this.cacheService.get('overview'); // todo: convert this to JWT token and cache the names and dates
 
-    if (cachedData) {
-      // @ts-ignore
-      this.listOfUserSites = this.cacheService.get('overview');
-    } else {
-      this.httpService.call(ENDPOINTS['getUserSites']).subscribe((data: Site[]) => {
-        this.listOfUserSites = data;
-        this.cacheService.set('overview', data);
-      });
-    }
 
     // @ts-ignore
-    this.listOfUserSites = this.mockResponse;
+    this.listOfUserSites = this.response;
   }
 
   ngOnDestroy() {
@@ -99,7 +89,6 @@ export class SiteManagerComponent implements OnInit, OnDestroy {
 
   protected onCreateNewSite() {
     this.showModal = true;
-    // todo: add logic and update cache
   }
 
   protected closeModal() {
@@ -109,9 +98,20 @@ export class SiteManagerComponent implements OnInit, OnDestroy {
   protected createSite(name: string) {
 
     console.log('Creating site with name: ' + name);
-    // Todo: navigate to site id provided from the backend
-    // this.router.navigate(['/overview', siteId]).then(r => {});
-
+    this.httpService.call(ENDPOINTS['createUserSite'], {
+      name: name
+    }).subscribe((data: SiteResponse) => {
+      let newSite: Site = {id: "", name: "", url: "", lastUpdated: ""};
+      newSite['id'] = data.siteId;
+      newSite['name'] = data.siteName;
+      newSite['lastUpdated'] = data.lastUpdated;
+      if(this.listOfUserSites === undefined){
+        this.listOfUserSites = [];
+      }
+      this.listOfUserSites.push(newSite);
+      this.cacheService.set(this.site_cache_key, this.listOfUserSites);
+      this.router.navigate(['/overview', newSite.id]).then(r => {});
+    });
   }
 
 }

@@ -4,14 +4,13 @@
 
 package milan.backend.controllers;
 
+import milan.backend.model.dto.ComposerDashboardDTO;
 import milan.backend.service.SiteComposerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @Controller("/api/composer")
 public class SiteComposerController {
@@ -22,15 +21,33 @@ public class SiteComposerController {
         this.composerService = composerService;
     }
 
-    @PostMapping("/save/{id}")
-    public void saveState(@RequestBody Map<String, String> payload,
-                          @PathVariable String id) {
+    @PostMapping("/save")
+    public void saveState(@RequestBody ComposerDashboardDTO payload,
+                          @RequestHeader("Authorization") String jwtToken) {
 
 
     }
 
-    @GetMapping("/get-save/{id}")
-    public void getState() {
+    @PostMapping("/add-site")
+    public ComposerDashboardDTO addSite(@RequestBody ComposerDashboardDTO payload,
+                        @RequestHeader("Authorization") String jwtToken) {
 
+    }
+
+    @PostMapping("/delete-site")
+    public void deleteSite(@RequestBody ComposerDashboardDTO payload,
+                           @RequestHeader("Authorization") String jwtToken) {
+
+    }
+
+    @GetMapping("/get-save")
+    public void getState(@RequestHeader("Authorization") String jwtToken,
+                         @RequestBody ComposerDashboardDTO payload) {
+
+    }
+
+    @GetMapping("/get-sites")
+    public void getSites(@RequestHeader("Authorization") String jwtToken){
+        String userId = jwtToken.substring(7);
     }
 }

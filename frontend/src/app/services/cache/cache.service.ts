@@ -8,9 +8,13 @@ export class CacheService {
   private cache = new Map<String, any[]>();
   public cache$ = new BehaviorSubject<any[] | null>(null);
 
+  public static CACHE_KEYS = {
+    listOfSites: 'overview-list-of-sites',
+  }
+
   set(key: string, data: any[]){
     if (this.cache.has(key)){
-      throw new Error(`Data already exists for key: ${key}`);
+      this.cache.delete(key);
     }
 
     this.cache.set(key, data);

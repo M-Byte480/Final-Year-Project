@@ -4,6 +4,7 @@
 
 package milan.backend.entity.site;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
@@ -27,5 +28,8 @@ public class SiteManagerEntity {
 
     @Id
     private UUID siteId;
+
+    @Column
+    private String siteName;
 
 }

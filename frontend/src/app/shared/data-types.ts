@@ -21,6 +21,18 @@ export interface Site {
   lastUpdated?: string
 }
 
+export interface SiteResponse {
+  siteId: string,
+  userId: string,
+  siteName: string,
+  lastUpdated: string
+}
+
+export interface PageDTO{
+  pageId: string,
+  pageName?: string | null,
+}
+
 export interface PanelItem {
   panelName: string,
   component: any

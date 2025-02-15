@@ -1,15 +1,19 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-site-name-modal',
   standalone: true,
-  imports: [],
+  imports: [
+    FormsModule
+  ],
   templateUrl: './site-name-modal.component.html'
 })
 export class SiteNameModalComponent {
   @Output() displayStateChange: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() nameOfSite: EventEmitter<string> = new EventEmitter<string>();
   @Input() displayState: boolean = false;
+  nameEnteredByUser: string = '';
 
   close(): void {
     this.displayState = false;

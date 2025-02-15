@@ -18,34 +18,51 @@ export class HttpApiService {
               private jwtService: JwtServiceService) {
   }
 
+  // TODO: ADD HANDLING OF EXPIRED JWT
   public call(endpoint: EndpointConfig, payload?: any): Observable<any> {
 
     let HEADERS = new HttpHeaders({
       'Authorization': `Bearer ${this.jwtService.getToken()}`
     });
+
+    let response: Observable<any>;
+
     switch (endpoint.requestType) {
       case REQUEST_TYPES.POST:
-        return this.http.post(this.url + endpoint.endpoint, payload);
+        HEADERS.set('Content-Type', 'application/json');
+        response = this.http.post(this.url + endpoint.endpoint, payload,
+          {
+            headers: HEADERS,
+            params: {
+              data: payload
+            }
+          });
+        break;
       case REQUEST_TYPES.GET:
         if(payload){
           HEADERS.set('Content-Type', 'application/json');
 
-          return this.http.get(this.url + endpoint.endpoint, {
+          response = this.http.get(this.url + endpoint.endpoint, {
             headers: HEADERS,
             params: {
               data: payload
             }
           });
         }
-        return this.http.get(this.url + endpoint.endpoint, {
+        response = this.http.get(this.url + endpoint.endpoint, {
           headers: HEADERS
         });
+        break;
       case REQUEST_TYPES.PUT:
-        return this.http.put(this.url + endpoint.endpoint, payload);
+        response = this.http.put(this.url + endpoint.endpoint, payload);
+        break;
       case REQUEST_TYPES.DELETE:
-        return this.http.delete(this.url + endpoint.endpoint);
+        response = this.http.delete(this.url + endpoint.endpoint);
+        break;
     }
 
-    throw new Error("Invalid request type");
+    // check if response is 403:
+    // @ts-ignore
+    return response;
   }
 }
