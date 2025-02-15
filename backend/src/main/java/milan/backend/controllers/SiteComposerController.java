@@ -4,8 +4,11 @@
 
 package milan.backend.controllers;
 
+import milan.backend.entity.site.PageEntity;
 import milan.backend.model.dto.ComposerDashboardDTO;
+import milan.backend.service.JwtService;
 import milan.backend.service.SiteComposerService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 public class SiteComposerController {
 
     private final SiteComposerService composerService;
+    private final JwtService jwtService;
 
-    public SiteComposerController(SiteComposerService composerService) {
+    public SiteComposerController(SiteComposerService composerService,
+                                  JwtService jwtService) {
         this.composerService = composerService;
+        this.jwtService = jwtService;
     }
 
     @PostMapping("/save")
@@ -29,9 +35,11 @@ public class SiteComposerController {
     }
 
     @PostMapping("/add-site")
-    public ComposerDashboardDTO addSite(@RequestBody ComposerDashboardDTO payload,
-                        @RequestHeader("Authorization") String jwtToken) {
-
+    public ResponseEntity<ComposerDashboardDTO> addSite(@RequestBody ComposerDashboardDTO payload) {
+        String nameOfComposer = payload.getPageName();
+        String siteId = payload.getParentSiteId();
+        PageEntity pageEntity = composerService.addSite(nameOfComposer, siteId);
+        return ResponseEntity.ok(new ComposerDashboardDTO(pageEntity.getId().toString(), pageEntity.getPageName()));
     }
 
     @PostMapping("/delete-site")

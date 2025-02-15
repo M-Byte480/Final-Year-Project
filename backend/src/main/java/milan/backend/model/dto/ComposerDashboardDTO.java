@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ComposerDashboardDTO {
-    String pageId;
+    String parentSiteId;
     String pageName;
 }
