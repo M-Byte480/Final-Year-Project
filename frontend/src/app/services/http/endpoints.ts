@@ -25,5 +25,18 @@ export const ENDPOINTS: Endpoints = {
   getUserSites: {
     endpoint: "/api/manager/sites",
     requestType: REQUEST_TYPES.GET
-  }
+  },
+  createUserSite: {
+    endpoint: "/api/manager/sites",
+    requestType: REQUEST_TYPES.POST
+  },
+  getSitePages: {
+    endpoint: "/api/composer/get-sites",
+    requestType: REQUEST_TYPES.GET
+  },
+  makeNewPageForSite: {
+    endpoint: "/api/composer/add-site",
+    requestType: REQUEST_TYPES.POST
+  },
+
 };

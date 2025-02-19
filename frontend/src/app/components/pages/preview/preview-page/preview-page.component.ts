@@ -7,6 +7,8 @@ import {FooterRendererComponent} from "../../../shared/footer-renderer/footer-re
 import {COMPONENT_NAME} from "../../../../shared/constants";
 import {FooterStateService} from "../../../../services/states/footer-state/footer-state.service";
 import {NavbarStateService} from "../../../../services/states/navbar-state/navbar-state.service";
+import {environment} from "../../../../../environments/environment";
+import {JwtServiceService} from "../../../../services/authentication/jwt-service.service";
 
 @Component({
   selector: 'app-preview-page',
@@ -23,13 +25,18 @@ export class PreviewPageComponent implements OnInit {
 
   constructor(private stateService: DesignerStateServiceService,
               private footerService: FooterStateService,
-              private navbarService: NavbarStateService) {
+              private navbarService: NavbarStateService,
+              private jwtService: JwtServiceService) {
     this.stateService.state$.subscribe( (state) => {
       this.pageState = state;
     });
   }
 
   ngOnInit(){
+    if(!environment.dev){
+      this.jwtService.authenticateUser();
+    }
+
     this.footerService.getSession();
     this.navbarService.getSession();
     this.stateService.getSession();

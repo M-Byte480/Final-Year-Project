@@ -117,3 +117,7 @@ CREATE TABLE IF NOT EXISTS milanify.recovery_codes(
     FOREIGN KEY (email) REFERENCES milanify.users(email)
 );
 
+-- changeset Milan:2
+ALTER TABLE milanify.user_to_site
+    add COLUMN site_name VARCHAR(255)
+;

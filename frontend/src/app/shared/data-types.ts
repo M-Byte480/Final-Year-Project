@@ -5,6 +5,11 @@ export interface EndpointConfig {
   requestType: REQUEST_TYPES
 }
 
+export interface JwtToken {
+  access_token: string,
+  refresh_token: string
+}
+
 export interface Endpoints {
   [key: string]: EndpointConfig;
 }
@@ -14,6 +19,19 @@ export interface Site {
   url: string,
   id: string,
   lastUpdated?: string
+}
+
+export interface SiteResponse {
+  siteId: string,
+  userId: string,
+  siteName: string,
+  lastUpdated: string
+}
+
+export interface PageDTO{
+  id: string, // Page ID
+  pageName?: string | null,
+  siteId?: string | null,
 }
 
 export interface PanelItem {

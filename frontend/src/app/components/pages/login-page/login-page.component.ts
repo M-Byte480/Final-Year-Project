@@ -6,6 +6,9 @@ import {MatIconButton} from "@angular/material/button";
 import {MatIcon, MatIconModule} from "@angular/material/icon";
 import {HttpApiService} from "../../../services/http/http-api.service";
 import {ENDPOINTS} from "../../../services/http/endpoints";
+import {JwtServiceService} from "../../../services/authentication/jwt-service.service";
+import {JwtToken} from "../../../shared/data-types";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login-page',
@@ -25,7 +28,9 @@ import {ENDPOINTS} from "../../../services/http/endpoints";
 export class LoginPageComponent {
   hide = signal<boolean>(true);
 
-  constructor(private httpService: HttpApiService) {
+  constructor(private httpService: HttpApiService,
+              private jwtService: JwtServiceService,
+              private router: Router) {
   }
 
   passwordClickEvent(event: MouseEvent) {
@@ -54,8 +59,9 @@ export class LoginPageComponent {
 
   onSubmit() {
     this.httpService.call(ENDPOINTS['loginUser'], this.loginForm.value).subscribe({
-      next: (response) => {
-        console.log(response);
+      next: (response: JwtToken) => {
+        this.jwtService.save(response);
+        this.router.navigate(['/overview']).then();
       },
       error: (error) => {
         console.error(error);

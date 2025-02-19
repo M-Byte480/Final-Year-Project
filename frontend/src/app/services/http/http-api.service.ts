@@ -1,8 +1,12 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {REQUEST_TYPES} from "../../shared/constants";
 import {Observable} from "rxjs";
 import {EndpointConfig, Endpoints} from "../../shared/data-types";
+import {environment} from "../../../environments/environment";
+import {JwtServiceService} from "../authentication/jwt-service.service";
+import {ENDPOINTS} from "./endpoints";
+import {RequestParameter} from "@angular/cli/src/analytics/analytics-parameters";
 
 
 @Injectable({
@@ -10,32 +14,78 @@ import {EndpointConfig, Endpoints} from "../../shared/data-types";
 })
 export class HttpApiService {
 
-  private url = "http://localhost:8080";
+  private url = environment.apiUrl;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private jwtService: JwtServiceService) {
   }
 
-  public call(endpoint: EndpointConfig, payload?: any): Observable<any> {
+  public get(endPoint: EndpointConfig, params?: HttpParams): Observable<any> {
+    let HEADERS = new HttpHeaders();
+    HEADERS = new HttpHeaders({
+      'Authorization': `Bearer ${this.jwtService.getToken()}`
+    });
+
+    return this.http.get(this.url + endPoint.endpoint, { headers: HEADERS, params });
+  }
+
+  public post(endPoint: EndpointConfig, payload?: any): Observable<any> {
+    let HEADERS = new HttpHeaders();
+    HEADERS = new HttpHeaders({
+      'Authorization': `Bearer ${this.jwtService.getToken()}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post(this.url + endPoint.endpoint, payload, { headers: HEADERS });
+  }
+
+  // TODO: ADD HANDLING OF EXPIRED JWT
+  public call(endpoint: EndpointConfig, payload?: any, params?: HttpParams): Observable<any> {
+    let HEADERS = new HttpHeaders();
+    if(endpoint !== ENDPOINTS['loginUser']) {
+      HEADERS = new HttpHeaders({
+        'Authorization': `Bearer ${this.jwtService.getToken()}`
+      });
+    }
+    let response: Observable<any>;
+
     switch (endpoint.requestType) {
       case REQUEST_TYPES.POST:
-        return this.http.post(this.url + endpoint.endpoint, payload);
-      case REQUEST_TYPES.GET:
-        if(payload){
-          const HEADERS = { 'Content-Type': 'text/plain' }; // Set Content-Type to plain text
-          return this.http.get(this.url + endpoint.endpoint, {
+        HEADERS.set('Content-Type', 'application/json');
+        response = this.http.post(this.url + endpoint.endpoint, payload,
+          {
             headers: HEADERS,
             params: {
               data: payload
             }
           });
+        break;
+      case REQUEST_TYPES.GET:
+        if(payload){
+          HEADERS.set('Content-Type', 'application/json');
+          console.log(payload);
+          response = this.http.get(this.url + endpoint.endpoint, {
+            headers: HEADERS,
+            params: {
+              data: payload
+            }
+          });
+          break;
         }
-        return this.http.get(this.url + endpoint.endpoint);
+        response = this.http.get(this.url + endpoint.endpoint, {
+          headers: HEADERS
+        });
+        break;
       case REQUEST_TYPES.PUT:
-        return this.http.put(this.url + endpoint.endpoint, payload);
+        response = this.http.put(this.url + endpoint.endpoint, payload);
+        break;
       case REQUEST_TYPES.DELETE:
-        return this.http.delete(this.url + endpoint.endpoint);
+        response = this.http.delete(this.url + endpoint.endpoint);
+        break;
     }
 
-    throw new Error("Invalid request type");
+    // check if response is 403:
+    // @ts-ignore
+    return response;
   }
 }

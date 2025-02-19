@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {SidePanelComponent} from "../../shared/side-banner/side-panel.component";
 import {PanelItem} from "../../../shared/data-types";
 import {DeleteComponent} from "./delete/delete.component";
@@ -10,6 +10,8 @@ import {ComposerSelectorComponent} from "./composer-selector/composer-selector.c
 import {NavigationManagerComponent} from "./navigation-manager/navigation-manager.component";
 import {NavigationBarComponent} from "../../shared/navigation-bar/navigation-bar.component";
 import {FooterManagerComponent} from "./footer-manager/footer-manager.component";
+import {environment} from "../../../../environments/environment";
+import {JwtServiceService} from "../../../services/authentication/jwt-service.service";
 
 @Component({
   selector: 'app-site-dashboard',
@@ -20,8 +22,21 @@ import {FooterManagerComponent} from "./footer-manager/footer-manager.component"
   ],
   templateUrl: './site-dashboard.component.html'
 })
-export class SiteDashboardComponent {
+export class SiteDashboardComponent implements OnInit {
   @ViewChild(SidePanelComponent) sidePanel!: SidePanelComponent;
+
+  constructor(private jwtService: JwtServiceService) {
+
+  }
+
+  ngOnInit(){
+    if(!environment.dev){
+      this.jwtService.authenticateUser();
+    }
+
+    // Todo: get the site id from the url and populate the rest of the page with content
+  }
+
 
   onPanelSelected(item: PanelItem): void {
     this.loadComponent(item.component);

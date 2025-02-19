@@ -26,7 +26,7 @@ public class SiteManagerService {
         this.siteRepository = siteRepository;
     }
 
-    public void addSite(UUID userId){
+    public SiteManagerEntity addSite(UUID userId, String name){
         UUID siteId = UUID.randomUUID();
 
         // Create Site
@@ -38,7 +38,10 @@ public class SiteManagerService {
         SiteManagerEntity siteManagerEntity = new SiteManagerEntity();
         siteManagerEntity.setSiteId(siteId);
         siteManagerEntity.setUserId(userId);
-        siteManagerRepository.save(siteManagerEntity);
+        siteManagerEntity.setSiteName(name);
+        siteManagerEntity = siteManagerRepository.save(siteManagerEntity);
+
+        return siteManagerEntity;
     }
 
     public Set<SiteDTO> getSites(String userId) {
@@ -50,7 +53,7 @@ public class SiteManagerService {
                 .orElse(
                         new ArrayList<>()
                 ).stream()
-                .map(site -> new SiteDTO(site.getSiteId(), null))
+                .map(site -> new SiteDTO(site.getSiteId(), site.getSiteName(), null))
                 .collect(Collectors.toSet());
     }
 }
