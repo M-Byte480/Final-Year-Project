@@ -35,7 +35,7 @@ export const ENDPOINTS: Endpoints = {
     requestType: REQUEST_TYPES.GET
   },
   makeNewPageForSite: {
-    endpoint: "/api/composer/add-page",
+    endpoint: "/api/composer/add-site",
     requestType: REQUEST_TYPES.POST
   },
 

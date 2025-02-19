@@ -7,15 +7,15 @@
     </button>
   </div>
 
-  <table mat-table [dataSource]="pages" class="mat-elevation-z8 page-table ">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 page-table ">
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
       <td mat-cell *matCellDef="let page">{{page.pageName}}</td>
     </ng-container>
 
-    <ng-container matColumnDef="pageId">
+    <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>Page ID</th>
-      <td mat-cell *matCellDef="let page">{{page.pageId}}</td>
+      <td mat-cell *matCellDef="let page">{{page.id}}</td>
     </ng-container>
 
     <ng-container  matColumnDef="action">

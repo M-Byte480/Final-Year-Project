@@ -29,8 +29,9 @@ export interface SiteResponse {
 }
 
 export interface PageDTO{
-  pageId: string,
+  id: string, // Page ID
   pageName?: string | null,
+  siteId?: string | null,
 }
 
 export interface PanelItem {

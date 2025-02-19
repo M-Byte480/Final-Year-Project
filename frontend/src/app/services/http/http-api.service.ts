@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {REQUEST_TYPES} from "../../shared/constants";
 import {Observable} from "rxjs";
 import {EndpointConfig, Endpoints} from "../../shared/data-types";
 import {environment} from "../../../environments/environment";
 import {JwtServiceService} from "../authentication/jwt-service.service";
 import {ENDPOINTS} from "./endpoints";
+import {RequestParameter} from "@angular/cli/src/analytics/analytics-parameters";
 
 
 @Injectable({
@@ -19,8 +20,27 @@ export class HttpApiService {
               private jwtService: JwtServiceService) {
   }
 
+  public get(endPoint: EndpointConfig, params?: HttpParams): Observable<any> {
+    let HEADERS = new HttpHeaders();
+    HEADERS = new HttpHeaders({
+      'Authorization': `Bearer ${this.jwtService.getToken()}`
+    });
+
+    return this.http.get(this.url + endPoint.endpoint, { headers: HEADERS, params });
+  }
+
+  public post(endPoint: EndpointConfig, payload?: any): Observable<any> {
+    let HEADERS = new HttpHeaders();
+    HEADERS = new HttpHeaders({
+      'Authorization': `Bearer ${this.jwtService.getToken()}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post(this.url + endPoint.endpoint, payload, { headers: HEADERS });
+  }
+
   // TODO: ADD HANDLING OF EXPIRED JWT
-  public call(endpoint: EndpointConfig, payload?: any): Observable<any> {
+  public call(endpoint: EndpointConfig, payload?: any, params?: HttpParams): Observable<any> {
     let HEADERS = new HttpHeaders();
     if(endpoint !== ENDPOINTS['loginUser']) {
       HEADERS = new HttpHeaders({
@@ -43,13 +63,14 @@ export class HttpApiService {
       case REQUEST_TYPES.GET:
         if(payload){
           HEADERS.set('Content-Type', 'application/json');
-
+          console.log(payload);
           response = this.http.get(this.url + endpoint.endpoint, {
             headers: HEADERS,
             params: {
               data: payload
             }
           });
+          break;
         }
         response = this.http.get(this.url + endpoint.endpoint, {
           headers: HEADERS

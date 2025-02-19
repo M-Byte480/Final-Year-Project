@@ -10,6 +10,7 @@ import milan.backend.repository.PageRepository;
 import milan.backend.repository.SiteRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -36,6 +37,10 @@ public class SiteComposerService {
         pageEntity.setPageName(nameOfComposer);
 
         return pageRepository.save(pageEntity);
+    }
+
+    public Set<PageEntity> getComposerPages(UUID siteId){
+        return pageRepository.findAllBySiteId(siteId);
     }
 
     private boolean doesPageNameExists(String pageName){

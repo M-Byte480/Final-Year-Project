@@ -7,7 +7,7 @@ import {
   MatHeaderCell,
   MatHeaderCellDef,
   MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
-  MatTable
+  MatTable, MatTableDataSource
 } from "@angular/material/table";
 import {MatButton} from "@angular/material/button";
 import {Router} from "@angular/router";
@@ -19,6 +19,7 @@ import {JwtServiceService} from "../../../../services/authentication/jwt-service
 import {environment} from "../../../../../environments/environment";
 import {NgIf} from "@angular/common";
 import {SiteNameModalComponent} from "../../site-manager/site-name-modal/site-name-modal.component";
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-composer-selector',
@@ -43,21 +44,22 @@ import {SiteNameModalComponent} from "../../site-manager/site-name-modal/site-na
 })
 export class ComposerSelectorComponent implements OnInit {
   private currentRoute = window.location.href;
-  private siteId: string;
-  displayedColumns = ['name', 'pageId', 'action'];
+  private readonly siteId: string;
+  dataSource = new MatTableDataSource<PageDTO>([]);
+  displayedColumns = ['name', 'id', 'action'];
   showModal = false;
   pages: PageDTO[] = [
     {
       pageName: 'Home',
-      pageId: '107de139-c41b-40af-b1f7-6b1c831cb545'
+      id: '107de139-c41b-40af-b1f7-6b1c831cb545'
     },
     {
       pageName: 'About Us',
-      pageId: '107de139-c41b-40af-b1f7-6b1c831cb545'
+      id: '107de139-c41b-40af-b1f7-6b1c831cb545'
     },
     {
       pageName: 'Contact Us',
-      pageId: '107de139-c41b-40af-b1f7-6b1c831cb545'
+      id: '107de139-c41b-40af-b1f7-6b1c831cb545'
     }
   ];
 
@@ -74,8 +76,12 @@ export class ComposerSelectorComponent implements OnInit {
   }
 
   getAllSites() {
-    this.httpApiService.call(ENDPOINTS['getSitePages']).subscribe((response: PageDTO[]) => {
+    const params = new HttpParams().set('pageId', this.siteId);
+
+    this.httpApiService.get(ENDPOINTS['getSitePages'], params).subscribe((response: PageDTO[]) => {
       this.pages = response;
+      this.dataSource.data = response;
+      console.log('pages', this.pages);
     });
   }
 
@@ -99,12 +105,12 @@ export class ComposerSelectorComponent implements OnInit {
 
   createPage(nameOfPage: string) {
     let payload = {
-      siteId: this.siteId,
+      parentSiteId: this.siteId,
       pageName: nameOfPage
     };
 
-    this.httpApiService.call(ENDPOINTS['makeNewPageForSite'], payload).subscribe((response: PageDTO) => {
-
+    this.httpApiService.post(ENDPOINTS['makeNewPageForSite'], payload).subscribe((response: PageDTO) => {
+      this.dataSource.data = [...this.dataSource.data, response];
     });
   }
 
