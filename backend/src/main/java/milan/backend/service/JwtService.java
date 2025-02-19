@@ -8,6 +8,7 @@
 package milan.backend.service;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -90,6 +91,24 @@ public class JwtService {
     public boolean isRefreshTokenValid(String refreshToken, UserDetails userDetails) {
         final String username = extractUsername(refreshToken);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(refreshToken);
+    }
+
+    public boolean isTokenSignatureValid(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(getSignInKey())
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (JwtException e) {
+            return false;
+        }
+    }
+
+    // Returns true if token expired
+    public boolean hasTokenExpired(String token) {
+        assert token != null;
+        return extractExpiration(token).before(new Date());
     }
 
     private boolean isTokenExpired(String token) {

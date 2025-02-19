@@ -9,13 +9,15 @@ import milan.backend.model.dto.ComposerDashboardDTO;
 import milan.backend.service.JwtService;
 import milan.backend.service.SiteComposerService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller("/api/composer")
+@RestController
+@RequestMapping("/api/composer")
 public class SiteComposerController {
 
     private final SiteComposerService composerService;
@@ -25,6 +27,11 @@ public class SiteComposerController {
                                   JwtService jwtService) {
         this.composerService = composerService;
         this.jwtService = jwtService;
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return "Hello, World!";
     }
 
     @PostMapping("/save")
