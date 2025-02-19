@@ -8,5 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface PageRepository extends JpaRepository<PageEntity, UUID> {
-
+    boolean existsByPageName(String pageName);
 }

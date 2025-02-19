@@ -4,7 +4,9 @@
 
 package milan.backend.controllers;
 
+import lombok.AllArgsConstructor;
 import milan.backend.entity.site.PageEntity;
+import milan.backend.exception.AlreadyExistsException;
 import milan.backend.model.dto.ComposerDashboardDTO;
 import milan.backend.service.JwtService;
 import milan.backend.service.SiteComposerService;
@@ -17,22 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/composer")
 public class SiteComposerController {
 
     private final SiteComposerService composerService;
     private final JwtService jwtService;
 
-    public SiteComposerController(SiteComposerService composerService,
-                                  JwtService jwtService) {
-        this.composerService = composerService;
-        this.jwtService = jwtService;
-    }
-
-    @GetMapping("/test")
-    public String test() {
-        return "Hello, World!";
-    }
 
     @PostMapping("/save")
     public void saveState(@RequestBody ComposerDashboardDTO payload,
@@ -42,7 +35,7 @@ public class SiteComposerController {
     }
 
     @PostMapping("/add-site")
-    public ResponseEntity<ComposerDashboardDTO> addSite(@RequestBody ComposerDashboardDTO payload) {
+    public ResponseEntity<ComposerDashboardDTO> addSite(@RequestBody ComposerDashboardDTO payload) throws AlreadyExistsException {
         String nameOfComposer = payload.getPageName();
         String siteId = payload.getParentSiteId();
         PageEntity pageEntity = composerService.addSite(nameOfComposer, siteId);
@@ -62,7 +55,7 @@ public class SiteComposerController {
     }
 
     @GetMapping("/get-sites")
-    public void getSites(@RequestHeader("Authorization") String jwtToken){
+    public void getSites(@RequestHeader("Authorization") String jwtToken) {
         String userId = jwtToken.substring(7);
     }
 }

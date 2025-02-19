@@ -3,7 +3,7 @@ package milan.backend.exception;
 import lombok.Getter;
 
 @Getter
-public class ValidationException extends Exception implements IValidationException {
+public class ValidationException extends RuntimeException implements IValidationException {
     String what;
     String reason;
 

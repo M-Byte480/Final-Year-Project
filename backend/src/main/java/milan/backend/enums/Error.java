@@ -8,4 +8,8 @@ public enum Error {
     Error(String label) {
         this.label = label;
     }
+
+    public String toString(){
+        return label;
+    }
 }

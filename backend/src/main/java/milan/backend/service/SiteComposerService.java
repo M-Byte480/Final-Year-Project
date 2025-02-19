@@ -5,6 +5,7 @@
 package milan.backend.service;
 
 import milan.backend.entity.site.PageEntity;
+import milan.backend.exception.AlreadyExistsException;
 import milan.backend.repository.PageRepository;
 import milan.backend.repository.SiteRepository;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,11 @@ public class SiteComposerService {
         this.siteRepository = siteRepository;
     }
 
-    public PageEntity addSite(String nameOfComposer, String siteId){
+    public PageEntity addSite(String nameOfComposer, String siteId) throws AlreadyExistsException {
+        if (doesPageNameExists(nameOfComposer)){
+            throw new AlreadyExistsException("AlreadyExists.COMPOSER_NAME.toString()", "Composer with name " + nameOfComposer + " already exists");
+        }
+
         UUID parentSiteUUID = UUID.fromString(siteId);
         UUID pageUUID = UUID.randomUUID();
 
@@ -31,5 +36,9 @@ public class SiteComposerService {
         pageEntity.setPageName(nameOfComposer);
 
         return pageRepository.save(pageEntity);
+    }
+
+    private boolean doesPageNameExists(String pageName){
+        return pageRepository.existsByPageName(pageName);
     }
 }
