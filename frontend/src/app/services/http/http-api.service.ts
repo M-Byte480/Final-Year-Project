@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {EndpointConfig, Endpoints} from "../../shared/data-types";
 import {environment} from "../../../environments/environment";
 import {JwtServiceService} from "../authentication/jwt-service.service";
+import {ENDPOINTS} from "./endpoints";
 
 
 @Injectable({
@@ -20,11 +21,12 @@ export class HttpApiService {
 
   // TODO: ADD HANDLING OF EXPIRED JWT
   public call(endpoint: EndpointConfig, payload?: any): Observable<any> {
-
-    let HEADERS = new HttpHeaders({
-      'Authorization': `Bearer ${this.jwtService.getToken()}`
-    });
-
+    let HEADERS = new HttpHeaders();
+    if(endpoint !== ENDPOINTS['loginUser']) {
+      HEADERS = new HttpHeaders({
+        'Authorization': `Bearer ${this.jwtService.getToken()}`
+      });
+    }
     let response: Observable<any>;
 
     switch (endpoint.requestType) {
