@@ -5,11 +5,16 @@
 package milan.backend.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AllArgsConstructor;
 import milan.backend.entity.FooterEntity;
+import milan.backend.entity.NavbarMapperEntity;
 import milan.backend.entity.site.PageEntity;
 import milan.backend.exception.AlreadyExistsException;
 import milan.backend.repository.FooterRepository;
+import milan.backend.repository.NavbarMappingRepository;
 import milan.backend.repository.PageRepository;
 import milan.backend.repository.SiteRepository;
 import org.springframework.stereotype.Service;
@@ -24,6 +29,7 @@ public class SiteComposerService {
     private PageRepository pageRepository;
     private SiteRepository siteRepository;
     private FooterRepository footerRepository;
+    private NavbarMappingRepository navbarMappingRepository;
 
     public PageEntity addSite(String nameOfComposer, String siteId) throws AlreadyExistsException {
         if (doesPageNameExists(nameOfComposer)){
@@ -71,4 +77,63 @@ public class SiteComposerService {
     private boolean doesPageNameExists(String pageName){
         return pageRepository.existsByPageName(pageName);
     }
+
+    // Todo: handle first time call, and also handle the case when the navbar mapping is not present
+    // todo: then with subsequent calls, we can just pull the state. Delegate responsibility to the service class
+    public NavbarMapperEntity getNavBarMapping(String siteId) {
+        UUID siteUUID = UUID.fromString(siteId);
+        NavbarMapperEntity navbarMapperEntity = this.navbarMappingRepository.findById(siteUUID).orElseGet(() -> {
+            Set<PageEntity> pages = this.getComposerPages(siteUUID);
+            NavbarMapperEntity newNavbarMapperEntity = new NavbarMapperEntity();
+            newNavbarMapperEntity.setSiteId(siteUUID);
+            newNavbarMapperEntity.setUpdatedTimestamp(Instant.now());
+
+            /* this is going to get ugly. I need a jsonNode with the following attributes:
+                {
+                    routes: [
+                      {
+                        displayName: 'Home',
+                        pageName: 'Home'
+                      },
+                    ],
+                    logo: '',
+                    brandName: 'Your Brand!',
+                  }
+                  We are going to assume that each page name is unique. There is no checks rn
+             */
+
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectNode jsonNode = objectMapper.createObjectNode();
+            ArrayNode routesArray = objectMapper.createArrayNode();
+
+            pages.forEach((page) -> {
+                ObjectNode routeNode = objectMapper.createObjectNode();
+                routeNode.put("displayName", page.getPageName());
+                routeNode.put("pageName", page.getPageName());
+                routesArray.add(routeNode);
+            });
+
+            jsonNode.set("routes", routesArray);
+            jsonNode.put("logo", "");
+            jsonNode.put("brandName", "Your Brand!");
+
+            newNavbarMapperEntity.setNavbarMappingState(jsonNode);
+
+            return this.navbarMappingRepository.save(newNavbarMapperEntity);
+        });
+        return navbarMapperEntity;
+    }
+
+    public NavbarMapperEntity setNavBarMapping(UUID siteUUID, JsonNode jsonNode) {
+        NavbarMapperEntity navbarMapperEntity = new NavbarMapperEntity();
+        navbarMapperEntity.setSiteId(siteUUID);
+        navbarMapperEntity.setNavbarMappingState(jsonNode);
+        navbarMapperEntity.setUpdatedTimestamp(Instant.now());
+        return this.navbarMappingRepository.save(navbarMapperEntity);
+    }
+
+//    public NavBarEntity getNavBar(String siteId) {
+//        return null;
+//    }
 }

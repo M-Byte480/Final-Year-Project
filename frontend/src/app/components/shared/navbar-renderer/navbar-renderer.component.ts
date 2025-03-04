@@ -26,6 +26,7 @@ export class NavbarRendererComponent implements OnInit {
     this.navbarService.state$.subscribe((state) => {
       this.currentState = state;
       console.log('Rendered detected change');
+      console.log(this.currentState);
     });
   }
 

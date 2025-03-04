@@ -45,5 +45,17 @@ export const ENDPOINTS: Endpoints = {
   setFooter: {
     endpoint: "/api/composer/footer",
     requestType: REQUEST_TYPES.POST
+  },
+  getNavBarMapping: {
+    endpoint: "/api/composer/navbar-mapping",
+    requestType: REQUEST_TYPES.GET
+  },
+  setNavbarMapping: {
+    endpoint: "/api/composer/set-navbar",
+    requestType: REQUEST_TYPES.POST
+  },
+  refreshToken: {
+    endpoint: "/auth/refresh",
+    requestType: REQUEST_TYPES.POST
   }
 };

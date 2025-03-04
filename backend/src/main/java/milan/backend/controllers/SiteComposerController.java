@@ -5,12 +5,15 @@
 package milan.backend.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import milan.backend.entity.FooterEntity;
+import milan.backend.entity.NavbarMapperEntity;
 import milan.backend.entity.site.PageEntity;
 import milan.backend.exception.AlreadyExistsException;
 import milan.backend.model.dto.ComposerDashboardDTO;
 import milan.backend.model.dto.FooterStateDTO;
+import milan.backend.model.dto.NavbarMapperDTO;
 import milan.backend.service.JwtService;
 import milan.backend.service.SiteComposerService;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +35,7 @@ public class SiteComposerController {
 
     private final SiteComposerService composerService;
     private final JwtService jwtService;
+    private ObjectMapper objectMapper;
 
 
     @PostMapping("/save")
@@ -42,7 +46,7 @@ public class SiteComposerController {
     }
 
     @GetMapping("/footer")
-    public ResponseEntity<Object> getFooter(@RequestParam("siteId") String siteId){
+    public ResponseEntity<Object> getFooter(@RequestParam("siteId") String siteId) {
 
         FooterEntity footerEntity = composerService.getFooter(siteId);
 
@@ -50,7 +54,7 @@ public class SiteComposerController {
     }
 
     @PostMapping("/footer")
-    public ResponseEntity<Object> setFooter(@RequestBody FooterStateDTO saveFooterDTO){
+    public ResponseEntity<Object> setFooter(@RequestBody FooterStateDTO saveFooterDTO) {
         UUID siteUUID = UUID.fromString(saveFooterDTO.getSiteId());
 
         JsonNode state = saveFooterDTO.getState();
@@ -58,6 +62,21 @@ public class SiteComposerController {
 
         return ResponseEntity.ok(null);
     }
+
+    @GetMapping("/navbar-mapping")
+    public ResponseEntity<Object> getNavBarMapping(@RequestParam("siteId") String siteId) {
+        NavbarMapperEntity navBarMappingEntity = this.composerService.getNavBarMapping(siteId);
+        return ResponseEntity.ok(navBarMappingEntity.getNavbarMappingState());
+    }
+
+    @PostMapping("/set-navbar")
+    public ResponseEntity<Object> saveNavBarMapping(@RequestBody NavbarMapperDTO navbarDTO) throws Exception {
+        UUID siteUUID = UUID.fromString(navbarDTO.getSiteId());
+        JsonNode jsonNode = navbarDTO.getData();
+        this.composerService.setNavBarMapping(siteUUID, jsonNode);
+        return ResponseEntity.ok(null);
+    }
+
 
     @PostMapping("/add-site")
     public ResponseEntity<ComposerDashboardDTO> addSite(@RequestBody ComposerDashboardDTO payload) throws AlreadyExistsException {
@@ -80,7 +99,7 @@ public class SiteComposerController {
     }
 
     @GetMapping("/get-sites")
-    public ResponseEntity<Set<PageEntity>> getSites(@RequestParam("pageId")String pageIdAsString) {
+    public ResponseEntity<Set<PageEntity>> getSites(@RequestParam("pageId") String pageIdAsString) {
         UUID pageId = UUID.fromString(pageIdAsString);
         Set<PageEntity> sites = composerService.getComposerPages(pageId);
         return ResponseEntity.ok(sites);
