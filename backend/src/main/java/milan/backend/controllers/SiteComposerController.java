@@ -4,10 +4,13 @@
 
 package milan.backend.controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
+import milan.backend.entity.FooterEntity;
 import milan.backend.entity.site.PageEntity;
 import milan.backend.exception.AlreadyExistsException;
 import milan.backend.model.dto.ComposerDashboardDTO;
+import milan.backend.model.dto.FooterStateDTO;
 import milan.backend.service.JwtService;
 import milan.backend.service.SiteComposerService;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +39,24 @@ public class SiteComposerController {
                           @RequestHeader("Authorization") String jwtToken) {
 
 
+    }
+
+    @GetMapping("/footer")
+    public ResponseEntity<Object> getFooter(@RequestParam("siteId") String siteId){
+
+        FooterEntity footerEntity = composerService.getFooter(siteId);
+
+        return ResponseEntity.ok(footerEntity.getFooterState());
+    }
+
+    @PostMapping("/footer")
+    public ResponseEntity<Object> setFooter(@RequestBody FooterStateDTO saveFooterDTO){
+        UUID siteUUID = UUID.fromString(saveFooterDTO.getSiteId());
+
+        JsonNode state = saveFooterDTO.getState();
+        this.composerService.setFooter(siteUUID, state);
+
+        return ResponseEntity.ok(null);
     }
 
     @PostMapping("/add-site")

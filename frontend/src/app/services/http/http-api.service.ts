@@ -35,7 +35,6 @@ export class HttpApiService {
       'Authorization': `Bearer ${this.jwtService.getToken()}`,
       'Content-Type': 'application/json'
     });
-
     return this.http.post(this.url + endPoint.endpoint, payload, { headers: HEADERS });
   }
 

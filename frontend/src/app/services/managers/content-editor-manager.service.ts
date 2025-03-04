@@ -90,7 +90,6 @@ export class ContentEditorManagerService {
       const component = state[componentId];
 
       if (component.properties?.childGridArr) {
-        console.log("has Id", componentId);
         component.properties.childGridArr = component.properties.childGridArr.filter(
           (childId: any) => childId !== idToDelete
         );

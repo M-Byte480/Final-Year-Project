@@ -1,6 +1,6 @@
 <div class="w-full h-10 bg-amber-600">
   <div class="flex justify-center items-center h-full">
-    @for (social of hyperlinks; track social) {
+    @for (social of hyperlinks; track social.id) {
       <div class="mr-2">
         <fa-icon [icon]="SOCIAL_MEDIA_LOOKUP[social.socialMedia]" class="hover:cursor-pointer"
                  (click)="onOpenSocial(social.hyperlink)"></fa-icon>

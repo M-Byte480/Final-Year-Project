@@ -121,3 +121,12 @@ CREATE TABLE IF NOT EXISTS milanify.recovery_codes(
 ALTER TABLE milanify.user_to_site
     add COLUMN site_name VARCHAR(255)
 ;
+
+-- changeset Milan:3
+CREATE TABLE IF NOT EXISTS milanify.footer_states(
+    site_id uuid,
+    footer_state json,
+    updated_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    PRIMARY KEY (site_id),
+    FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
+);

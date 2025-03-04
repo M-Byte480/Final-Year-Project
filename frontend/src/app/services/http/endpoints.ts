@@ -38,5 +38,12 @@ export const ENDPOINTS: Endpoints = {
     endpoint: "/api/composer/add-site",
     requestType: REQUEST_TYPES.POST
   },
-
+  getFooter: {
+    endpoint: "/api/composer/footer",
+    requestType: REQUEST_TYPES.GET
+  },
+  setFooter: {
+    endpoint: "/api/composer/footer",
+    requestType: REQUEST_TYPES.POST
+  }
 };
