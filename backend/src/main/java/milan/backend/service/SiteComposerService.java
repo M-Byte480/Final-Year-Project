@@ -4,24 +4,26 @@
 
 package milan.backend.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import lombok.AllArgsConstructor;
+import milan.backend.entity.FooterEntity;
 import milan.backend.entity.site.PageEntity;
 import milan.backend.exception.AlreadyExistsException;
+import milan.backend.repository.FooterRepository;
 import milan.backend.repository.PageRepository;
 import milan.backend.repository.SiteRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Set;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class SiteComposerService {
     private PageRepository pageRepository;
     private SiteRepository siteRepository;
-    public SiteComposerService(PageRepository pageRepository,
-                               SiteRepository siteRepository) {
-        this.pageRepository = pageRepository;
-        this.siteRepository = siteRepository;
-    }
+    private FooterRepository footerRepository;
 
     public PageEntity addSite(String nameOfComposer, String siteId) throws AlreadyExistsException {
         if (doesPageNameExists(nameOfComposer)){
@@ -37,6 +39,29 @@ public class SiteComposerService {
         pageEntity.setPageName(nameOfComposer);
 
         return pageRepository.save(pageEntity);
+    }
+
+    public FooterEntity getFooter(String siteId){
+        UUID siteUUID = UUID.fromString(siteId);
+        FooterEntity footerEntity =  footerRepository.findById(siteUUID).orElse(null);
+
+        if (footerEntity == null){
+            footerEntity = new FooterEntity();
+            footerEntity.setSiteId(siteUUID);
+            footerEntity.setFooterState(null);
+            footerEntity.setUpdatedTimestamp(Instant.now());
+            footerRepository.save(footerEntity);
+        }
+
+        return footerEntity;
+    }
+
+    public FooterEntity setFooter(UUID siteId, JsonNode state){
+        FooterEntity footerEntity = new FooterEntity();
+        footerEntity.setSiteId(siteId);
+        footerEntity.setFooterState(state);
+        footerEntity.setUpdatedTimestamp(Instant.now());
+        return this.footerRepository.save(footerEntity);
     }
 
     public Set<PageEntity> getComposerPages(UUID siteId){

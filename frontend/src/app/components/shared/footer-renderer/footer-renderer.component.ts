@@ -14,8 +14,7 @@ import {SOCIAL_MEDIA_LOOKUP} from "../../../shared/constants";
   styleUrl: './footer-renderer.component.css'
 })
 export class FooterRendererComponent implements OnInit{
-  hyperlinks: FooterMapper[] = [
-  ];
+  hyperlinks: FooterMapper[] = [];
   socialMediaKeys = [];
   @Input() parentComponent!: string;
 

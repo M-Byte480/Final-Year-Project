@@ -55,7 +55,6 @@ export class SiteManagerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.response = this.mockResponse;
     if (!environment.dev) {
-      console.log("R")
       this.jwtService.authenticateUser();
       this.response = [];
 
@@ -82,7 +81,6 @@ export class SiteManagerComponent implements OnInit, OnDestroy {
   }
 
   protected onSiteClick(siteId: string) {
-    console.log('Site clicked: ' + siteId);
     this.router.navigate(['/overview', siteId]).then(r => {
     });
   }
@@ -97,7 +95,6 @@ export class SiteManagerComponent implements OnInit, OnDestroy {
 
   protected createSite(name: string) {
 
-    console.log('Creating site with name: ' + name);
     this.httpService.call(ENDPOINTS['createUserSite'], {
       name: name
     }).subscribe((data: SiteResponse) => {

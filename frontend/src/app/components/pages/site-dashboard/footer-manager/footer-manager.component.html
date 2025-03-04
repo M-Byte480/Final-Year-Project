@@ -6,7 +6,7 @@
     <div class="w-5/6 p-4">
         Rearrange!
         <div cdkDropList cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
-            @for (socialElement of hyperlinks; track socialElement) {
+            @for (socialElement of hyperlinks; track socialElement.id) {
                 <div class="example-box" cdkDrag>{{ socialElement.socialMedia }}</div>
             }
         </div>

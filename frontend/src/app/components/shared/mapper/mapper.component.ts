@@ -2,7 +2,7 @@
 This file was generated with the help of GitHub Copilot 2025
  */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {
   MatCell,
@@ -47,7 +47,7 @@ import {MatOption, MatSelect} from "@angular/material/select";
   templateUrl: './mapper.component.html',
   styleUrl: './mapper.component.css'
 })
-export class MapperComponent implements OnInit{
+export class MapperComponent implements OnInit, AfterViewInit{
   @Input() mappedObjects: any;
   @Input() col1!: string;
   @Input() col1key!: string;
@@ -64,33 +64,49 @@ export class MapperComponent implements OnInit{
     this.displayedColumns = [this.col1key, this.col2key, 'action'];
     this.dataSource = new MatTableDataSource<any>(this.mappedObjects);
 
-    console.log(this.options);
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.mappedObjects.push("DUMMY NODE");
+      this.onDelete(this.mappedObjects[this.mappedObjects.length - 1]);
+    }, 400);
   }
 
   updateMappedObjects() {
     this.mappedObjectsChange.emit(this.mappedObjects);
   }
 
-
-
   onDelete(item: any) {
-    const filterMethod = (obj: any) => {
-      // Remove all rows where the clicked object was requested to remove.
-      return !(obj[this.col1key] === item[this.col1key] && obj[this.col2key] === item[this.col2key]);
+    const index = this.mappedObjects.findIndex((obj: any) =>
+      obj[this.col1key] === item[this.col1key] &&
+      obj[this.col2key] === item[this.col2key]
+    );
+
+    if (index !== -1) {
+      this.mappedObjects.splice(index, 1);
     }
 
-    this.mappedObjects = this.mappedObjects.filter(filterMethod);
     this.dataSource = new MatTableDataSource<any>(this.mappedObjects);
     this.updateMappedObjects();
+  }
+
+  generateRandomId(){
+    return Math.random().toString(36).substring(7);
   }
 
   onAddEmptyRow(){
     if(this.col2key === 'socialMedia'){
-      this.mappedObjects.push({[this.col1key]: '', [this.col2key]: 'linkedin'});
+      this.mappedObjects.push({[this.col1key]: '', [this.col2key]: 'linkedin', id: this.generateRandomId()});
     } else {
-      this.mappedObjects.push({[this.col1key]: '', [this.col2key]: ''});
+      this.mappedObjects.push({[this.col1key]: '', [this.col2key]: '', id: this.generateRandomId()});
     }
     this.dataSource = new MatTableDataSource<any>(this.mappedObjects);
     this.updateMappedObjects();
   }
+
+  trackById(index: number, item: any){
+    return item.id;
+  }
+
 }

@@ -70,6 +70,7 @@ export interface FooterStateStruct {
 }
 
 export interface FooterMapper {
+  id: string,
   hyperlink: string,
   socialMedia: string
 }
