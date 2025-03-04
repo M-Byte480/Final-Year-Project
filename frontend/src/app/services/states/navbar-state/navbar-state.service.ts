@@ -11,13 +11,13 @@ export class NavbarStateService {
 
   private stateSubject = new BehaviorSubject<NavBarStateStruct>({
     routes: [
-      {
-        displayName: 'Home',
-        pageName: 'Home'
-      },
+      // {
+      //   displayName: 'Home',
+      //   pageName: 'Home'
+      // },
     ],
     logo: '',
-    brandName: 'Johnny Bai',
+    brandName: 'Your Brand!',
   });
   state$ = this.stateSubject.asObservable();
 
