@@ -139,3 +139,14 @@ CREATE TABLE IF NOT EXISTS milanify.navbar_mapping_states(
     PRIMARY KEY (site_id),
     FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
 );
+
+-- changeset Milan:5
+CREATE TABLE IF NOT EXISTS milanify.published_site_records(
+    siteId uuid,
+    publish_timestamp timestamp,
+    nav_bar json,
+    main_body json,
+    footer json,
+    PRIMARY KEY (site_id, publish_timestamp),
+    FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
+);
