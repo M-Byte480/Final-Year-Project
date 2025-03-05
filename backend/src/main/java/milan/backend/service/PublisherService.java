@@ -5,7 +5,6 @@ import milan.backend.entity.PublishedSiteEntity;
 import milan.backend.repository.PublishedRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +15,7 @@ public class PublisherService {
 
     // todo: sort this out for controller
     public PublishedSiteEntity getSiteEntityForSiteID(UUID siteId){
-        List<PublishedSiteEntity> publishedSiteHistory = this.publishRepository.findAllBySiteId(siteId);
+        List<PublishedSiteEntity> publishedSiteHistory = this.publishRepository.findAllById_SiteId(siteId);
+        return null;
     }
 }

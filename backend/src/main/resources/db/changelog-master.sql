@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS milanify.navbar_mapping_states(
 
 -- changeset Milan:5
 CREATE TABLE IF NOT EXISTS milanify.published_site_records(
-    siteId uuid,
+    site_id uuid,
     publish_timestamp timestamp,
     nav_bar json,
     main_body json,

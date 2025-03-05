@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface PublishedRepository extends JpaRepository<PublishedSiteEntity, PublishedSiteIdTimestamp> {
-    // todo: figure this out
-    List<PublishedSiteEntity> findAllBySiteId(UUID siteId);
-    List<PublishedSiteEntity> findAllByIdOrderByUpdateTimestamp(UUID siteId);
+    List<PublishedSiteEntity> findAllById_SiteId(UUID siteId);
+    List<PublishedSiteEntity> findAllById_SiteIdOrderById_PublishTimestamp(UUID siteId);
 }
