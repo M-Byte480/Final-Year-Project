@@ -57,5 +57,9 @@ export const ENDPOINTS: Endpoints = {
   refreshToken: {
     endpoint: "/auth/refresh",
     requestType: REQUEST_TYPES.POST
+  },
+  subdomain: {
+    endpoint: "/api/site/get-site",
+    requestType: REQUEST_TYPES.GET
   }
 };
