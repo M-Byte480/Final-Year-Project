@@ -150,3 +150,12 @@ CREATE TABLE IF NOT EXISTS milanify.published_site_records(
     PRIMARY KEY (site_id, publish_timestamp),
     FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
 );
+
+-- changeset Milan:6
+CREATE TABLE IF NOT EXISTS milanify.subdomain_records(
+    site_id uuid,
+    subdomain VARCHAR(255),
+    is_deployed BOOLEAN DEFAULT FALSE,
+    PRIMARY KEY (site_id),
+    FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
+);
