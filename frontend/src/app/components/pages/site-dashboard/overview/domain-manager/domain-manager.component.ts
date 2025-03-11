@@ -3,18 +3,20 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {HttpApiService} from "../../../../../services/http/http-api.service";
 import {ENDPOINTS} from "../../../../../services/http/endpoints";
 import {HttpParams} from "@angular/common/http";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-domain-manager',
   standalone: true,
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButton
   ],
   templateUrl: './domain-manager.component.html'
 })
 export class DomainManagerComponent implements OnInit {
-  protected domainName = 'domainName';
+  protected domainName = '';
   protected siteId = '';
   private currentRoute = window.location.href;
 
@@ -22,8 +24,8 @@ export class DomainManagerComponent implements OnInit {
     domainName: new FormControl("",
       [
         Validators.required,
-        Validators.min(3),
-        Validators.max(50),
+        Validators.minLength(3),
+        Validators.maxLength(50),
         Validators.pattern("^[a-zA-Z0-9]*$"),
       ]),
   });
@@ -35,7 +37,7 @@ export class DomainManagerComponent implements OnInit {
 
   ngOnInit() {
     const httpParams = new HttpParams().set('siteId', this.siteId);
-    this.api.get(ENDPOINTS['domainName'], httpParams).subscribe((response) => {
+    this.api.get(ENDPOINTS['getDomainName'], httpParams).subscribe((response) => {
       this.domainName = response['domainName'];
     });
   }
@@ -43,7 +45,7 @@ export class DomainManagerComponent implements OnInit {
   updateSiteName() {
     console.log("Test");
     console.log(this.domainFormGroup.value);
-    this.api.post(ENDPOINTS['domainName'], this.domainFormGroup.value).subscribe((response) => {
+    this.api.post(ENDPOINTS['setDomainName'], this.domainFormGroup.value).subscribe((response) => {
       console.log(response);
     });
   }
