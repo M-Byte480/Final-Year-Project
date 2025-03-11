@@ -61,5 +61,21 @@ export const ENDPOINTS: Endpoints = {
   subdomain: {
     endpoint: "/api/site/get-site",
     requestType: REQUEST_TYPES.GET
+  },
+  deployHistory: {
+    endpoint: "/api/sites/history",
+    requestType: REQUEST_TYPES.GET
+  },
+  deploySite: {
+    endpoint: "/api/sites/deploy",
+    requestType: REQUEST_TYPES.POST
+  },
+  abortDeployment: {
+    endpoint: "/api/sites/abort",
+    requestType: REQUEST_TYPES.POST
+  },
+  setSubdomain: {
+    endpoint: "/api/site/subdomain",
+    requestType: REQUEST_TYPES.POST
   }
 };

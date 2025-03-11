@@ -1,11 +1,50 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {HttpApiService} from "../../../../../services/http/http-api.service";
+import {ENDPOINTS} from "../../../../../services/http/endpoints";
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-domain-manager',
   standalone: true,
-  imports: [],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './domain-manager.component.html'
 })
-export class DomainManagerComponent {
+export class DomainManagerComponent implements OnInit {
+  protected domainName = 'domainName';
+  protected siteId = '';
+  private currentRoute = window.location.href;
 
+  domainFormGroup = new FormGroup({
+    domainName: new FormControl("",
+      [
+        Validators.required,
+        Validators.min(3),
+        Validators.max(50),
+        Validators.pattern("^[a-zA-Z0-9]*$"),
+      ]),
+  });
+
+  constructor(private api: HttpApiService) {
+    this.siteId = this.currentRoute.substring(this.currentRoute.lastIndexOf('/') + 1);
+
+  }
+
+  ngOnInit() {
+    const httpParams = new HttpParams().set('siteId', this.siteId);
+    this.api.get(ENDPOINTS['domainName'], httpParams).subscribe((response) => {
+      this.domainName = response['domainName'];
+    });
+  }
+
+  updateSiteName() {
+    console.log("Test");
+    console.log(this.domainFormGroup.value);
+    this.api.post(ENDPOINTS['domainName'], this.domainFormGroup.value).subscribe((response) => {
+      console.log(response);
+    });
+  }
 }
