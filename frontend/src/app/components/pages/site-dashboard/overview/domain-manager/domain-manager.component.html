@@ -3,6 +3,11 @@
   <ng-container [formGroup]="this.domainFormGroup">
     <input type="text" class="w-1/2 p-2 m-2"  formControlName="domainName" placeholder="DomainName">
 
-    <button type="button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2" (click)="updateSiteName()">Update Site Name</button>
+    <button type="button"
+            mat-raised-button color="primary"
+            [disabled]="domainFormGroup.invalid"
+            (click)="updateSiteName()">Update Site Name</button>
   </ng-container>
+  <p class="text-lg">Current Domain: {{this.domainName}}</p>
+
 </div>

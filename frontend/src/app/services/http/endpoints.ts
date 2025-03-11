@@ -74,8 +74,13 @@ export const ENDPOINTS: Endpoints = {
     endpoint: "/api/sites/abort",
     requestType: REQUEST_TYPES.POST
   },
-  setSubdomain: {
+  getDomainName: {
+    endpoint: "/api/site/subdomain",
+    requestType: REQUEST_TYPES.GET
+  },
+  setDomainName: {
     endpoint: "/api/site/subdomain",
     requestType: REQUEST_TYPES.POST
-  }
+  },
+
 };

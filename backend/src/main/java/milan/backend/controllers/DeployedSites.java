@@ -18,6 +18,7 @@ import java.util.UUID;
 @RequestMapping("/api/sites")
 public class DeployedSites {
     private final SiteComposerService siteComposerService;
+    private final SubdomainService subdomainService;
 
     @GetMapping("/get-site")
     public ResponseEntity<Object> getSite(@RequestParam("subdomain") String subdomain){
@@ -49,5 +50,12 @@ public class DeployedSites {
         this.siteComposerService.setSubdomain(siteUUID, subdomain);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/subdomain")
+    public ResponseEntity<Object> getSubdomain(@RequestParam("siteId") String siteId){
+        UUID siteUUID = UUID.fromString(siteId);
+        String subdomain = this.siteComposerService.getSubdomain(siteUUID);
+        return ResponseEntity.ok(subdomain);
     }
 }
