@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AllArgsConstructor;
 import milan.backend.entity.FooterEntity;
 import milan.backend.entity.NavbarMapperEntity;
-import milan.backend.entity.SubdomainEntity;
 import milan.backend.entity.site.PageEntity;
 import milan.backend.exception.AlreadyExistsException;
 import milan.backend.repository.FooterRepository;
@@ -136,20 +135,7 @@ public class SiteComposerService {
         return this.navbarMappingRepository.save(navbarMapperEntity);
     }
 
-    public SubdomainEntity setSubdomain(UUID siteId, String subdomain) {
-        SubdomainEntity subdomainEntity = this.subdomainRepository.findBySiteId(siteId).orElseGet(
-                () -> {
-                    SubdomainEntity newSubdomainEntity = new SubdomainEntity();
-                    newSubdomainEntity.setSiteId(siteId);
-                    newSubdomainEntity.setSubdomain(subdomain);
-                    newSubdomainEntity.setDeployed(false);
-                    return this.subdomainRepository.save(newSubdomainEntity);
-                }
-        );
 
-        subdomainEntity.setSubdomain(subdomain);
-        return this.subdomainRepository.save(subdomainEntity);
-    }
 
 //    public NavBarEntity getNavBar(String siteId) {
 //        return null;

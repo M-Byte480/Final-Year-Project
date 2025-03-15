@@ -1,8 +1,10 @@
 package milan.backend.controllers;
 
 import lombok.AllArgsConstructor;
+import milan.backend.model.dto.DomainNameDTO;
 import milan.backend.model.dto.SubdomainDTO;
 import milan.backend.service.SiteComposerService;
+import milan.backend.service.SubdomainService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,11 +45,11 @@ public class DeployedSites {
     @PostMapping("/subdomain")
     public ResponseEntity<Object> setSubdomain(@RequestBody SubdomainDTO subdomainDTO){
         UUID siteUUID = UUID.fromString(subdomainDTO.getSiteId());
-        String subdomain = subdomainDTO.getSubdomain();
+        String subdomain = subdomainDTO.getDomainName();
         if(subdomain == null || subdomain.isEmpty()){
             return null;
         }
-        this.siteComposerService.setSubdomain(siteUUID, subdomain);
+        this.subdomainService.setSubdomain(siteUUID, subdomain);
 
         return ResponseEntity.ok().build();
     }
@@ -55,7 +57,9 @@ public class DeployedSites {
     @GetMapping("/subdomain")
     public ResponseEntity<Object> getSubdomain(@RequestParam("siteId") String siteId){
         UUID siteUUID = UUID.fromString(siteId);
-        String subdomain = this.siteComposerService.getSubdomain(siteUUID);
-        return ResponseEntity.ok(subdomain);
+        String subdomain = this.subdomainService.getSubdomain(siteUUID);
+        DomainNameDTO domainNameDTO = new DomainNameDTO();
+        domainNameDTO.setDomainName(subdomain);
+        return ResponseEntity.ok(domainNameDTO);
     }
 }

@@ -16,8 +16,8 @@ import {MatButton} from "@angular/material/button";
   templateUrl: './domain-manager.component.html'
 })
 export class DomainManagerComponent implements OnInit {
-  protected domainName = '';
-  protected siteId = '';
+  domainName = '';
+  siteId = '';
   private currentRoute = window.location.href;
 
   domainFormGroup = new FormGroup({
@@ -28,25 +28,29 @@ export class DomainManagerComponent implements OnInit {
         Validators.maxLength(50),
         Validators.pattern("^[a-zA-Z0-9]*$"),
       ]),
+    siteId: new FormControl(this.siteId)
   });
 
   constructor(private api: HttpApiService) {
     this.siteId = this.currentRoute.substring(this.currentRoute.lastIndexOf('/') + 1);
-
+    // @ts-ignore
+    this.domainFormGroup.get('siteId').setValue(this.siteId);
   }
 
   ngOnInit() {
     const httpParams = new HttpParams().set('siteId', this.siteId);
     this.api.get(ENDPOINTS['getDomainName'], httpParams).subscribe((response) => {
-      this.domainName = response['domainName'];
+      // @ts-ignore
+      this.domainFormGroup.get('domainName').setValue(response['domainName']);
+      this.domainName = response['domainName'] === "" ? "No domain name set" : response['domainName'];
     });
   }
 
   updateSiteName() {
-    console.log("Test");
-    console.log(this.domainFormGroup.value);
     this.api.post(ENDPOINTS['setDomainName'], this.domainFormGroup.value).subscribe((response) => {
-      console.log(response);
+      // @ts-ignore
+      this.domainName = this.domainFormGroup.get("domainName")?.value === "" ? "No domain name set" :
+        this.domainFormGroup.get("domainName")?.value;
     });
   }
 }

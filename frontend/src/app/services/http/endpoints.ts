@@ -75,11 +75,11 @@ export const ENDPOINTS: Endpoints = {
     requestType: REQUEST_TYPES.POST
   },
   getDomainName: {
-    endpoint: "/api/site/subdomain",
+    endpoint: "/api/sites/subdomain",
     requestType: REQUEST_TYPES.GET
   },
   setDomainName: {
-    endpoint: "/api/site/subdomain",
+    endpoint: "/api/sites/subdomain",
     requestType: REQUEST_TYPES.POST
   },
 

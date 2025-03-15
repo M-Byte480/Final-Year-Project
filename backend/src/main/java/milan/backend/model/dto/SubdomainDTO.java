@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubdomainDTO {
-    private String subdomain;
+    private String domainName;
     private String siteId;
 }
