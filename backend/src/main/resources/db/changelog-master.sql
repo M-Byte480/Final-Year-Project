@@ -181,3 +181,13 @@ CREATE TABLE IF NOT EXISTS milanify.is_deployed(
 
 ALTER TABLE milanify.published_site_records DROP COLUMN main_body;
 
+-- changeset Milan:8
+CREATE TABLE IF NOT EXISTS milanify.composer_page_saved_state(
+    site_id uuid,
+    page_id uuid,
+    saved_state json,
+    updated_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    PRIMARY KEY (site_id, page_id),
+    FOREIGN KEY (page_id) REFERENCES milanify.pages(id),
+    FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
+);

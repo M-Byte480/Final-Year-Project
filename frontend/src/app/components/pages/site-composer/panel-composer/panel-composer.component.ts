@@ -39,6 +39,7 @@ export class PanelComposerComponent implements OnInit {
   }
 
   ngOnInit(){
+    console.log("testing");
     const httpParams = new HttpParams().set('siteId', this.siteId).set('pageId', this.pageId);
     this.httpService.get(ENDPOINTS['getCurrentComposer'],httpParams).subscribe((res) => {
       this.stateService.setState(res['composerState']);

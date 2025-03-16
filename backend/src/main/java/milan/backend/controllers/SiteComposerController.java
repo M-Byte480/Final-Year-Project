@@ -45,6 +45,16 @@ public class SiteComposerController {
 
     }
 
+    @GetMapping("/get")
+    public ResponseEntity<Object> getState(@RequestParam("siteId") String siteId,
+                                           @RequestParam("pageIde") String pageId){
+        UUID siteUUID = UUID.fromString(siteId);
+        UUID pageUUID = UUID.fromString(pageId);
+
+        JsonNode state = composerService.getState(siteUUID, pageUUID);
+        return ResponseEntity.ok(state);
+    }
+
     @GetMapping("/footer")
     public ResponseEntity<Object> getFooter(@RequestParam("siteId") String siteId) {
 

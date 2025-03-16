@@ -14,9 +14,8 @@ import {SESSION_STORAGE} from "../../../shared/constants";
 export class DesignerStateServiceService {
   private stateSubject = new BehaviorSubject<RootComponent | null>({
     // @ts-ignore
-    1: {id: 1, name: 'vertical-builder', properties: {noElements: 1, childGridArr: [2, 3]}},
+    1: {id: 1, name: 'vertical-builder', properties: {noElements: 1, childGridArr: [2]}},
     2: {id: 2, name: 'horizontal-builder', properties: {}},
-    3: {id: 3, name: 'horizontal-builder', properties: {childGridArr: [4]}},
     4: {id: 4, name: 'spacer', properties: {width: '32', height: '32'}},
     root: 1,
     maxId: 4

@@ -9,16 +9,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AllArgsConstructor;
+import milan.backend.entity.ComposerPageEntity;
 import milan.backend.entity.FooterEntity;
 import milan.backend.entity.NavbarMapperEntity;
+import milan.backend.entity.id.classes.SiteIdPageIdCompositeKey;
 import milan.backend.entity.site.PageEntity;
 import milan.backend.exception.AlreadyExistsException;
 import milan.backend.model.dto.DeployDTO;
+import milan.backend.repository.ComposerSavedStateRepository;
 import milan.backend.repository.FooterRepository;
 import milan.backend.repository.NavbarMappingRepository;
 import milan.backend.repository.PageRepository;
 import milan.backend.repository.SiteRepository;
-import milan.backend.repository.SubdomainRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -31,9 +33,22 @@ import java.util.UUID;
 public class SiteComposerService {
     private PageRepository pageRepository;
     private SiteRepository siteRepository;
+    private ComposerSavedStateRepository composerPageRepository;
     private FooterRepository footerRepository;
     private NavbarMappingRepository navbarMappingRepository;
-    private SubdomainRepository subdomainRepository;
+
+
+    public JsonNode getState(UUID siteId, UUID pageId) {
+        SiteIdPageIdCompositeKey key = new SiteIdPageIdCompositeKey();
+        key.setSiteId(siteId);
+        key.setPageId(pageId);
+        return this.composerPageRepository.findBySiteIdPageIdCompositeKey(key).orElseGet(
+                () -> {
+                    JsonNode emptyNode = new ObjectMapper().createObjectNode();
+                    return this.composerPageRepository.save(new ComposerPageEntity(key, emptyNode, Instant.now()));
+                }
+        ).getSavedState();
+    }
 
     public void populateContent(DeployDTO deployDTO){
         String siteId = deployDTO.getSiteId();

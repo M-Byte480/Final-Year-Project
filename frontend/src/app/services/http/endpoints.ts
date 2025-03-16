@@ -90,4 +90,8 @@ export const ENDPOINTS: Endpoints = {
     endpoint: "/api/composer/save",
     requestType: REQUEST_TYPES.POST
   },
+  getCurrentComposer: {
+    endpoint: "/api/composer/get",
+    requestType: REQUEST_TYPES.GET
+  },
 };
