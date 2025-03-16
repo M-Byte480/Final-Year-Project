@@ -159,3 +159,25 @@ CREATE TABLE IF NOT EXISTS milanify.subdomain_records(
     PRIMARY KEY (site_id),
     FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
 );
+
+-- changeset Milan:7
+CREATE TABLE IF NOT EXISTS milanify.published_pages(
+    page_id uuid,
+    site_id uuid,
+    page_name VARCHAR(255),
+    published_timestamp timestamp,
+    published_state json,
+    PRIMARY KEY (page_id, site_id),
+    FOREIGN KEY (site_id) REFERENCES milanify.sites(id),
+    FOREIGN KEY (page_id) REFERENCES milanify.pages(id)
+);
+
+CREATE TABLE IF NOT EXISTS milanify.is_deployed(
+    site_id uuid,
+    is_deployed BOOLEAN DEFAULT FALSE,
+    PRIMARY KEY (site_id),
+    FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
+);
+
+ALTER TABLE milanify.published_site_records DROP COLUMN main_body;
+

@@ -13,6 +13,7 @@ import milan.backend.entity.FooterEntity;
 import milan.backend.entity.NavbarMapperEntity;
 import milan.backend.entity.site.PageEntity;
 import milan.backend.exception.AlreadyExistsException;
+import milan.backend.model.dto.DeployDTO;
 import milan.backend.repository.FooterRepository;
 import milan.backend.repository.NavbarMappingRepository;
 import milan.backend.repository.PageRepository;
@@ -21,6 +22,7 @@ import milan.backend.repository.SubdomainRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -32,6 +34,20 @@ public class SiteComposerService {
     private FooterRepository footerRepository;
     private NavbarMappingRepository navbarMappingRepository;
     private SubdomainRepository subdomainRepository;
+
+    public void populateContent(DeployDTO deployDTO){
+        String siteId = deployDTO.getSiteId();
+        UUID siteUUID = UUID.fromString(siteId);
+
+        FooterEntity footerEntity = this.getFooter(siteUUID);
+        NavbarMapperEntity navbarMapperEntity = this.getNavBarMapping(siteUUID);
+        List<UUID> pageIds = this.pageRepository.getAllPageIds(siteUUID);
+
+        deployDTO.setFooter(footerEntity.getFooterState());
+        deployDTO.setNavbar(navbarMapperEntity.getNavbarMappingState());
+        deployDTO.setPageIds(pageIds);
+
+    }
 
     public PageEntity addSite(String nameOfComposer, String siteId) throws AlreadyExistsException {
         if (doesPageNameExists(nameOfComposer)){
@@ -135,6 +151,13 @@ public class SiteComposerService {
         return this.navbarMappingRepository.save(navbarMapperEntity);
     }
 
+    public FooterEntity getFooter(UUID siteId){
+        return this.getFooter(siteId.toString());
+    }
+
+    public NavbarMapperEntity getNavBarMapping(UUID siteId){
+        return this.getNavBarMapping(siteId.toString());
+    }
 
 
 //    public NavBarEntity getNavBar(String siteId) {

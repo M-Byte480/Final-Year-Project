@@ -70,6 +70,10 @@ export const ENDPOINTS: Endpoints = {
     endpoint: "/api/sites/deploy",
     requestType: REQUEST_TYPES.POST
   },
+  getDeployedSite: {
+    endpoint: "/api/sites/get-site",
+    requestType: REQUEST_TYPES.GET
+  },
   abortDeployment: {
     endpoint: "/api/sites/abort",
     requestType: REQUEST_TYPES.POST

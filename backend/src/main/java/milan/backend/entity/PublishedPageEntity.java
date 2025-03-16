@@ -8,25 +8,24 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import milan.backend.entity.id.classes.PublishedSiteIdTimestamp;
+import milan.backend.entity.id.classes.SiteIdPageIdCompositeKey;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-@Data
+import java.time.Instant;
+
 @Entity
-@Table(name = "published_site_records")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PublishedSiteEntity {
+@Table(name = "published_pages")
+public class PublishedPageEntity {
 
     @EmbeddedId
-    private PublishedSiteIdTimestamp id;
-
+    private SiteIdPageIdCompositeKey id;
+    private String page_name;
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
-    private JsonNode navBar;
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    private JsonNode footer;
+    private JsonNode publishedState;
+    private Instant publishedTimestamp;
 }

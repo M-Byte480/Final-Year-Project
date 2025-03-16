@@ -1,6 +1,9 @@
 package milan.backend.controllers;
 
 import lombok.AllArgsConstructor;
+import milan.backend.model.dto.DeployDTO;
+import milan.backend.model.dto.DeployedSiteDTO;
+import milan.backend.model.dto.DeploymentHistoryDTO;
 import milan.backend.model.dto.DomainNameDTO;
 import milan.backend.model.dto.SubdomainDTO;
 import milan.backend.service.SiteComposerService;
@@ -23,17 +26,18 @@ public class DeployedSites {
     private final SubdomainService subdomainService;
 
     @GetMapping("/get-site")
-    public ResponseEntity<Object> getSite(@RequestParam("subdomain") String subdomain){
+    public ResponseEntity<DeployedSiteDTO> getSite(@RequestParam("subdomain") String subdomain){
         return null;
     }
 
     @GetMapping("/history")
-    public ResponseEntity<Object> getHistory(){
+    public ResponseEntity<DeploymentHistoryDTO> getHistory(){
         return null;
     }
 
     @PostMapping("/deploy")
-    public ResponseEntity<Object> deploySite(){
+    public ResponseEntity<DeployDTO> deploySite(@RequestBody DeployDTO deployDTO){
+        this.subdomainService.tryDeploy(deployDTO);
         return null;
     }
 
