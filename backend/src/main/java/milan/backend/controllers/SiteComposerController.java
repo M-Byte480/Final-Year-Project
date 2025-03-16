@@ -12,6 +12,7 @@ import milan.backend.entity.NavbarMapperEntity;
 import milan.backend.entity.site.PageEntity;
 import milan.backend.exception.AlreadyExistsException;
 import milan.backend.model.dto.ComposerDashboardDTO;
+import milan.backend.model.dto.ComposerSavePageDTO;
 import milan.backend.model.dto.FooterStateDTO;
 import milan.backend.model.dto.NavbarMapperDTO;
 import milan.backend.service.JwtService;
@@ -39,15 +40,16 @@ public class SiteComposerController {
 
 
     @PostMapping("/save")
-    public void saveState(@RequestBody ComposerDashboardDTO payload,
-                          @RequestHeader("Authorization") String jwtToken) {
-
-
+    public void saveState(@RequestBody ComposerSavePageDTO payload) {
+        UUID siteUUID = UUID.fromString(payload.getSiteId());
+        UUID pageUUID = UUID.fromString(payload.getPageId());
+        JsonNode state = payload.getState();
+        composerService.saveState(siteUUID, pageUUID, state);
     }
 
     @GetMapping("/get")
     public ResponseEntity<Object> getState(@RequestParam("siteId") String siteId,
-                                           @RequestParam("pageIde") String pageId){
+                                           @RequestParam("pageId") String pageId){
         UUID siteUUID = UUID.fromString(siteId);
         UUID pageUUID = UUID.fromString(pageId);
 

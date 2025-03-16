@@ -12,13 +12,20 @@ import {SESSION_STORAGE} from "../../../shared/constants";
   providedIn: 'root'
 })
 export class DesignerStateServiceService {
+  public static readonly DEFAULT_STATE = {
+    // @ts-ignore
+    1: {id: 1, name: 'vertical-builder', properties: {noElements: 1, childGridArr: [2]}},
+    2: {id: 2, name: 'horizontal-builder', properties: {}},
+    root: 1,
+    maxId: 3
+  };
+
   private stateSubject = new BehaviorSubject<RootComponent | null>({
     // @ts-ignore
     1: {id: 1, name: 'vertical-builder', properties: {noElements: 1, childGridArr: [2]}},
     2: {id: 2, name: 'horizontal-builder', properties: {}},
-    4: {id: 4, name: 'spacer', properties: {width: '32', height: '32'}},
     root: 1,
-    maxId: 4
+    maxId: 3
   });
   state$ = this.stateSubject.asObservable();
 

@@ -39,10 +39,10 @@ export class PanelComposerComponent implements OnInit {
   }
 
   ngOnInit(){
-    console.log("testing");
     const httpParams = new HttpParams().set('siteId', this.siteId).set('pageId', this.pageId);
     this.httpService.get(ENDPOINTS['getCurrentComposer'],httpParams).subscribe((res) => {
-      this.stateService.setState(res['composerState']);
+      console.log("Composer State: ", res);
+      this.stateService.setState(res ?? DesignerStateServiceService.DEFAULT_STATE);
     });
   }
 
@@ -55,9 +55,7 @@ export class PanelComposerComponent implements OnInit {
     const payload = {
       siteId: this.siteId,
       pageId: this.pageId,
-      state: this.stateService.getState(),
-      footer: this.footerService.getState(),
-      navbar: this.navbarService.getState()
+      state: this.stateService.getState()
     }
 
     this.httpService.post(ENDPOINTS['composerSave'], payload).subscribe((res) => {

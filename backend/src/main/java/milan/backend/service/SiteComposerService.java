@@ -174,6 +174,14 @@ public class SiteComposerService {
         return this.getNavBarMapping(siteId.toString());
     }
 
+    public void saveState(UUID siteUUID, UUID pageUUID, JsonNode state) {
+        SiteIdPageIdCompositeKey key = new SiteIdPageIdCompositeKey();
+        key.setSiteId(siteUUID);
+        key.setPageId(pageUUID);
+        ComposerPageEntity composerPageEntity = new ComposerPageEntity(key, state, Instant.now());
+        this.composerPageRepository.save(composerPageEntity);
+    }
+
 
 //    public NavBarEntity getNavBar(String siteId) {
 //        return null;
