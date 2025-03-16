@@ -139,3 +139,55 @@ CREATE TABLE IF NOT EXISTS milanify.navbar_mapping_states(
     PRIMARY KEY (site_id),
     FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
 );
+
+-- changeset Milan:5
+CREATE TABLE IF NOT EXISTS milanify.published_site_records(
+    site_id uuid,
+    publish_timestamp timestamp,
+    nav_bar json,
+    main_body json,
+    footer json,
+    PRIMARY KEY (site_id, publish_timestamp),
+    FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
+);
+
+-- changeset Milan:6
+CREATE TABLE IF NOT EXISTS milanify.subdomain_records(
+    site_id uuid,
+    subdomain VARCHAR(255),
+    is_deployed BOOLEAN DEFAULT FALSE,
+    PRIMARY KEY (site_id),
+    FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
+);
+
+-- changeset Milan:7
+CREATE TABLE IF NOT EXISTS milanify.published_pages(
+    page_id uuid,
+    site_id uuid,
+    page_name VARCHAR(255),
+    published_timestamp timestamp,
+    published_state json,
+    PRIMARY KEY (page_id, site_id),
+    FOREIGN KEY (site_id) REFERENCES milanify.sites(id),
+    FOREIGN KEY (page_id) REFERENCES milanify.pages(id)
+);
+
+CREATE TABLE IF NOT EXISTS milanify.is_deployed(
+    site_id uuid,
+    is_deployed BOOLEAN DEFAULT FALSE,
+    PRIMARY KEY (site_id),
+    FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
+);
+
+ALTER TABLE milanify.published_site_records DROP COLUMN main_body;
+
+-- changeset Milan:8
+CREATE TABLE IF NOT EXISTS milanify.composer_page_saved_state(
+    site_id uuid,
+    page_id uuid,
+    saved_state json,
+    updated_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    PRIMARY KEY (site_id, page_id),
+    FOREIGN KEY (page_id) REFERENCES milanify.pages(id),
+    FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
+);

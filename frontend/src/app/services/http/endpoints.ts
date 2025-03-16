@@ -57,5 +57,41 @@ export const ENDPOINTS: Endpoints = {
   refreshToken: {
     endpoint: "/auth/refresh",
     requestType: REQUEST_TYPES.POST
-  }
+  },
+  subdomain: {
+    endpoint: "/api/site/get-site",
+    requestType: REQUEST_TYPES.GET
+  },
+  deployHistory: {
+    endpoint: "/api/sites/history",
+    requestType: REQUEST_TYPES.GET
+  },
+  deploySite: {
+    endpoint: "/api/sites/deploy",
+    requestType: REQUEST_TYPES.POST
+  },
+  getDeployedSite: {
+    endpoint: "/api/sites/get-site",
+    requestType: REQUEST_TYPES.GET
+  },
+  abortDeployment: {
+    endpoint: "/api/sites/abort",
+    requestType: REQUEST_TYPES.POST
+  },
+  getDomainName: {
+    endpoint: "/api/sites/subdomain",
+    requestType: REQUEST_TYPES.GET
+  },
+  setDomainName: {
+    endpoint: "/api/sites/subdomain",
+    requestType: REQUEST_TYPES.POST
+  },
+  composerSave: {
+    endpoint: "/api/composer/save",
+    requestType: REQUEST_TYPES.POST
+  },
+  getCurrentComposer: {
+    endpoint: "/api/composer/get",
+    requestType: REQUEST_TYPES.GET
+  },
 };

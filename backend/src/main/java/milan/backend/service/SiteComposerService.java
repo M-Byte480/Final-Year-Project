@@ -9,10 +9,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AllArgsConstructor;
+import milan.backend.entity.ComposerPageEntity;
 import milan.backend.entity.FooterEntity;
 import milan.backend.entity.NavbarMapperEntity;
+import milan.backend.entity.id.classes.SiteIdPageIdCompositeKey;
 import milan.backend.entity.site.PageEntity;
 import milan.backend.exception.AlreadyExistsException;
+import milan.backend.model.dto.DeployDTO;
+import milan.backend.repository.ComposerSavedStateRepository;
 import milan.backend.repository.FooterRepository;
 import milan.backend.repository.NavbarMappingRepository;
 import milan.backend.repository.PageRepository;
@@ -20,6 +24,7 @@ import milan.backend.repository.SiteRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -28,8 +33,36 @@ import java.util.UUID;
 public class SiteComposerService {
     private PageRepository pageRepository;
     private SiteRepository siteRepository;
+    private ComposerSavedStateRepository composerPageRepository;
     private FooterRepository footerRepository;
     private NavbarMappingRepository navbarMappingRepository;
+
+
+    public JsonNode getState(UUID siteId, UUID pageId) {
+        SiteIdPageIdCompositeKey key = new SiteIdPageIdCompositeKey();
+        key.setSiteId(siteId);
+        key.setPageId(pageId);
+        return this.composerPageRepository.findBySiteIdPageIdCompositeKey(key).orElseGet(
+                () -> {
+                    JsonNode emptyNode = new ObjectMapper().createObjectNode();
+                    return this.composerPageRepository.save(new ComposerPageEntity(key, emptyNode, Instant.now()));
+                }
+        ).getSavedState();
+    }
+
+    public void populateContent(DeployDTO deployDTO){
+        String siteId = deployDTO.getSiteId();
+        UUID siteUUID = UUID.fromString(siteId);
+
+        FooterEntity footerEntity = this.getFooter(siteUUID);
+        NavbarMapperEntity navbarMapperEntity = this.getNavBarMapping(siteUUID);
+        List<UUID> pageIds = this.pageRepository.getAllPageIds(siteUUID);
+
+        deployDTO.setFooter(footerEntity.getFooterState());
+        deployDTO.setNavbar(navbarMapperEntity.getNavbarMappingState());
+        deployDTO.setPageIds(pageIds);
+
+    }
 
     public PageEntity addSite(String nameOfComposer, String siteId) throws AlreadyExistsException {
         if (doesPageNameExists(nameOfComposer)){
@@ -132,6 +165,23 @@ public class SiteComposerService {
         navbarMapperEntity.setUpdatedTimestamp(Instant.now());
         return this.navbarMappingRepository.save(navbarMapperEntity);
     }
+
+    public FooterEntity getFooter(UUID siteId){
+        return this.getFooter(siteId.toString());
+    }
+
+    public NavbarMapperEntity getNavBarMapping(UUID siteId){
+        return this.getNavBarMapping(siteId.toString());
+    }
+
+    public void saveState(UUID siteUUID, UUID pageUUID, JsonNode state) {
+        SiteIdPageIdCompositeKey key = new SiteIdPageIdCompositeKey();
+        key.setSiteId(siteUUID);
+        key.setPageId(pageUUID);
+        ComposerPageEntity composerPageEntity = new ComposerPageEntity(key, state, Instant.now());
+        this.composerPageRepository.save(composerPageEntity);
+    }
+
 
 //    public NavBarEntity getNavBar(String siteId) {
 //        return null;

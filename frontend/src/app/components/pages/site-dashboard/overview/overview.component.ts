@@ -1,15 +1,24 @@
 import {Component} from '@angular/core';
 import {DomainManagerComponent} from "./domain-manager/domain-manager.component";
+import {FormsModule} from "@angular/forms";
+import {HttpApiService} from "../../../../services/http/http-api.service";
 
 @Component({
   selector: 'app-overview',
   standalone: true,
   imports: [
-    DomainManagerComponent
+    DomainManagerComponent,
+    FormsModule
   ],
   templateUrl: './overview.component.html'
 })
 export class OverviewComponent {
   protected siteName = 'Site Name';
-  protected siteId = '03179a26-de68-4d46-bfe7-17c5eb50387d';
+  protected siteId = '';
+  private currentRoute = window.location.href;
+
+  constructor() {
+    this.siteId = this.currentRoute.substring(this.currentRoute.lastIndexOf('/') + 1);
+
+  }
 }

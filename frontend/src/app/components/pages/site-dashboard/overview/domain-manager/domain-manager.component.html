@@ -1,1 +1,13 @@
-<p>domain-manager works!</p>
+<div>
+  <p>Only enter lowercase or numbers without spaces</p>
+  <ng-container [formGroup]="this.domainFormGroup">
+    <input type="text" class="w-1/2 p-2 m-2"  formControlName="domainName" placeholder="DomainName">
+
+    <button type="button"
+            mat-raised-button color="primary"
+            [disabled]="domainFormGroup.invalid"
+            (click)="updateSiteName()">Update Site Name</button>
+  </ng-container>
+  <p class="text-lg">Current Domain: </p>
+  <p class="text-xl bold">{{domainName}}</p>
+</div>
