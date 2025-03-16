@@ -86,5 +86,8 @@ export const ENDPOINTS: Endpoints = {
     endpoint: "/api/sites/subdomain",
     requestType: REQUEST_TYPES.POST
   },
-
+  composerSave: {
+    endpoint: "/api/composer/save",
+    requestType: REQUEST_TYPES.POST
+  },
 };
