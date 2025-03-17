@@ -25,10 +25,8 @@ export class AppComponent implements OnInit {
       // Handle nothing meaning they came to the root
     } else {
       // So a sub domain was entered so we need to route to the subdomain render page and pull the content from the backend
-      this.router.navigate([`/subdomain/${this.subdomain}.milan-kovacs.ie`]);
+      this.router.navigate([`/subdomain/${this.subdomain}.milan-kovacs.ie`]).then(r => {});
     }
   }
-
-
 }
 

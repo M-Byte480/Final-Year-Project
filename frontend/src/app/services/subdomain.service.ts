@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SubdomainService {
-
+  subdomain = '';
   constructor() { }
 
   getSubDomain(): string {
@@ -14,8 +14,13 @@ export class SubdomainService {
       if(parts[0] === "www"){
         return "";
       }
+      this.subdomain = parts[0];
       return parts[0];
     }
     return '';
+  }
+
+  getStoredSubdomain(){
+    return this.subdomain;
   }
 }

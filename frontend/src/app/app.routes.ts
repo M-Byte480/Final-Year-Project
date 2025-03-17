@@ -9,6 +9,7 @@ import {SiteComposerComponent} from "./components/pages/site-composer/site-compo
 import {ProfilePageComponent} from "./components/pages/profile-page/profile-page.component";
 import {PreviewPageComponent} from "./components/pages/preview/preview-page/preview-page.component";
 import {SitePreviewComponent} from "./components/pages/preview/site-preview/site-preview.component";
+import {SubdomainComponent} from "./components/pages/subdomain/subdomain.component";
 
 export const routes: Routes = [
   {
@@ -50,6 +51,10 @@ export const routes: Routes = [
   {
     path: 'overview/:siteId/preview',
     component: SitePreviewComponent
+  },
+  {
+    path: 'subdomain/:subdomain',
+    component: SubdomainComponent
   },
   {
     path: '',
