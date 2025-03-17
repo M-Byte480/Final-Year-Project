@@ -11,6 +11,9 @@ export class SubdomainService {
     const hostname = window.location.hostname;
     const parts = hostname.split('.');
     if (parts.length > 2) {
+      if(parts[0] === "www"){
+        return "";
+      }
       return parts[0];
     }
     return '';
