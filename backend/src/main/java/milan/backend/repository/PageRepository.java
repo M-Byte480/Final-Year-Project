@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Repository
 public interface PageRepository extends JpaRepository<PageEntity, UUID> {
-    boolean existsByPageName(String pageName);
+    boolean existsByPageNameAndSiteId(String pageName, UUID siteId);
     Set<PageEntity> findAllBySiteId(UUID siteId);
 
     @Query("SELECT id FROM pages WHERE siteId = ?1")

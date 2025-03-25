@@ -4,6 +4,7 @@ import {HttpApiService} from "../../../../../services/http/http-api.service";
 import {ENDPOINTS} from "../../../../../services/http/endpoints";
 import {HttpParams} from "@angular/common/http";
 import {MatButton} from "@angular/material/button";
+import {environment} from "../../../../../../environments/environment";
 
 @Component({
   selector: 'app-domain-manager',
@@ -16,6 +17,7 @@ import {MatButton} from "@angular/material/button";
   templateUrl: './domain-manager.component.html'
 })
 export class DomainManagerComponent implements OnInit {
+  prefix = environment.dev ? 'localhost:4200/' : 'https://milan-kovacs.ie/';
   domainName = '';
   siteId = '';
   private currentRoute = window.location.href;
@@ -42,7 +44,7 @@ export class DomainManagerComponent implements OnInit {
     this.api.get(ENDPOINTS['getDomainName'], httpParams).subscribe((response) => {
       // @ts-ignore
       this.domainFormGroup.get('domainName').setValue(response['domainName']);
-      this.domainName = response['domainName'] === "" ? "No domain name set" : response['domainName'];
+      this.domainName = response['domainName'] === "" ? "No domain name set" : this.prefix + response['domainName'];
     });
   }
 
@@ -50,7 +52,7 @@ export class DomainManagerComponent implements OnInit {
     this.api.post(ENDPOINTS['setDomainName'], this.domainFormGroup.value).subscribe((response) => {
       // @ts-ignore
       this.domainName = this.domainFormGroup.get("domainName")?.value === "" ? "No domain name set" :
-        this.domainFormGroup.get("domainName")?.value;
+        this.prefix + this.domainFormGroup.get("domainName")?.value;
     });
   }
 }

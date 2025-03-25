@@ -65,7 +65,7 @@ public class SiteComposerService {
     }
 
     public PageEntity addSite(String nameOfComposer, String siteId) throws AlreadyExistsException {
-        if (doesPageNameExists(nameOfComposer)){
+        if (doesPageNameExists(nameOfComposer, siteId)){
             throw new AlreadyExistsException("AlreadyExists.COMPOSER_NAME.toString()", "Composer with name " + nameOfComposer + " already exists");
         }
 
@@ -107,8 +107,8 @@ public class SiteComposerService {
         return pageRepository.findAllBySiteId(siteId);
     }
 
-    private boolean doesPageNameExists(String pageName){
-        return pageRepository.existsByPageName(pageName);
+    private boolean doesPageNameExists(String pageName, String siteId){
+        return pageRepository.existsByPageNameAndSiteId(pageName, UUID.fromString(siteId));
     }
 
     // Todo: handle first time call, and also handle the case when the navbar mapping is not present
@@ -180,6 +180,14 @@ public class SiteComposerService {
         key.setPageId(pageUUID);
         ComposerPageEntity composerPageEntity = new ComposerPageEntity(key, state, Instant.now());
         this.composerPageRepository.save(composerPageEntity);
+    }
+
+    public List<UUID> getPagesForSite(UUID siteId) {
+        return this.pageRepository.getAllPageIds(siteId);
+    }
+
+    public ComposerPageEntity getComposerStateForPage(UUID siteId, UUID pageId) {
+        return this.composerPageRepository.findBySiteIdPageIdCompositeKey(new SiteIdPageIdCompositeKey(siteId, pageId)).get();
     }
 
 

@@ -53,7 +53,11 @@ export const routes: Routes = [
     component: SitePreviewComponent
   },
   {
-    path: ':subdomain',
+    path: ':sub-route',
+    component: SubdomainComponent
+  },
+  {
+    path: ':sub-route/:sub-page-name',
     component: SubdomainComponent
   },
   {

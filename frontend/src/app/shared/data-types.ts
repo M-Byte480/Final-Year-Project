@@ -74,3 +74,11 @@ export interface FooterMapper {
   hyperlink: string,
   socialMedia: string
 }
+
+export interface DeployedSiteState {
+  deployed: boolean,
+  default: string,
+  pages: PageDTO[],
+  footer: FooterStateStruct,
+  navbar: NavBarStateStruct
+}

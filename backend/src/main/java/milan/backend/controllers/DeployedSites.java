@@ -66,4 +66,10 @@ public class DeployedSites {
         domainNameDTO.setDomainName(subdomain);
         return ResponseEntity.ok(domainNameDTO);
     }
+
+    @GetMapping("/site")
+    public ResponseEntity<Object> getDeployedSite(@RequestParam("subRoute") String subRoute,
+                                               @RequestParam("subPageName") String pageName){
+        return ResponseEntity.ok(this.subdomainService.getSiteFromRouteAndName(subRoute, pageName));
+    }
 }

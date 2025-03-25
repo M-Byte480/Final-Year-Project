@@ -1,6 +1,7 @@
 package milan.backend.service;
 
 import lombok.AllArgsConstructor;
+import milan.backend.entity.PublishedPageEntity;
 import milan.backend.entity.SubdomainEntity;
 import milan.backend.model.dto.DeployDTO;
 import milan.backend.repository.SubdomainRepository;
@@ -23,6 +24,10 @@ public class SubdomainService {
         // todo: set state to true
 
         return null;
+    }
+
+    public PublishedPageEntity getSiteFromRouteAndName(String route, String name) {
+        return this.getSiteWithRouteAndName(route, name);
     }
 
     public SubdomainEntity setSubdomain(UUID siteId, String subdomain) {
@@ -51,5 +56,10 @@ public class SubdomainService {
                 }
         );
         return subdomainEntity.getSubdomain();
+    }
+
+    private PublishedPageEntity getSiteWithRouteAndName(String route, String name) {
+        UUID siteId = this.subdomainRepository.findBySubdomain(route).orElseThrow().getSiteId();
+        return this.publisherService.getSiteEntityFromSiteIdAndName(siteId, name);
     }
 }

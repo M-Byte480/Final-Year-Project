@@ -38,6 +38,14 @@ export class HttpApiService {
     return this.http.post(this.url + endPoint.endpoint, payload, { headers: HEADERS });
   }
 
+  public uploadImage(endPoint: EndpointConfig, formData: FormData): Observable<any> {
+    let HEADERS;
+    HEADERS = new HttpHeaders({
+      'Authorization': `Bearer ${this.jwtService.getToken()}`
+    });
+    return this.http.post(this.url + endPoint.endpoint, formData, { headers: HEADERS });
+  }
+
   // TODO: ADD HANDLING OF EXPIRED JWT
   public call(endpoint: EndpointConfig, payload?: any, params?: HttpParams): Observable<any> {
     let HEADERS = new HttpHeaders();

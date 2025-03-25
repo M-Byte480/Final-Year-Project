@@ -4,8 +4,12 @@
     <app-navbar-renderer [parentComponent]="COMPONENT_NAME.NAV_MGR" />
   </div>
 
-  <div>
-    <button mat-stroked-button (click)="onUploadImage()">Upload Logo</button>
+  <div class="flex flex-col content-center">
+    <div>
+      <input class="form-control" type="file"
+             (change)="onChange($event)" [className]="'w-64 p-4'">
+      <button mat-stroked-button (click)="onUploadImage()">Upload Logo</button>
+    </div>
     <mat-form-field>
       <mat-label>Site Brand Name</mat-label>
       <input matInput placeholder="Enter Name" [(ngModel)]="navState.brandName">
@@ -27,6 +31,6 @@
                 [col1key]="'displayName'"
                 [col2]="'page component'"
                 [col2key]="'pageName'"
-                [options]="navElements" />
+                [options]="availableSitesFromUser" />
   </div>
 </div>

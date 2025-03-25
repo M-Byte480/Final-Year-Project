@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface SubdomainRepository extends JpaRepository<SubdomainEntity, UUID> {
     Optional<SubdomainEntity> findBySiteId(UUID siteId);
+    Optional<SubdomainEntity> findBySubdomain(String subdomain);
 }

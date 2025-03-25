@@ -94,4 +94,12 @@ export const ENDPOINTS: Endpoints = {
     endpoint: "/api/composer/get",
     requestType: REQUEST_TYPES.GET
   },
+  getSubdomainContent: {
+    endpoint: "/api/sites/subdomain",
+    requestType: REQUEST_TYPES.GET
+  },
+  upload: {
+    endpoint: "/api/composer/upload",
+    requestType: REQUEST_TYPES.POST
+  }
 };
