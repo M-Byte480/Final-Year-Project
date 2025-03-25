@@ -1,7 +1,7 @@
 /*
 Made with the help of Copilot
  */
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, setTestabilityGetter} from '@angular/core';
 import {NavbarStateService} from "../../../services/states/navbar-state/navbar-state.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {NavBarStateStruct} from "../../../shared/data-types";
@@ -21,6 +21,7 @@ export class NavbarRendererComponent implements OnInit {
   currentState: NavBarStateStruct = {} as NavBarStateStruct;
   navbarHidden = true;
   @Input() parentComponent!: string;
+  currentRoute: string = window.location.href;
 
   constructor(private navbarService: NavbarStateService) {
     this.navbarService.state$.subscribe((state) => {
@@ -37,7 +38,14 @@ export class NavbarRendererComponent implements OnInit {
   }
 
   routeTo(route: string) {
-    window.open(route, '_self');
+    // https://url.com/root/sub-page
+    // https://url.com/root
+    // localhost:4200/root/sub-page
+    // localhost:4200/root
+    const url = new URL(this.currentRoute);
+    const segments = url.pathname.split('/').filter(Boolean);// Boolean checks truthy value, thus we can remove the empty leading string from segment
+    const finalPath = `/${segments[0]}/${route}`;
+    window.open(finalPath, '_self');
   }
 
   hide() {
