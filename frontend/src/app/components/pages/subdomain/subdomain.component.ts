@@ -6,13 +6,15 @@ import {HttpParams} from "@angular/common/http";
 import {ENDPOINTS} from "../../../services/http/endpoints";
 import {NgIf} from "@angular/common";
 import {SitePreviewComponent} from "../preview/site-preview/site-preview.component";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-subdomain',
   standalone: true,
   imports: [
     NgIf,
-    SitePreviewComponent
+    SitePreviewComponent,
+    MatProgressSpinner
   ],
   templateUrl: './subdomain.component.html'
 })
@@ -20,6 +22,7 @@ export class SubdomainComponent implements OnInit{
   subRoute: string = '';
   subPageName: string = '';
   pageExists: boolean = false;
+  isLoading = true;
   page: any = {};
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -55,10 +58,17 @@ export class SubdomainComponent implements OnInit{
       }
     }
      */
-    this.httpSerivce.get(ENDPOINTS['getDeployedSite'], httpParams).subscribe(
-      (response: any) => {
-        this.pageExists = true;
-        this.page = response;
-      });
+    this.httpSerivce.getNoAuth(ENDPOINTS['getDeployedSite'], httpParams).subscribe({
+    next: (response: any) =>
+    {
+      this.pageExists = true;
+      this.page = response;
+      this.isLoading = false;
+    },
+      error: (error: any) => {
+      this.pageExists = false;
+      this.isLoading = false;
+      }
+  });
   }
 }

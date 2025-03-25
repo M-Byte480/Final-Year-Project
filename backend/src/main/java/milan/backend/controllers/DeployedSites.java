@@ -80,7 +80,7 @@ public class DeployedSites {
 
     @GetMapping("deployed-site")
     public ResponseEntity<PublishedSiteDTO> test(@RequestParam("subRoute") String subdomain,
-                                                         @RequestParam("subPageName") String pageName){
+                                                 @RequestParam("subPageName") String pageName){
         return ResponseEntity.ok(this.publisherService.getSiteFromRouteAndName(subdomain, pageName));
     }
 

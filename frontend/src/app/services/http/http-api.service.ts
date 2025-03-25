@@ -29,6 +29,10 @@ export class HttpApiService {
     return this.http.get(this.url + endPoint.endpoint, { headers: HEADERS, params });
   }
 
+  public getNoAuth(endPoint: EndpointConfig, params?: HttpParams): Observable<any> {
+    return this.http.get(this.url + endPoint.endpoint, { params });
+  }
+
   public post(endPoint: EndpointConfig, payload?: any): Observable<any> {
     let HEADERS = new HttpHeaders();
     HEADERS = new HttpHeaders({
