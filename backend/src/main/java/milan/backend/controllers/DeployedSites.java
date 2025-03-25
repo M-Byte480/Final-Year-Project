@@ -1,9 +1,9 @@
 package milan.backend.controllers;
 
 import lombok.AllArgsConstructor;
+import milan.backend.entity.PublishedSiteEntity;
 import milan.backend.model.dto.DeployDTO;
 import milan.backend.model.dto.DeployedSiteDTO;
-import milan.backend.model.dto.DeploymentHistoryDTO;
 import milan.backend.model.dto.DomainNameDTO;
 import milan.backend.model.dto.SubdomainDTO;
 import milan.backend.service.SiteComposerService;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -31,14 +32,15 @@ public class DeployedSites {
     }
 
     @GetMapping("/history")
-    public ResponseEntity<DeploymentHistoryDTO> getHistory(){
-        return null;
+    public ResponseEntity<List<PublishedSiteEntity>> getHistory(@RequestParam("siteId") String siteId){
+        List<PublishedSiteEntity> s = this.subdomainService.getHistory(siteId);
+        return ResponseEntity.ok(s);
     }
 
     @PostMapping("/deploy")
-    public ResponseEntity<DeployDTO> deploySite(@RequestBody DeployDTO deployDTO){
-        this.subdomainService.tryDeploy(deployDTO);
-        return null;
+    public ResponseEntity<PublishedSiteEntity> deploySite(@RequestBody DeployDTO deployDTO){
+        PublishedSiteEntity e = this.subdomainService.tryDeploy(deployDTO);
+        return ResponseEntity.ok(e);
     }
 
     @PostMapping("/abort")

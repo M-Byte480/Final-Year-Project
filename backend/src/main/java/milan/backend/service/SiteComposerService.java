@@ -190,6 +190,10 @@ public class SiteComposerService {
         return this.composerPageRepository.findBySiteIdPageIdCompositeKey(new SiteIdPageIdCompositeKey(siteId, pageId)).get();
     }
 
+    public String getNameForPage(UUID pageId) {
+        return this.pageRepository.findById(pageId).get().getPageName();
+    }
+
 
 //    public NavBarEntity getNavBar(String siteId) {
 //        return null;
