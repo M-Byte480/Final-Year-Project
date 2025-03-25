@@ -34,7 +34,7 @@ public class SecurityConfig {
                             "/auth/register",
                             "/api/email/send-verification",
                             "/api/email/verify",
-                            "/api/api/deployed-site").permitAll();
+                            "/api/sites/deployed-site").permitAll();
                     request.anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
