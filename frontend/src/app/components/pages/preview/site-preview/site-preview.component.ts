@@ -11,6 +11,9 @@ import {HttpParams} from "@angular/common/http";
 import {COMPONENT_NAME} from "../../../../shared/constants";
 import {NavbarStateService} from "../../../../services/states/navbar-state/navbar-state.service";
 import {FooterStateService} from "../../../../services/states/footer-state/footer-state.service";
+import {SiteStateManagerService} from "../../../../services/states/state-manager/site-state-manager.service";
+import {DesignerStateServiceService} from "../../../../services/states/designer-service/designer-state-service.service";
+import {DeployedHelperService} from "../../../../services/deployed-helper.service";
 
 @Component({
   selector: 'app-site-preview',
@@ -30,20 +33,23 @@ export class SitePreviewComponent implements OnInit {
 
   constructor(private jwtService: JwtServiceService,
               private navbarService: NavbarStateService,
-              private footerService: FooterStateService) {
+              private footerService: FooterStateService,
+              private pageStateManager: DesignerStateServiceService,
+              private deployedStateHelper: DeployedHelperService) {
   }
 
   ngOnInit() {
     if (!environment.dev) {
       this.jwtService.authenticateUser();
     }
-    console.log("Body: ", this.body);
-    console.log("Footer: ", this.footer);
-    console.log("Navbar: ", this.navbar);
 
+    this.deployedStateHelper.setDeployedState(true);
+
+    this.pageStateManager.setState(this.body);
     this.footerService.setState(this.footer);
     this.navbarService.setState(this.navbar);
 
+    this.pageStateManager.saveSession();
     this.footerService.saveSession();
     this.navbarService.saveSession();
   }

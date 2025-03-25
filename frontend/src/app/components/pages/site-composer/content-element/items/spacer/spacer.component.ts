@@ -3,21 +3,27 @@ import {
   DesignerStateServiceService
 } from "../../../../../../services/states/designer-service/designer-state-service.service";
 import {ContentEditorManagerService} from "../../../../../../services/managers/content-editor-manager.service";
+import {DeployedHelperService} from "../../../../../../services/deployed-helper.service";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-spacer',
   standalone: true,
-  imports: [],
+  imports: [
+    NgIf
+  ],
   templateUrl: './spacer.component.html',
   styleUrl: './spacer.component.css'
 })
 export class SpacerComponent implements OnInit{
   @Input() properties: any = null;
   @Input() id!: any;
+  isDeployed = false;
   styling: any = {}
 
   constructor(private designerStateService: DesignerStateServiceService,
-              private contentEditorManager: ContentEditorManagerService) {
+              private contentEditorManager: ContentEditorManagerService,
+              private deployedHelperService: DeployedHelperService) {
 
   }
 
@@ -27,6 +33,8 @@ export class SpacerComponent implements OnInit{
       // Set default state
       this.emitDefaultState(this.id);
     }
+
+    this.isDeployed = this.deployedHelperService.getDeployedState();
   }
 
 
