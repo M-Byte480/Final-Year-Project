@@ -2,10 +2,12 @@ package milan.backend.controllers;
 
 import lombok.AllArgsConstructor;
 import milan.backend.entity.PublishedSiteEntity;
+import milan.backend.model.PublishedSiteDTO;
 import milan.backend.model.dto.DeployDTO;
 import milan.backend.model.dto.DeployedSiteDTO;
 import milan.backend.model.dto.DomainNameDTO;
 import milan.backend.model.dto.SubdomainDTO;
+import milan.backend.service.PublisherService;
 import milan.backend.service.SiteComposerService;
 import milan.backend.service.SubdomainService;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,7 @@ import java.util.UUID;
 public class DeployedSites {
     private final SiteComposerService siteComposerService;
     private final SubdomainService subdomainService;
+    private final PublisherService publisherService;
 
     @GetMapping("/get-site")
     public ResponseEntity<DeployedSiteDTO> getSite(@RequestParam("subdomain") String subdomain){
@@ -74,4 +77,11 @@ public class DeployedSites {
                                                @RequestParam("subPageName") String pageName){
         return ResponseEntity.ok(this.subdomainService.getSiteFromRouteAndName(subRoute, pageName));
     }
+
+    @GetMapping("deployed-site")
+    public ResponseEntity<PublishedSiteDTO> test(@RequestParam("subRoute") String subdomain,
+                                                         @RequestParam("subPageName") String pageName){
+        return ResponseEntity.ok(this.publisherService.getSiteFromRouteAndName(subdomain, pageName));
+    }
+
 }

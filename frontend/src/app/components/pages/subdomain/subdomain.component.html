@@ -1,9 +1,7 @@
-
 <ng-container *ngIf="pageExists">
-  <div>
-    <h1>Welcome to {{ subRoute }}.milan-kovacs.ie</h1>
-    <p>Dynamic content will be loaded based on the subdomain.</p>
-  </div>
+  <app-site-preview [body]="page.body"
+                    [footer]="page.footer"
+                    [navbar]="page.navbar" />
 </ng-container>
 
 <ng-container *ngIf="!pageExists">

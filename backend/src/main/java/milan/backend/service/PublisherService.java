@@ -8,10 +8,12 @@ import milan.backend.entity.PublishedPageEntity;
 import milan.backend.entity.PublishedSiteEntity;
 import milan.backend.entity.id.classes.PublishedSiteIdTimestamp;
 import milan.backend.entity.id.classes.SiteIdPageIdCompositeKey;
+import milan.backend.model.PublishedSiteDTO;
 import milan.backend.model.dto.DeployDTO;
 import milan.backend.repository.IsSiteDeployedRepository;
 import milan.backend.repository.PublishedPagesRepository;
 import milan.backend.repository.PublishedRepository;
+import milan.backend.repository.SubdomainRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -26,6 +28,7 @@ public class PublisherService {
     private final PublishedPagesRepository pagesRepository;
     private final SiteComposerService siteComposerService;
     private final IsSiteDeployedRepository isSiteDeployedRepository;
+    private final SubdomainRepository subdomainRepository;
 
     // todo: sort this out for controller
     public PublishedSiteEntity getLatestSiteEntityForSiteId(UUID siteId){
@@ -64,7 +67,9 @@ public class PublisherService {
     }
 
     public PublishedPageEntity getSiteEntityFromSiteIdAndName(UUID siteId, String pageName){
-        return this.pagesRepository.findById_SiteIdAndPageName(siteId, pageName).orElseThrow();
+        return this.pagesRepository.findById_SiteIdAndPageName(siteId, pageName).orElseGet(
+                PublishedPageEntity::new
+        );
     }
 
     private List<ComposerPageEntity> getComposerPagesForSiteId(UUID siteId){
@@ -74,5 +79,21 @@ public class PublisherService {
             composerPageEntities.add(this.siteComposerService.getComposerStateForPage(siteId, pageId));
         }
         return composerPageEntities;
+    }
+
+    public PublishedSiteDTO getSiteFromRouteAndName(String subdomain, String pageName) {
+        UUID siteId = this.getSiteIdFromSubdomain(subdomain);
+        PublishedPageEntity publishedPageEntity = this.getSiteEntityFromSiteIdAndName(siteId, pageName);
+        PublishedSiteDTO publishedSiteDTO = new PublishedSiteDTO();
+        publishedSiteDTO.setBody(publishedPageEntity.getPublishedState());
+        PublishedSiteEntity publishedSite = this.getLatestSiteEntityForSiteId(siteId);
+        publishedSiteDTO.setFooter(publishedSite.getFooter());
+        publishedSiteDTO.setNavbar(publishedSite.getNavBar());
+
+        return publishedSiteDTO;
+    }
+
+    public UUID getSiteIdFromSubdomain(String subdomain) {
+        return this.subdomainRepository.findBySubdomain(subdomain).orElseThrow().getSiteId();
     }
 }

@@ -70,10 +70,6 @@ export const ENDPOINTS: Endpoints = {
     endpoint: "/api/sites/deploy",
     requestType: REQUEST_TYPES.POST
   },
-  getDeployedSite: {
-    endpoint: "/api/sites/get-site",
-    requestType: REQUEST_TYPES.GET
-  },
   abortDeployment: {
     endpoint: "/api/sites/abort",
     requestType: REQUEST_TYPES.POST
@@ -94,12 +90,12 @@ export const ENDPOINTS: Endpoints = {
     endpoint: "/api/composer/get",
     requestType: REQUEST_TYPES.GET
   },
-  getSubdomainContent: {
-    endpoint: "/api/sites/subdomain",
-    requestType: REQUEST_TYPES.GET
-  },
   upload: {
     endpoint: "/api/composer/upload",
     requestType: REQUEST_TYPES.POST
+  },
+  getDeployedSite: {
+    endpoint: "/api/sites/deployed-site",
+    requestType: REQUEST_TYPES.GET
   }
 };

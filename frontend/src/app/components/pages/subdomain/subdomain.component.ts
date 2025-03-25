@@ -5,12 +5,14 @@ import {HttpApiService} from "../../../services/http/http-api.service";
 import {HttpParams} from "@angular/common/http";
 import {ENDPOINTS} from "../../../services/http/endpoints";
 import {NgIf} from "@angular/common";
+import {SitePreviewComponent} from "../preview/site-preview/site-preview.component";
 
 @Component({
   selector: 'app-subdomain',
   standalone: true,
   imports: [
-    NgIf
+    NgIf,
+    SitePreviewComponent
   ],
   templateUrl: './subdomain.component.html'
 })
@@ -18,6 +20,7 @@ export class SubdomainComponent implements OnInit{
   subRoute: string = '';
   subPageName: string = '';
   pageExists: boolean = false;
+  page: any = {};
 
   constructor(private activatedRoute: ActivatedRoute,
               private httpSerivce: HttpApiService) {}
@@ -37,7 +40,6 @@ export class SubdomainComponent implements OnInit{
     /*
     {
       deployed: false,
-      default: uuid,
       pages: [
         {
           name: string,
@@ -53,13 +55,10 @@ export class SubdomainComponent implements OnInit{
       }
     }
      */
-    this.httpSerivce.get(ENDPOINTS['getSubdomainContent'], httpParams).subscribe(
-      (data: any) => {
+    this.httpSerivce.get(ENDPOINTS['getDeployedSite'], httpParams).subscribe(
+      (response: any) => {
         this.pageExists = true;
-        console.log(data);
-      },
-      (error: any) => {
-        console.error("Page doesn't exists");
+        this.page = response;
       });
   }
 }
