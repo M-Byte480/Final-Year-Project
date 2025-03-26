@@ -83,7 +83,7 @@ export class ContentLoaderComponent implements OnInit{
 
   protected parseContent(node: any): any {
     if (!node) {
-      console.log('No node provided');
+
       return null;
     }
 

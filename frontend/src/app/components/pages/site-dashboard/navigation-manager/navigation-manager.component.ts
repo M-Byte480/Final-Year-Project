@@ -66,7 +66,6 @@ export class NavigationManagerComponent implements OnInit, OnDestroy {
       response.forEach((site: any) => {
         this.availableSitesFromUser.push({'pageName': site.pageName});
       });
-      console.log(this.availableSitesFromUser);
     });
     this.navState = this.navbarService.getState();
     this.navElements = this.navState.routes;

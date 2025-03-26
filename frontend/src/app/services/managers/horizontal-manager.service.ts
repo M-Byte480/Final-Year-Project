@@ -66,7 +66,6 @@ export class HorizontalManagerService {
     let nodeIds = [];
     let nodesToReturn = [];
 
-    console.log("child elements", childElements);
 
     // Deep copy the children
     for (let elementId of childElements){

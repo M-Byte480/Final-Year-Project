@@ -72,10 +72,8 @@ export class RegistrationPageComponent {
               private router: Router,
               private routerDataTransfer: RouterDataTransferService) {
     Object.entries(this.registrationForm.controls).forEach(control => {
-      console.log(control);
       control[1].statusChanges.subscribe(status => {
         if (status === 'INVALID') {
-          console.log(control);
           this.updateError(control);
         }
       });

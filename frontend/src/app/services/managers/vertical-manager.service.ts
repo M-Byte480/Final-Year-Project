@@ -13,12 +13,12 @@ export class VerticalManagerService {
 
   public addHorizontalBuilderTop(childGridArr: number[], id: number): void{
     let nextState = this.stateService.getState();
-    console.log("nextState:", nextState);
+
     // @ts-ignore
     let verticalBuilder = nextState[1];
-    console.log("root sate:", verticalBuilder);
     let max = this.stateService.getMax();
     max++;
+
     // @ts-ignore
     nextState[max] = {
       id: max,
@@ -26,21 +26,21 @@ export class VerticalManagerService {
       properties: {}
     };
     verticalBuilder.properties.childGridArr.unshift(max);
-    console.log("Vertical builder after unshift: ", verticalBuilder);
+
 
     // @ts-ignore
     nextState.maxId = max;
-    console.log("nextState after maxId: ", nextState);
+
 
     this.stateService.setState(nextState);
   }
 
   public addHorizontalBuilderBottom(childGridArr: number[], id: number): void{
     let nextState = this.stateService.getState();
-    console.log("nextState:", nextState);
+
     // @ts-ignore
     let verticalBuilder = nextState[1];
-    console.log("root sate:", verticalBuilder);
+
     let max = this.stateService.getMax();
     max++;
     // @ts-ignore
@@ -70,7 +70,7 @@ export class VerticalManagerService {
     newRow.properties.childGridArr = deepCopiedValues.nodeIds;
     // @ts-ignore
     nextState[newMax] = newRow;
-    console.log(nextState);
+
     newMax = deepCopiedValues.newMax;
 
     // Update current node

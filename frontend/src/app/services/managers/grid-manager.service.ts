@@ -16,11 +16,9 @@ export class GridManagerService {
     let currentState = this.designerService.getState();
     // @ts-ignore
     let max = currentState.maxId;
-    console.log("max", max);
     const columns = grid.properties.columns;
     let newChildren = [];
     for (let i = 0; i < columns; i++) {
-      console.log("max in loop", max);
       newChildren.push(max);
       const newGrid = {
         id: max,
@@ -42,7 +40,6 @@ export class GridManagerService {
       };
     }
 
-    console.log(max);
     grid.properties.children = newChildren.concat(grid.properties.children);
     // @ts-ignore
     currentState.maxId = max;
@@ -79,7 +76,6 @@ export class GridManagerService {
       };
     }
 
-    console.log(max);
     grid.properties.children = grid.properties.children.concat(newChildren);
     // @ts-ignore
     currentState.maxId = max;

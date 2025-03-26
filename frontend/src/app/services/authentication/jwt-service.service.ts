@@ -34,7 +34,7 @@ export class JwtServiceService {
   }
 
   authenticateUser() {
-    console.log("Auth user", JwtServiceService.JWT);
+
     if (JwtServiceService.JWT === null || JwtServiceService.JWT === undefined) {
       this.router.navigate(['login']).then();
     }

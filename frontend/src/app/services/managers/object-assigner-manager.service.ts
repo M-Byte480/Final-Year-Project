@@ -12,7 +12,6 @@ export class ObjectAssignerManagerService {
     componentDetails: any,
     isPreview: boolean
   ){
-    console.log('assignRenderObject', isPreview, componentDetails);
     Object.assign(componentRef.instance, {
       ...componentDetails.properties,
       id: componentDetails.id,

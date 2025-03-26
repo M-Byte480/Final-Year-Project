@@ -41,7 +41,7 @@ export class PanelComposerComponent implements OnInit {
   ngOnInit(){
     const httpParams = new HttpParams().set('siteId', this.siteId).set('pageId', this.pageId);
     this.httpService.get(ENDPOINTS['getCurrentComposer'],httpParams).subscribe((res) => {
-      console.log("Composer State: ", res);
+
       this.stateService.setState( isNaN(res.maxId) ? DesignerStateServiceService.DEFAULT_STATE : res);
     });
   }

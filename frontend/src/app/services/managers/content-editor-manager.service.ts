@@ -46,17 +46,12 @@ export class ContentEditorManagerService {
     id = `${id}`;
     let designerState = this.designerStateService.getState();
 
-    // Recursively delete all child components
     designerState = this.deleteChildren(id, designerState);
 
-    // Delete the component itself
     // @ts-ignore
     delete designerState[id];
 
-    // Remove references from parent components
     this.removeChildReferences(id, designerState);
-
-    // Update the state
     this.designerStateService.setState(designerState);
   }
 
@@ -64,9 +59,8 @@ export class ContentEditorManagerService {
    * Recursively deletes all children of the given component.
    */
   deleteChildren(parentId: any, state: any) {
-    let updatedState = { ...state }; // Copy state to avoid mutation issues
+    let updatedState = { ...state };
 
-    // Check if the component exists
     if (!updatedState[parentId]) return updatedState;
 
     const children = updatedState[parentId]?.properties?.childGridArr ?? [];
@@ -75,7 +69,6 @@ export class ContentEditorManagerService {
       // Recursively delete children first
       updatedState = this.deleteChildren(childId, updatedState);
 
-      // Now delete the child from the state
       delete updatedState[childId];
     });
 
@@ -91,7 +84,7 @@ export class ContentEditorManagerService {
 
       if (component.properties?.childGridArr) {
         component.properties.childGridArr = component.properties.childGridArr.filter(
-          (childId: any) => childId !== idToDelete
+          (childId: any) => childId !== Number(idToDelete)
         );
         state[componentId].properties.childGridArr = component.properties.childGridArr;
       }

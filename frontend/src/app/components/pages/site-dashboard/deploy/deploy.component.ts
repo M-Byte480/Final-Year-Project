@@ -76,7 +76,6 @@ export class DeployComponent implements OnInit {
 
   onDeploy() {
     this.httpService.post(ENDPOINTS['deploySite'], {siteId: this.siteId}).subscribe((response: any) => {
-      console.log('DEPLOY RESPONSE: ', response);
       this.deploymentHistory = [{'date': response.id.publishTimestamp}, ...this.deploymentHistory];
     });
   }

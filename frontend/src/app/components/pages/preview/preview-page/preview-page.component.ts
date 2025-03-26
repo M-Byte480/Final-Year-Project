@@ -37,8 +37,6 @@ export class PreviewPageComponent implements OnInit {
       this.jwtService.authenticateUser();
     }
 
-    console.log(this.pageState);
-
     this.footerService.getSession();
     this.navbarService.getSession();
     this.stateService.getSession();

@@ -81,7 +81,6 @@ export class ComposerSelectorComponent implements OnInit {
     this.httpApiService.get(ENDPOINTS['getSitePages'], params).subscribe((response: PageDTO[]) => {
       this.pages = response;
       this.dataSource.data = response;
-      console.log('pages', this.pages);
     });
   }
 

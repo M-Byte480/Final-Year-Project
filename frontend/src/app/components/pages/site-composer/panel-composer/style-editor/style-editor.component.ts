@@ -24,6 +24,7 @@ export class StyleEditorComponent implements OnInit {
   properties: {[key: string]: string} = {};
   id: any = -1;
   showStyleEditor: boolean = false;
+  showProperties: boolean = false;
 
   constructor(private contentEditorManager: ContentEditorManagerService) {
     this.contentEditorManager.state$.subscribe((state) => {
@@ -45,8 +46,8 @@ export class StyleEditorComponent implements OnInit {
   }
 
   deleteComponent(){
-    console.log("Deleting component", this.id);
     this.contentEditorManager.deleteComponent(this.id);
+    this.showStyleEditor = false;
   }
 
 }

@@ -74,7 +74,6 @@ export class HttpApiService {
       case REQUEST_TYPES.GET:
         if(payload){
           HEADERS.set('Content-Type', 'application/json');
-          console.log(payload);
           response = this.http.get(this.url + endpoint.endpoint, {
             headers: HEADERS,
             params: {

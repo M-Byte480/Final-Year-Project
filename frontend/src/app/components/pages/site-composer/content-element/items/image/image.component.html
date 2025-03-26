@@ -1,4 +1,13 @@
 <div>
-  <img *ngIf="properties.src" alt="Image" src="{{properties.src}}"/>
+  <img *ngIf="properties.src"
+       src="{{properties.src}}"
+       [alt]="properties.alt || 'Image'"
+       [ngStyle]="{
+      'width': properties['width'],
+      'height': properties['height'],
+      'border-radius': properties['border-radius'],
+      'object-fit': properties['object-fit'],
+      'box-shadow': properties['box-shadow']
+    }"/>
 </div>
 
