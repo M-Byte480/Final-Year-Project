@@ -13,6 +13,7 @@ import {COMPONENT_NAME} from "../../../../shared/constants";
 import {HttpParams} from "@angular/common/http";
 import {ENDPOINTS} from "../../../../services/http/endpoints";
 import {HttpApiService} from "../../../../services/http/http-api.service";
+import {FileUploadService} from "../../../../services/file-upload.service";
 
 @Component({
   selector: 'app-navigation-manager',
@@ -36,13 +37,18 @@ import {HttpApiService} from "../../../../services/http/http-api.service";
 })
 export class NavigationManagerComponent implements OnInit, OnDestroy {
   navElements: any[] = [];
+  availableSitesFromUser: {pageName: string}[] = [];
   navState = {} as NavBarStateStruct;
   navbarHidden = true;
   private currentRoute = window.location.href;
   apiResponse: PageDTO[] = [];
+  shortLink: string = "";
+  file: File | null = null;
+
   private readonly siteId: string;
   constructor(private navbarService: NavbarStateService,
-              private httpApiService: HttpApiService) {
+              private httpApiService: HttpApiService,
+              private fileUploadService: FileUploadService) {
     this.siteId = this.currentRoute.substring(this.currentRoute.lastIndexOf('/') + 1);
 
     this.navbarService.state$.subscribe((state) => {
@@ -54,7 +60,13 @@ export class NavigationManagerComponent implements OnInit, OnDestroy {
   ngOnInit(){
 
     this.getAllSites();
+    const params = new HttpParams().set('pageId', this.siteId);
 
+    this.httpApiService.get(ENDPOINTS['getSitePages'], params).subscribe((response: []) => {
+      response.forEach((site: any) => {
+        this.availableSitesFromUser.push({'pageName': site.pageName});
+      });
+    });
     this.navState = this.navbarService.getState();
     this.navElements = this.navState.routes;
   }
@@ -62,9 +74,13 @@ export class NavigationManagerComponent implements OnInit, OnDestroy {
   getAllSites() {
     const params = new HttpParams().set('siteId', this.siteId);
 
+
+
     this.httpApiService.get(ENDPOINTS['getNavBarMapping'], params).subscribe((response: []) => {
       console.log(response);
       this.navbarService.setState(response);
+      this.navState = this.navbarService.getState();
+      this.navElements = this.navState.routes;
     });
   }
 
@@ -88,8 +104,28 @@ export class NavigationManagerComponent implements OnInit, OnDestroy {
     this.navbarService.setState(this.navState);
   }
 
+  onChange(event: Event){
+    // @ts-ignore
+    this.file = event.target.files[0];
+
+    console.log(this.file);
+  }
+
   onUploadImage(){
-    console.log(this.navbarService.getState());
+    const formData = new FormData();
+    if(!this.file){
+      return;
+    }
+
+    formData.append('image', this.file);
+    formData.append('siteId', this.siteId);
+    formData.append('forNavBar', 'true');
+
+    this.httpApiService.uploadImage(ENDPOINTS['upload'], formData).subscribe((response) => {
+      let updatedNav = this.navbarService.getState();
+      updatedNav.logo = response.image;
+      this.navbarService.setState(updatedNav);
+    });
   }
 
   hide() {

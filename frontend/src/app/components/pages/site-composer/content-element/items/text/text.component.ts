@@ -3,11 +3,14 @@ import {
   DesignerStateServiceService
 } from "../../../../../../services/states/designer-service/designer-state-service.service";
 import {ContentEditorManagerService} from "../../../../../../services/managers/content-editor-manager.service";
+import {NgStyle} from "@angular/common";
 
 @Component({
   selector: 'app-text',
   standalone: true,
-  imports: [],
+  imports: [
+    NgStyle
+  ],
   templateUrl: './text.component.html',
   styleUrl: './text.component.css'
 })
@@ -21,7 +24,6 @@ export class TextComponent implements OnInit{
 
   }
 
-
   ngOnInit(){
     if (!this.properties || Object.keys(this.properties).length === 0) {
       // Set default state
@@ -29,10 +31,14 @@ export class TextComponent implements OnInit{
     }
   }
 
-
   emitDefaultState(id: any){
     const defaultState = {
       'content': 'Hello World!',
+      'font-size': '16px',
+      'width': '100%',
+      'height': 'auto',
+      'font colour': '#000000',
+      'background colour': 'transparent',
     };
 
     let nextState = this.designerStateService.getState();

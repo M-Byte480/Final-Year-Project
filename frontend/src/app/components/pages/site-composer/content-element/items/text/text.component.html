@@ -1,1 +1,9 @@
-<p>{{ properties.content }}</p>
+<div [ngStyle]="{
+      'font-size': properties['font-size'],
+      'width': properties['width'],
+      'height': properties['height'],
+      'color': properties['font colour'],
+      'background-color': properties['background colour'],
+    }">
+  {{ properties.content }}
+</div>

@@ -8,15 +8,19 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import milan.backend.entity.FooterEntity;
+import milan.backend.entity.ImageEntity;
 import milan.backend.entity.NavbarMapperEntity;
 import milan.backend.entity.site.PageEntity;
 import milan.backend.exception.AlreadyExistsException;
+import milan.backend.model.ImageUploadDTO;
 import milan.backend.model.dto.ComposerDashboardDTO;
 import milan.backend.model.dto.ComposerSavePageDTO;
 import milan.backend.model.dto.FooterStateDTO;
 import milan.backend.model.dto.NavbarMapperDTO;
+import milan.backend.service.ImageService;
 import milan.backend.service.JwtService;
 import milan.backend.service.SiteComposerService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +29,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
 
@@ -35,6 +41,7 @@ import java.util.UUID;
 public class SiteComposerController {
 
     private final SiteComposerService composerService;
+    private final ImageService imageService;
     private final JwtService jwtService;
     private ObjectMapper objectMapper;
 
@@ -115,5 +122,38 @@ public class SiteComposerController {
         UUID pageId = UUID.fromString(pageIdAsString);
         Set<PageEntity> sites = composerService.getComposerPages(pageId);
         return ResponseEntity.ok(sites);
+    }
+
+    @PostMapping("/upload") // hot fix for the implementation I have
+    public ResponseEntity<ImageEntity> uploadImage(
+            @RequestParam(value = "image", required = false) MultipartFile image,
+            @RequestParam(value = "siteId", required = false) String siteId,
+            @RequestParam(value = "pageId", required = false) String pageId,
+            @RequestParam(value = "imageUrl", required = false) String imageUrl,
+            @RequestParam(value = "forNavBar", required = false) boolean forNavBar){
+        ImageUploadDTO imageDTO = new ImageUploadDTO();
+        imageDTO.setSiteId(siteId);
+        imageDTO.setPageId(pageId);
+        imageDTO.setImageUrl(imageUrl);
+        imageDTO.setForNavBar(forNavBar);
+
+        if (image != null) {
+            try {
+                imageDTO.setImage(image.getBytes());
+                System.out.println("Received image bytes with length: " + image.getBytes().length);
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+        }else{
+            System.out.println("No image bytes received");
+        }
+
+        ImageEntity response;
+        if(imageDTO.isForNavBar()){
+            response = this.imageService.addImageForNavbar(imageDTO);
+        }else{
+            response = this.imageService.addImageForPage(imageDTO);
+        }
+        return ResponseEntity.ok(response);
     }
 }

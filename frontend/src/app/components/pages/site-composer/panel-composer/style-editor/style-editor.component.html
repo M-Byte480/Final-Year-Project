@@ -1,5 +1,8 @@
 <div *ngIf="showStyleEditor">
-  {{ properties | json }}
+  <Button (click)="showProperties = !showProperties">Show Properties</Button>
+  <ng-container *ngIf="showProperties">
+    {{ properties | json }}
+  </ng-container>
   <table>
     <tr>
       <th>Property</th>

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PanelComposerComponent} from "../panel-composer/panel-composer.component";
 import {SelectionModalComponent} from "./selection-modal/selection-modal.component";
 import {NgIf} from "@angular/common";
@@ -6,6 +6,7 @@ import {DesignerStateServiceService} from "../../../../services/states/designer-
 import {SiteStateManagerService} from "../../../../services/states/state-manager/site-state-manager.service";
 import {ContentEditorManagerService} from "../../../../services/managers/content-editor-manager.service";
 import {SelectorModalService} from "../../../../services/managers/selector-modal.service";
+import {DeployedHelperService} from "../../../../services/deployed-helper.service";
 
 @Component({
   selector: 'app-content-element',
@@ -17,15 +18,21 @@ import {SelectorModalService} from "../../../../services/managers/selector-modal
   ],
   templateUrl: './content-element.component.html'
 })
-export class ContentElementComponent {
+export class ContentElementComponent implements OnInit{
   @Output() hideModal = new EventEmitter<boolean>();
   @Output() elementAdded = new EventEmitter<{ element: string; targetIndex: number }>();
   @Input() id!: number;
-
+  isDeployed = false;
   protected properties: any = null;
 
-  constructor(private modalService: SelectorModalService) {
+  constructor(private modalService: SelectorModalService,
+              private deployedHelper: DeployedHelperService) {
   }
+
+  ngOnInit(){
+    this.isDeployed = this.deployedHelper.getDeployedState();
+  }
+
   public showSelectionPopup() {
     this.modalService.setId(this.id);
     this.modalService.setDisplayState(true);

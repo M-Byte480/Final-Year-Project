@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {environment} from "../../../../../environments/environment";
 import {JwtServiceService} from "../../../../services/authentication/jwt-service.service";
 import {FooterRendererComponent} from "../../../shared/footer-renderer/footer-renderer.component";
@@ -9,6 +9,11 @@ import {HttpApiService} from "../../../../services/http/http-api.service";
 import {ENDPOINTS} from "../../../../services/http/endpoints";
 import {HttpParams} from "@angular/common/http";
 import {COMPONENT_NAME} from "../../../../shared/constants";
+import {NavbarStateService} from "../../../../services/states/navbar-state/navbar-state.service";
+import {FooterStateService} from "../../../../services/states/footer-state/footer-state.service";
+import {SiteStateManagerService} from "../../../../services/states/state-manager/site-state-manager.service";
+import {DesignerStateServiceService} from "../../../../services/states/designer-service/designer-state-service.service";
+import {DeployedHelperService} from "../../../../services/deployed-helper.service";
 
 @Component({
   selector: 'app-site-preview',
@@ -22,11 +27,15 @@ import {COMPONENT_NAME} from "../../../../shared/constants";
 })
 export class SitePreviewComponent implements OnInit {
   subdomain: string = '';
-  pageState: string = '';
+  @Input() body: any;
+  @Input() footer: any;
+  @Input() navbar: any;
 
   constructor(private jwtService: JwtServiceService,
-              private subdomainService: SubdomainService,
-              private apiService: HttpApiService) {
+              private navbarService: NavbarStateService,
+              private footerService: FooterStateService,
+              private pageStateManager: DesignerStateServiceService,
+              private deployedStateHelper: DeployedHelperService) {
   }
 
   ngOnInit() {
@@ -34,18 +43,15 @@ export class SitePreviewComponent implements OnInit {
       this.jwtService.authenticateUser();
     }
 
-    this.subdomain = this.subdomainService.getSubDomain();
+    this.deployedStateHelper.setDeployedState(true);
 
-    if (this.subdomain !== '') {
-      // Subdomain was entered, we need to pull the content from the backend
-      const params = new HttpParams().set('subdomain', this.subdomain);
-      this.apiService.get(ENDPOINTS['subdomain'], params).subscribe((response: any) => {
-        this.pageState = response.page;
-        // todo: set navbar
-        // todo: set footer
-        console.log(response);
-      });
-    }
+    this.pageStateManager.setState(this.body);
+    this.footerService.setState(this.footer);
+    this.navbarService.setState(this.navbar);
+
+    this.pageStateManager.saveSession();
+    this.footerService.saveSession();
+    this.navbarService.saveSession();
   }
 
   protected readonly COMPONENT_NAME = COMPONENT_NAME;

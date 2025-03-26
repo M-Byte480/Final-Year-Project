@@ -1,1 +1,19 @@
-<p>button works!</p>
+<ng-container *ngIf="!isDeployed">
+  <button mat-stroked-button
+          [ngStyle]="{
+  'width': properties['width'],
+  'height': properties['height'],
+  'font-size': properties['font-size'],
+  'color': properties['color'],
+  'background-color': properties['background-color'],
+  'border': properties['border'],
+  'border-radius': properties['border-radius'],
+  'padding': properties['padding']
+  }">{{ properties.content }}
+  </button>
+</ng-container>
+
+<ng-container *ngIf="isDeployed">
+  <button mat-stroked-button (click)="goto(properties['go to'])">{{ properties.content }}</button>
+</ng-container>
+

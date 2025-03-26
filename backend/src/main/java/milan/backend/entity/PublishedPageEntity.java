@@ -23,7 +23,7 @@ public class PublishedPageEntity {
 
     @EmbeddedId
     private SiteIdPageIdCompositeKey id;
-    private String page_name;
+    private String pageName;
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
     private JsonNode publishedState;

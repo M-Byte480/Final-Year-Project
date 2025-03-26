@@ -191,3 +191,16 @@ CREATE TABLE IF NOT EXISTS milanify.composer_page_saved_state(
     FOREIGN KEY (page_id) REFERENCES milanify.pages(id),
     FOREIGN KEY (site_id) REFERENCES milanify.sites(id)
 );
+
+-- changeset Milan:9
+CREATE TABLE IF NOT EXISTS milanify.images(
+    id uuid,
+    site_id uuid,
+    page_id uuid,
+    image bytea,
+    image_url VARCHAR(255),
+    for_nav_bar BOOLEAN DEFAULT FALSE,
+    PRIMARY KEY (id),
+    FOREIGN KEY (site_id) REFERENCES milanify.sites(id),
+    FOREIGN KEY (page_id) REFERENCES milanify.pages(id)
+);

@@ -29,6 +29,10 @@ export class HttpApiService {
     return this.http.get(this.url + endPoint.endpoint, { headers: HEADERS, params });
   }
 
+  public getNoAuth(endPoint: EndpointConfig, params?: HttpParams): Observable<any> {
+    return this.http.get(this.url + endPoint.endpoint, { params });
+  }
+
   public post(endPoint: EndpointConfig, payload?: any): Observable<any> {
     let HEADERS = new HttpHeaders();
     HEADERS = new HttpHeaders({
@@ -36,6 +40,14 @@ export class HttpApiService {
       'Content-Type': 'application/json'
     });
     return this.http.post(this.url + endPoint.endpoint, payload, { headers: HEADERS });
+  }
+
+  public uploadImage(endPoint: EndpointConfig, formData: FormData): Observable<any> {
+    let HEADERS;
+    HEADERS = new HttpHeaders({
+      'Authorization': `Bearer ${this.jwtService.getToken()}`
+    });
+    return this.http.post(this.url + endPoint.endpoint, formData, { headers: HEADERS });
   }
 
   // TODO: ADD HANDLING OF EXPIRED JWT
@@ -62,7 +74,6 @@ export class HttpApiService {
       case REQUEST_TYPES.GET:
         if(payload){
           HEADERS.set('Content-Type', 'application/json');
-          console.log(payload);
           response = this.http.get(this.url + endpoint.endpoint, {
             headers: HEADERS,
             params: {

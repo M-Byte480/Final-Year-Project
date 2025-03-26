@@ -2,7 +2,7 @@
 This component was made with the help of Copilot
  */
 import {Component, Input, OnInit} from '@angular/core';
-import {NgIf, NgOptimizedImage} from "@angular/common";
+import {NgIf, NgOptimizedImage, NgStyle} from "@angular/common";
 import {
   DesignerStateServiceService
 } from "../../../../../../services/states/designer-service/designer-state-service.service";
@@ -13,7 +13,8 @@ import {ContentEditorManagerService} from "../../../../../../services/managers/c
   standalone: true,
   imports: [
     NgOptimizedImage,
-    NgIf
+    NgIf,
+    NgStyle
   ],
   templateUrl: './image.component.html',
   styleUrl: './image.component.css'
@@ -38,9 +39,13 @@ export class ImageComponent implements OnInit{
 
   emitDefaultState(id: any){
     const defaultState = {
-      'src': 'https://placehold.co/600x400/EEE/31343C',
+      'src': 'https://placehold.co/200x200/EEE/31343C',
       'width': '100%',
       'height': 'auto',
+      'border-radius': '8px',
+      'object-fit': 'cover',
+      'box-shadow': '0 2px 8px rgba(0, 0, 0, 0.1)',
+      'alt': 'Placeholder image'
     };
 
     let nextState = this.designerStateService.getState();

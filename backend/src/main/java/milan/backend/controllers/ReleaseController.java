@@ -20,7 +20,7 @@ public class ReleaseController {
     @GetMapping("/site")
     public ResponseEntity<PublishedSiteEntity> getPublishedSite(@RequestParam("siteId") String siteId){
         UUID siteUUID = UUID.fromString(siteId);
-        PublishedSiteEntity publishedSite = this.publisherService.getSiteEntityForSiteID(siteUUID);
+        PublishedSiteEntity publishedSite = this.publisherService.getLatestSiteEntityForSiteId(siteUUID);
         return ResponseEntity.ok().body(publishedSite);
     }
 

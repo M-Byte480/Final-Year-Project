@@ -8,6 +8,7 @@ import {ChildComponent} from "../child/child.component";
 import {NgForOf, NgIf} from "@angular/common";
 import {VerticalManagerService} from "../../../../../services/managers/vertical-manager.service";
 import {COMPOSER_TYPE} from "../../../../../shared/constants";
+import {MatButton, MatFabButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-vertical-builder',
@@ -15,7 +16,9 @@ import {COMPOSER_TYPE} from "../../../../../shared/constants";
   imports: [
     ChildComponent,
     NgForOf,
-    NgIf
+    NgIf,
+    MatButton,
+    MatFabButton
   ],
   templateUrl: './vertical-builder.component.html'
 })

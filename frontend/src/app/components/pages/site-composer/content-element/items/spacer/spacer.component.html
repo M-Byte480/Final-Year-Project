@@ -1,8 +1,12 @@
 <div class="relative" [style.width.px]="properties.width" [style.height.px]="properties.height">
-  <div class="absolute top-0 bottom-0 left-1/2 w-[1px] bg-black transform -translate-x-1/2"></div>
-  <div class="absolute top-0 bottom-0 left-1/2 w-[5px] border-t border-b border-black transform -translate-x-1/2"></div>
+  <ng-container *ngIf="!isDeployed">
+    <div class="absolute top-0 bottom-0 left-1/2 w-[1px] bg-black transform -translate-x-1/2"></div>
+    <div
+      class="absolute top-0 bottom-0 left-1/2 w-[5px] border-t border-b border-black transform -translate-x-1/2"></div>
 
-  <div class="absolute left-0 right-0 top-1/2 h-[1px] bg-black transform -translate-y-1/2"></div>
-  <div class="absolute left-0 right-0 top-1/2 h-[5px] border-l border-r border-black transform -translate-y-1/2"></div>
+    <div class="absolute left-0 right-0 top-1/2 h-[1px] bg-black transform -translate-y-1/2"></div>
+    <div
+      class="absolute left-0 right-0 top-1/2 h-[5px] border-l border-r border-black transform -translate-y-1/2"></div>
+  </ng-container>
 
 </div>

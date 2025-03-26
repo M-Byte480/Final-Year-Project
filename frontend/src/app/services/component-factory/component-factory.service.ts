@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {TextComponent} from "../../components/pages/site-composer/content-element/items/text/text.component";
 import {ImageComponent} from "../../components/pages/site-composer/content-element/items/image/image.component";
-import {ButtonComponent} from "../../components/shared/button/button.component";
+import {ButtonComponent} from "../../components/pages/site-composer/content-element/items/button/button.component";
 import {ContentElementComponent} from "../../components/pages/site-composer/content-element/content-element.component";
 import {GridComponent} from "../../components/pages/site-composer/content-element/items/grid/grid.component";
 import {

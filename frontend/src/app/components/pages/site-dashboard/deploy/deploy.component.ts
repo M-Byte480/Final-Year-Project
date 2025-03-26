@@ -13,6 +13,7 @@ import {HttpApiService} from "../../../../services/http/http-api.service";
 import {ENDPOINTS} from "../../../../services/http/endpoints";
 import {HttpParams} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-deploy',
@@ -28,47 +29,58 @@ import {Router} from "@angular/router";
     MatRow,
     MatRowDef,
     MatTable,
-    MatHeaderCellDef
+    MatHeaderCellDef,
+    DatePipe
   ],
   templateUrl: './deploy.component.html',
   styleUrl: './deploy.component.css'
 })
-export class DeployComponent implements OnInit{
+export class DeployComponent implements OnInit {
   private currentRoute = window.location.href;
 
   displayedColumns = ['date'];
   deploymentHistory = [
     {
-      "date": "2025-01-01 12:00:00"
+      "date": 1742866054.092186
     },
     {
-      "date": "2025-01-01 12:00:00"
+      "date": 1742866054.092186
     },
     {
-      "date": "2025-01-01 12:00:00"
+      "date": 1742866054.092186
     },
   ];
   siteId = '';
 
-  constructor(private httpService: HttpApiService){
+  constructor(private httpService: HttpApiService) {
     this.siteId = this.currentRoute.substring(this.currentRoute.lastIndexOf('/') + 1);
 
   }
 
-  ngOnInit(){
+  ngOnInit() {
+    this.getHistory();
+  }
+
+  getHistory() {
     const httpParams = new HttpParams().set('siteId', this.siteId);
     this.httpService.get(ENDPOINTS['deployHistory'], httpParams).subscribe((response: any) => {
-      this.deploymentHistory = response;
+      this.deploymentHistory = [];
+      for (let i = 0; i < response.length; i++) {
+        this.deploymentHistory.push({
+          "date": response[i].id.publishTimestamp
+        });
+      }
+      this.deploymentHistory.reverse()
     });
   }
 
-  onDeploy(){
+  onDeploy() {
     this.httpService.post(ENDPOINTS['deploySite'], {siteId: this.siteId}).subscribe((response: any) => {
-      console.log(response);
+      this.deploymentHistory = [{'date': response.id.publishTimestamp}, ...this.deploymentHistory];
     });
   }
 
-  onAbortDeployment(){
+  onAbortDeployment() {
     this.httpService.post(ENDPOINTS['abortDeployment'], {siteId: this.siteId}).subscribe((response: any) => {
       console.log(response);
     });

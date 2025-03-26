@@ -1,6 +1,6 @@
 <div class="flex flex-col items-center h-full min-h-fit w-full">
   <div *ngIf="!isPreview">
-    <button (click)="onAddRowTop()">+</button>
+    <button mat-button (click)="onAddRowTop()">+</button>
   </div>
   <div class="flex flex-col items-center">
       <app-child [id]="id"
@@ -9,8 +9,8 @@
                  *ngFor="let id of childGridArr" />
   </div>
   <div  *ngIf="!isPreview">
-    <button (click)="onAddRowBottom()">+</button>
-    <button (click)="dupeBottomRow()">d</button>
+    <button (click)="onAddRowBottom()" mat-button>+</button>
+    <button (click)="dupeBottomRow()" mat-button>Duplicate</button>
   </div>
 </div>
 

@@ -12,7 +12,8 @@ import {SubdomainService} from "./services/subdomain.service";
 export class AppComponent implements OnInit {
   subdomain: string = '';
 
-  constructor(private subdomainService: SubdomainService, private router: Router) {
+  constructor(private subdomainService: SubdomainService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -25,7 +26,7 @@ export class AppComponent implements OnInit {
       // Handle nothing meaning they came to the root
     } else {
       // So a sub domain was entered so we need to route to the subdomain render page and pull the content from the backend
-      this.router.navigate([`/subdomain/${this.subdomain}.milan-kovacs.ie`]).then(r => {});
+      this.router.navigate([`/${this.subdomain}`]).then(r => {});
     }
   }
 }

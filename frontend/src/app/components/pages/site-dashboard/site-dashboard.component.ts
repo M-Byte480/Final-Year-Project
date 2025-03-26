@@ -93,8 +93,8 @@ export class SiteDashboardComponent implements OnInit {
     this.footerManager,
     this.composer,
     this.deploy,
-    this.analytics,
-    this.productManager,
+    // this.analytics,
+    // this.productManager,
     this.delete
   ]
 }

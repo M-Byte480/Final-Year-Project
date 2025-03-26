@@ -13,4 +13,5 @@ public class DeployDTO {
     private List<UUID> pageIds;
     private JsonNode footer;
     private boolean deployed;
+    private String error;
 }
