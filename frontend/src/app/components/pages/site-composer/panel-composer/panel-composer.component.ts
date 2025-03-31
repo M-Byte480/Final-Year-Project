@@ -11,6 +11,8 @@ import {NavbarStateService} from "../../../../services/states/navbar-state/navba
 import {HttpApiService} from "../../../../services/http/http-api.service";
 import {ENDPOINTS} from "../../../../services/http/endpoints";
 import {HttpParams} from "@angular/common/http";
+import {DeployedHelperService} from "../../../../services/deployed-helper.service";
+import {TriggerDeployStateChangeService} from "../../../../services/trigger-deploy-state-change.service";
 
 @Component({
   selector: 'app-panel-composer',
@@ -26,6 +28,7 @@ export class PanelComposerComponent implements OnInit {
   private currentRoute = window.location.href;
   private readonly siteId;
   private readonly pageId;
+  private deployedState = false;
 
   constructor(private treeStateManager: SiteStateManagerService,
               private apiManager: ApiManagerService,
@@ -33,9 +36,13 @@ export class PanelComposerComponent implements OnInit {
               private footerService: FooterStateService,
               private navbarService: NavbarStateService,
               private route: ActivatedRoute,
-              private httpService: HttpApiService) {
+              private httpService: HttpApiService,
+              private deployedHelperService: DeployedHelperService,
+              private triggerDeployStateChange: TriggerDeployStateChangeService) {
     this.siteId = this.route.snapshot.paramMap.get('siteId') || "";
     this.pageId = this.route.snapshot.paramMap.get('pageId') || "";
+
+    this.deployedState = this.deployedHelperService.getDeployedState();
   }
 
   ngOnInit(){
@@ -44,6 +51,13 @@ export class PanelComposerComponent implements OnInit {
 
       this.stateService.setState( isNaN(res.maxId) ? DesignerStateServiceService.DEFAULT_STATE : res);
     });
+  }
+
+  onChangeHelperState(){
+    this.deployedState = !this.deployedState;
+    console.log(this.deployedState);
+    this.deployedHelperService.setDeployedState(this.deployedState);
+    this.triggerDeployStateChange.setState(this.deployedState);
   }
 
 
@@ -64,6 +78,7 @@ export class PanelComposerComponent implements OnInit {
   }
 
   public previewPage(){
+    this.deployedHelperService.setDeployedState(this.deployedState);
     this.stateService.saveSession();
     this.footerService.saveSession();
     this.navbarService.saveSession();

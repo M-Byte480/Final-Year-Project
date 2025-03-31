@@ -9,6 +9,7 @@ import {FooterStateService} from "../../../../services/states/footer-state/foote
 import {NavbarStateService} from "../../../../services/states/navbar-state/navbar-state.service";
 import {environment} from "../../../../../environments/environment";
 import {JwtServiceService} from "../../../../services/authentication/jwt-service.service";
+import {DeployedHelperService} from "../../../../services/deployed-helper.service";
 
 @Component({
   selector: 'app-preview-page',
@@ -26,7 +27,8 @@ export class PreviewPageComponent implements OnInit {
   constructor(private stateService: DesignerStateServiceService,
               private footerService: FooterStateService,
               private navbarService: NavbarStateService,
-              private jwtService: JwtServiceService) {
+              private jwtService: JwtServiceService,
+              private deployedStateHelper: DeployedHelperService) {
     this.stateService.state$.subscribe( (state) => {
       this.pageState = state;
     });
@@ -36,6 +38,7 @@ export class PreviewPageComponent implements OnInit {
     if(!environment.dev){
       this.jwtService.authenticateUser();
     }
+    this.deployedStateHelper.setDeployedState(true);
 
     this.footerService.getSession();
     this.navbarService.getSession();

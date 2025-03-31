@@ -17,7 +17,7 @@ import {environment} from "../../../../../../environments/environment";
   templateUrl: './domain-manager.component.html'
 })
 export class DomainManagerComponent implements OnInit {
-  prefix = environment.dev ? 'localhost:4200/' : 'https://milan-kovacs.ie/';
+  prefix = environment.dev ? 'localhost:4200/' : 'localhost:4200/';
   domainName = '';
   siteId = '';
   private currentRoute = window.location.href;
@@ -28,7 +28,7 @@ export class DomainManagerComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(50),
-        Validators.pattern("^[a-zA-Z0-9]*$"),
+        Validators.pattern("^[a-zA-Z0-9-]*$"),
       ]),
     siteId: new FormControl(this.siteId)
   });

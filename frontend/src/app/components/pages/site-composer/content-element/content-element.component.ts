@@ -2,9 +2,6 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PanelComposerComponent} from "../panel-composer/panel-composer.component";
 import {SelectionModalComponent} from "./selection-modal/selection-modal.component";
 import {NgIf} from "@angular/common";
-import {DesignerStateServiceService} from "../../../../services/states/designer-service/designer-state-service.service";
-import {SiteStateManagerService} from "../../../../services/states/state-manager/site-state-manager.service";
-import {ContentEditorManagerService} from "../../../../services/managers/content-editor-manager.service";
 import {SelectorModalService} from "../../../../services/managers/selector-modal.service";
 import {DeployedHelperService} from "../../../../services/deployed-helper.service";
 

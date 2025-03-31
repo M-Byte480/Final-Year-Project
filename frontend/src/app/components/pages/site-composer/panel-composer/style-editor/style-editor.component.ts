@@ -50,4 +50,5 @@ export class StyleEditorComponent implements OnInit {
     this.showStyleEditor = false;
   }
 
+  protected readonly Array = Array;
 }

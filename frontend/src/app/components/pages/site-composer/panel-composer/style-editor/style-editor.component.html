@@ -9,10 +9,13 @@
       <th>Value</th>
     </tr>
     <tr *ngFor="let property of properties | keyvalue; trackBy: trackByKey">
-      <td>{{property.key}}</td>
-      <td>
-        <input type="text" [(ngModel)]="properties[property.key]">
-      </td>
+      <ng-container *ngIf="!Array.isArray(property.value)">
+
+        <td>{{ property.key }}</td>
+        <td>
+          <input type="text" [(ngModel)]="properties[property.key]">
+        </td>
+      </ng-container>
     </tr>
 
   </table>

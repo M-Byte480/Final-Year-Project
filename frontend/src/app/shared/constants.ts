@@ -49,6 +49,7 @@ export const COMPOSER_TYPE = {
   IMAGE: 'image',
   BUTTON: 'button',
   SPACER: 'spacer',
+  COMPOSER_VERTICAL: 'composer-vertical',
 }
 
 export const COMPOSER_PROPERTIES = {}

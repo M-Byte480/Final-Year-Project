@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {DesignerStateServiceService} from "../../../../../services/states/designer-service/designer-state-service.service";
 import {SelectorModalService} from "../../../../../services/managers/selector-modal.service";
+import {COMPOSER_TYPE} from "../../../../../shared/constants";
 
 @Component({
   selector: 'app-selection-modal',
@@ -26,4 +27,7 @@ export class SelectionModalComponent {
   addElement(element: string): void {
     this.elementToAddEvent.emit(element);
   }
+
+    protected readonly Component = Component;
+  protected readonly COMPOSER_TYPE = COMPOSER_TYPE;
 }

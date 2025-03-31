@@ -1,9 +1,9 @@
 <div class="flex justify-center items-center bg-black bg-opacity-5 h-full w-full" (click)="close()">
-  <div class="grid grid-cols-2 grid-rows-2">
+  <div class="grid grid-cols-2 grid-rows-3">
     <div class="grid-item">
       <button
         class="transition text-white ease-in-out delay-0 w-48 m-2 p-2 bg-blue-600 text-center text-lg border-2 border-white hover:border-2 hover:border-amber-400 hover:scale-110"
-        (click)="addElement('spacer')"
+        (click)="addElement(COMPOSER_TYPE.SPACER)"
       >
         Spacer
       </button>
@@ -11,7 +11,7 @@
     <div class="grid-item">
       <button
         class="transition text-white ease-in-out delay-0 w-48 m-2 p-2 bg-blue-600 text-center text-lg border-2 border-white hover:border-2 hover:border-amber-400 hover:scale-110"
-        (click)="addElement('image')"
+        (click)="addElement(COMPOSER_TYPE.IMAGE)"
       >
         Image
       </button>
@@ -19,7 +19,7 @@
     <div class="grid-item">
       <button
         class="transition text-white ease-in-out delay-0 w-48 m-2 p-2 bg-blue-600 text-center text-lg border-2 border-white hover:border-2 hover:border-amber-400 hover:scale-110"
-        (click)="addElement('button')"
+        (click)="addElement(COMPOSER_TYPE.BUTTON)"
       >
         Button
       </button>
@@ -27,11 +27,18 @@
     <div class="grid-item">
       <button
         class="transition text-white ease-in-out delay-0 w-48 m-2 p-2 bg-blue-600 text-center text-lg border-2 border-white hover:border-2 hover:border-amber-400 hover:scale-110"
-        (click)="addElement('text')"
+        (click)="addElement(COMPOSER_TYPE.TEXT)"
       >
         Text
       </button>
     </div>
-
+    <div class="grid-item">
+      <button
+        class="transition text-white ease-in-out delay-0 w-48 m-2 p-2 bg-blue-600 text-center text-lg border-2 border-white hover:border-2 hover:border-amber-400 hover:scale-110"
+        (click)="addElement(COMPOSER_TYPE.COMPOSER_VERTICAL)"
+      >
+        Vertical Builder
+      </button>
+    </div>
   </div>
 </div>

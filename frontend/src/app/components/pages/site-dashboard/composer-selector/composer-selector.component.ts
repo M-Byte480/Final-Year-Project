@@ -98,6 +98,11 @@ export class ComposerSelectorComponent implements OnInit {
   }
 
   onPreviewPage(page: any) {
+    // let params = new HttpParams().set('pageId', page.id);
+    // this.httpApiService.get(ENDPOINTS['getPreviewSite'], params).subscribe((response: any) => {
+    //   console.log('preview site', response);
+    //
+    // });
     window.open(`${this.currentRoute}/composer/${page.id}/preview`, "_blank");
     return;
   }

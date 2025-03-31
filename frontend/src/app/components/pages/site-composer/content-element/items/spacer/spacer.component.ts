@@ -5,6 +5,7 @@ import {
 import {ContentEditorManagerService} from "../../../../../../services/managers/content-editor-manager.service";
 import {DeployedHelperService} from "../../../../../../services/deployed-helper.service";
 import {NgIf} from "@angular/common";
+import {TriggerDeployStateChangeService} from "../../../../../../services/trigger-deploy-state-change.service";
 
 @Component({
   selector: 'app-spacer',
@@ -23,7 +24,8 @@ export class SpacerComponent implements OnInit{
 
   constructor(private designerStateService: DesignerStateServiceService,
               private contentEditorManager: ContentEditorManagerService,
-              private deployedHelperService: DeployedHelperService) {
+              private deployedHelperService: DeployedHelperService,
+              private triggerDeployStateChange: TriggerDeployStateChangeService) {
 
   }
 
@@ -33,8 +35,11 @@ export class SpacerComponent implements OnInit{
       // Set default state
       this.emitDefaultState(this.id);
     }
-
     this.isDeployed = this.deployedHelperService.getDeployedState();
+
+    this.triggerDeployStateChange.state$.subscribe((state) => {
+      this.isDeployed = this.deployedHelperService.getDeployedState();
+    });
   }
 
 

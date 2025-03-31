@@ -12,6 +12,9 @@ import {
   HorizontalBuilderComponent
 } from "../../components/pages/site-composer/content-element/horizontal-builder/horizontal-builder.component";
 import {SpacerComponent} from "../../components/pages/site-composer/content-element/items/spacer/spacer.component";
+import {
+  VerticalComponent
+} from "../../components/pages/site-composer/content-element/items/vertical/vertical.component";
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +41,8 @@ export class ComponentFactoryService {
         return HorizontalBuilderComponent;
       case COMPOSER_TYPE.SPACER:
         return SpacerComponent;
+      case COMPOSER_TYPE.COMPOSER_VERTICAL:
+        return VerticalComponent;
       default:
         console.error('Component not found for name:', name);
         return ContentElementComponent;
