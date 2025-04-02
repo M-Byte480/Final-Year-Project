@@ -13,8 +13,9 @@ import {HttpApiService} from "../../../../services/http/http-api.service";
 import {ENDPOINTS} from "../../../../services/http/endpoints";
 import {HttpParams} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {DatePipe} from "@angular/common";
+import {DatePipe, NgIf} from "@angular/common";
 import {DomainManagerComponent} from "../overview/domain-manager/domain-manager.component";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-deploy',
@@ -32,7 +33,9 @@ import {DomainManagerComponent} from "../overview/domain-manager/domain-manager.
     MatTable,
     MatHeaderCellDef,
     DatePipe,
-    DomainManagerComponent
+    DomainManagerComponent,
+    MatProgressSpinner,
+    NgIf
   ],
   templateUrl: './deploy.component.html',
   styleUrl: './deploy.component.css'
@@ -41,15 +44,20 @@ export class DeployComponent implements OnInit {
   private currentRoute = window.location.href;
   disableDeployButton = false;
   displayedColumns = ['date'];
+  isSiteDeployed = false;
+  isLoading = true;
   deploymentHistory = [
     {
-      "date": 1742866054.092186
+      "date": 1752866054.092186,
+      "deployed": true
     },
     {
-      "date": 1742866054.092186
+      "date": 1742866054.092186,
+      "deployed": false
     },
     {
-      "date": 1742866054.092186
+      "date": 1732866054.092186,
+      "deployed": true
     },
   ];
   siteId = '';
@@ -66,25 +74,40 @@ export class DeployComponent implements OnInit {
   getHistory() {
     const httpParams = new HttpParams().set('siteId', this.siteId);
     this.httpService.get(ENDPOINTS['deployHistory'], httpParams).subscribe((response: any) => {
+      console.log(response);
       this.deploymentHistory = [];
       for (let i = 0; i < response.length; i++) {
         this.deploymentHistory.push({
-          "date": response[i].id.publishTimestamp
+          "date": response[i].id.publishTimestamp,
+          "deployed": response[i].deployed
         });
       }
       this.deploymentHistory.reverse()
     });
+
+    this.isSiteDeployed = this.deploymentHistory[0].deployed;
+    this.isLoading = false;
   }
 
   onDeploy() {
+    this.isLoading = true;
     this.httpService.post(ENDPOINTS['deploySite'], {siteId: this.siteId}).subscribe((response: any) => {
-      this.deploymentHistory = [{'date': response.id.publishTimestamp}, ...this.deploymentHistory];
+      console.log(response);
+      this.deploymentHistory = [{'date': response.id.publishTimestamp, 'deployed': response.deployed}, ...this.deploymentHistory];
+      this.isSiteDeployed = true;
+      this.isLoading = false;
     });
   }
 
   onAbortDeployment() {
+    this.isLoading = true;
+
     this.httpService.post(ENDPOINTS['abortDeployment'], {siteId: this.siteId}).subscribe((response: any) => {
-      console.log(response);
+      if(response) {
+        this.deploymentHistory[0].deployed = false;
+        this.isSiteDeployed = false;
+        this.isLoading = false;
+      }
     });
   }
 

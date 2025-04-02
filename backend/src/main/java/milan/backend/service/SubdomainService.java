@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import milan.backend.entity.PublishedPageEntity;
 import milan.backend.entity.PublishedSiteEntity;
 import milan.backend.entity.SubdomainEntity;
+import milan.backend.entity.id.classes.PublishedSiteIdTimestamp;
 import milan.backend.model.dto.DeployDTO;
 import milan.backend.repository.SubdomainRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,28 @@ public class SubdomainService {
 
         PublishedSiteEntity publishedSiteEntity = this.publisherService.publish(deployDTO);
 
+        this.subdomainRepository.findBySiteId(publishedSiteEntity.getId().getSiteId()).ifPresentOrElse(
+                subdomainEntity -> {
+                    subdomainEntity.setDeployed(true);
+                    this.subdomainRepository.save(subdomainEntity);
+                },
+                () -> {
+                    SubdomainEntity newSubdomain = new SubdomainEntity();
+                    newSubdomain.setSiteId(publishedSiteEntity.getId().getSiteId());
+                    newSubdomain.setDeployed(true);
+                    this.subdomainRepository.save(newSubdomain);
+                }
+        );
+
         return publishedSiteEntity;
+    }
+
+    public PublishedSiteEntity abortDeploy(UUID siteId) {
+        this.subdomainRepository.findBySiteId(siteId).ifPresent(subdomainEntity -> {
+            subdomainEntity.setDeployed(false);
+            this.subdomainRepository.save(subdomainEntity);
+        });
+        return this.publisherService.getLatestSiteEntityForSiteId(siteId);
     }
 
     public PublishedPageEntity getSiteFromRouteAndName(String route, String name) {
@@ -70,4 +92,7 @@ public class SubdomainService {
     }
 
 
+    public boolean isDeployed(PublishedSiteIdTimestamp key) {
+        return this.subdomainRepository.findBySiteId(key.getSiteId()).map(SubdomainEntity::isDeployed).orElse(false);
+    }
 }

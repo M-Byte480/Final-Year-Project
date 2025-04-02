@@ -3,28 +3,41 @@
   <app-domain-manager (domainNameUpdate)="doesDomainExists($event)"/>
   <div class="flex justify-center">
     <div class="w-3/12 m-5">
-      <table mat-table [dataSource]="deploymentHistory" class="mat-elevation-z8 page-table ">
-        <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef>History</th>
-          <td mat-cell *matCellDef="let history">{{ history.date * 1000 | date: 'dd/MM/yyyy - HH:mm:ss' }}</td>
-        </ng-container>
+      <ng-container *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
+      </ng-container>
+      <ng-container *ngIf="!isLoading">
+        <div *ngIf="!isSiteDeployed">
+          <div class="w-full h-full bg-red-700 text-white">Not Deployed</div>
+        </div>
+        <div *ngIf="isSiteDeployed">
+          <div class="w-full h-full bg-green-700 text-white">Deployed</div>
+        </div>
+      </ng-container>
+<!--      <table mat-table [dataSource]="deploymentHistory" class="mat-elevation-z8 page-table ">-->
+<!--        <ng-container matColumnDef="date">-->
+<!--          <th mat-header-cell *matHeaderCellDef>History</th>-->
+<!--          <td mat-cell *matCellDef="let history">{{ history.date * 1000 | date: 'dd/MM/yyyy - HH:mm:ss' }}</td>-->
+<!--        </ng-container>-->
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row
-            *matRowDef="let row; columns: displayedColumns; "></tr>
-      </table>
+<!--        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+<!--        <tr mat-row-->
+<!--            *matRowDef="let row; columns: displayedColumns; "></tr>-->
+<!--      </table>-->
     </div>
     <div class="h-28 w-12 m-5">
       <button
         class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow m-5
                 disabled:bg-gray-200 disabled:text-gray-500 disabled:border-gray-300 disabled:cursor-not-allowed"
         (click)="onDeploy()"
-        [disabled]="disableDeployButton">
+        [disabled]="disableDeployButton || isSiteDeployed">
         Deploy
       </button>
       <button
-        class="bg-red-600 text-sm hover:bg-gray-100 hover:text-red-400 text-gray-100 font-semibold py-2 px-4 border border-gray-400 rounded shadow m-5"
-        (click)="onAbortDeployment()">
+        class="bg-red-600 text-sm hover:bg-gray-100 hover:text-red-400 text-gray-100 font-semibold py-2 px-4 border border-gray-400 rounded shadow m-5
+disabled:bg-gray-200 disabled:text-gray-500 disabled:border-gray-300 disabled:cursor-not-allowed"
+        (click)="onAbortDeployment()"
+        [disabled]="!isSiteDeployed">
         Abort current deployment
       </button>
     </div>

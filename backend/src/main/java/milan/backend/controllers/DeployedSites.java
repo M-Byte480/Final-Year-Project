@@ -6,6 +6,7 @@ import milan.backend.model.PublishedSiteDTO;
 import milan.backend.model.dto.DeployDTO;
 import milan.backend.model.dto.DeployedSiteDTO;
 import milan.backend.model.dto.DomainNameDTO;
+import milan.backend.model.dto.PublishedDTO;
 import milan.backend.model.dto.SubdomainDTO;
 import milan.backend.service.PublisherService;
 import milan.backend.service.SiteComposerService;
@@ -35,20 +36,41 @@ public class DeployedSites {
     }
 
     @GetMapping("/history")
-    public ResponseEntity<List<PublishedSiteEntity>> getHistory(@RequestParam("siteId") String siteId){
+    public ResponseEntity<List<PublishedDTO>> getHistory(@RequestParam("siteId") String siteId){
         List<PublishedSiteEntity> s = this.subdomainService.getHistory(siteId);
-        return ResponseEntity.ok(s);
+        List<PublishedDTO> publishedDTOS = s.stream().map(p -> {
+            PublishedDTO publishedDTO = new PublishedDTO();
+            publishedDTO.setId(p.getId());
+            publishedDTO.setFooter(p.getFooter());
+            publishedDTO.setNavBar(p.getNavBar());
+            boolean deployed = this.subdomainService.isDeployed(p.getId());
+            publishedDTO.setDeployed(deployed);
+            return publishedDTO;
+        }).toList();
+        return ResponseEntity.ok(publishedDTOS);
     }
 
     @PostMapping("/deploy")
-    public ResponseEntity<PublishedSiteEntity> deploySite(@RequestBody DeployDTO deployDTO){
+    public ResponseEntity<PublishedDTO> deploySite(@RequestBody DeployDTO deployDTO){
         PublishedSiteEntity e = this.subdomainService.tryDeploy(deployDTO);
-        return ResponseEntity.ok(e);
+        PublishedDTO publishedDTO = new PublishedDTO();
+        publishedDTO.setId(e.getId());
+        publishedDTO.setFooter(e.getFooter());
+        publishedDTO.setNavBar(e.getNavBar());
+        publishedDTO.setDeployed(true);
+
+        return ResponseEntity.ok(publishedDTO);
     }
 
     @PostMapping("/abort")
-    public ResponseEntity<Object> abortDeployment(){
-        return null;
+    public ResponseEntity<PublishedDTO> abortDeployment(@RequestBody DeployDTO deployDTO){
+        PublishedSiteEntity p = this.subdomainService.abortDeploy(UUID.fromString(deployDTO.getSiteId()));
+        PublishedDTO publishedDTO = new PublishedDTO();
+        publishedDTO.setId(p.getId());
+        publishedDTO.setFooter(p.getFooter());
+        publishedDTO.setNavBar(p.getNavBar());
+        publishedDTO.setDeployed(false);
+        return ResponseEntity.ok(publishedDTO);
     }
 
     @PostMapping("/subdomain")
