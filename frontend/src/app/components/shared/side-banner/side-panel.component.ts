@@ -70,7 +70,7 @@ export class SidePanelComponent implements AfterViewInit, OnDestroy {
   // Default init
   ngAfterViewInit(): void {
     this.panelItems.forEach(item => {
-      if (item.panelName == 'Overview') {
+      if (item.panelName == 'Deployment') {
         this.panelSelected.emit(item);
       }
     })

@@ -46,7 +46,7 @@ export class ComposerSelectorComponent implements OnInit {
   private currentRoute = window.location.href;
   private readonly siteId: string;
   dataSource = new MatTableDataSource<PageDTO>([]);
-  displayedColumns = ['name', 'id', 'action'];
+  displayedColumns = ['name', 'id']; // 'action'
   showModal = false;
   pages: PageDTO[] = [
     {
@@ -94,7 +94,15 @@ export class ComposerSelectorComponent implements OnInit {
   }
 
   onDelete(page: any) {
-    console.log('delete page', page);
+    const payload = {
+      pageId: page.id,
+      siteId: this.siteId
+    };
+
+    this.httpApiService.post(ENDPOINTS['deletePage'], payload).subscribe((response) => {
+      this.pages = response;
+      this.dataSource.data = response;
+    })
   }
 
   onPreviewPage(page: any) {

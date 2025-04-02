@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {
   MatCell,
@@ -14,6 +14,7 @@ import {ENDPOINTS} from "../../../../services/http/endpoints";
 import {HttpParams} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {DatePipe} from "@angular/common";
+import {DomainManagerComponent} from "../overview/domain-manager/domain-manager.component";
 
 @Component({
   selector: 'app-deploy',
@@ -30,14 +31,15 @@ import {DatePipe} from "@angular/common";
     MatRowDef,
     MatTable,
     MatHeaderCellDef,
-    DatePipe
+    DatePipe,
+    DomainManagerComponent
   ],
   templateUrl: './deploy.component.html',
   styleUrl: './deploy.component.css'
 })
 export class DeployComponent implements OnInit {
   private currentRoute = window.location.href;
-
+  disableDeployButton = false;
   displayedColumns = ['date'];
   deploymentHistory = [
     {
@@ -84,5 +86,9 @@ export class DeployComponent implements OnInit {
     this.httpService.post(ENDPOINTS['abortDeployment'], {siteId: this.siteId}).subscribe((response: any) => {
       console.log(response);
     });
+  }
+
+  doesDomainExists($event: string) {
+    this.disableDeployButton = $event === "No domain name set";
   }
 }

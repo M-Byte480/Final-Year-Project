@@ -97,5 +97,9 @@ export const ENDPOINTS: Endpoints = {
   getDeployedSite: {
     endpoint: "/api/sites/deployed-site",
     requestType: REQUEST_TYPES.GET
+  },
+  deletePage: {
+    endpoint: "/api/composer/delete",
+    requestType: REQUEST_TYPES.POST
   }
 };

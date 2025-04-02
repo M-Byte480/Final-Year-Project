@@ -15,6 +15,7 @@ import milan.backend.exception.AlreadyExistsException;
 import milan.backend.model.ImageUploadDTO;
 import milan.backend.model.dto.ComposerDashboardDTO;
 import milan.backend.model.dto.ComposerSavePageDTO;
+import milan.backend.model.dto.DeleteDTO;
 import milan.backend.model.dto.FooterStateDTO;
 import milan.backend.model.dto.NavbarMapperDTO;
 import milan.backend.service.ImageService;
@@ -155,5 +156,14 @@ public class SiteComposerController {
             response = this.imageService.addImageForPage(imageDTO);
         }
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<Set<PageEntity>> delete(@RequestBody DeleteDTO deleteDTO){
+        UUID pageId = UUID.fromString(deleteDTO.getPageId());
+        UUID siteId = UUID.fromString(deleteDTO.getSiteId());
+        this.composerService.deletePage(pageId, siteId);
+        Set<PageEntity> sites = composerService.getComposerPages(siteId);
+        return ResponseEntity.ok(sites);
     }
 }
