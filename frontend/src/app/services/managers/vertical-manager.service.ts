@@ -59,6 +59,9 @@ export class VerticalManagerService {
 
 
   public duplicateLastRow(childGridArr: number[], id: number){
+
+    console.log("childGridArr: ", childGridArr);
+    console.log("id: ", id);
     // New node to add
     let nextState = this.stateService.getState();
     let newMax = this.stateService.getMax() + 1;
