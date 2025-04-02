@@ -1,12 +1,12 @@
 <div class="flex flex-row items-center h-full min-h-fit w-full">
   <div>
-    <button (click)="onAddToLeft()" *ngIf="!isPreview">+</button>
+    <button mat-stroked-button (click)="onAddToLeft()" *ngIf="!isPreview">+</button>
   </div>
   <div class="flex flex-row items-center">
         <app-child [id]="id" [parentName]="name" [isPreview]="isPreview" *ngFor="let id of childGridArr" />
   </div>
   <div>
-    <button (click)="onAddToRight()" *ngIf="!isPreview">+</button>
+    <button mat-stroked-button (click)="onAddToRight()" *ngIf="!isPreview">+</button>
   </div>
 </div>
 
