@@ -1,7 +1,8 @@
-<div (click)="onClickOfComponentSendToStyler()"
-[ngClass]="{'cursor-pointer transition ease-in-out hover:scale-90 hover:cursor-pointer': !isPreview}"
->
-  <div #component></div>
-</div>
-
+  <div (click)="onClickOfComponentSendToStyler()"
+       [ngClass]="{
+       'cursor-pointer transition ease-in-out hover:border-2 hover:border-blue-500 hover:shadow-lg w-full': !isPreview
+       }"
+  >
+    <div #component></div>
+  </div>
 

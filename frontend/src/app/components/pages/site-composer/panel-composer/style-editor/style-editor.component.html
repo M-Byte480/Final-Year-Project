@@ -1,31 +1,33 @@
 <div>
 
-  <div class="w-full bg-orange-400 mt-4 mb-4">
+  <div class="border-t border-gray-200 w-full h-100 bg-blue-300 text-center bold text-lg p-3 mt-4">
     Style Editor
   </div>
   <div *ngIf="showStyleEditor">
-    <button mat-flat-button (click)="showProperties = !showProperties">Show Properties</button>
+    <button class="mb-4" mat-flat-button (click)="showProperties = !showProperties">Show Properties</button>
     <div *ngIf="showProperties"
-         class=" bg-gray-900 text-green-300 font-mono text-sm p-2 rounded overflow-auto max-h-96">
-      {{ properties | json }}
+         class=" bg-white border border-black font-mono text-sm p-2 rounded overflow-auto max-h-96">
+      <!--      {{ properties | json }}-->
+      <ngx-json-viewer [json]="properties"></ngx-json-viewer>
     </div>
-    <table>
-      <tr>
-        <th>Property</th>
-        <th>Value</th>
-      </tr>
-      <tr *ngFor="let property of properties | keyvalue; trackBy: trackByKey">
-        <ng-container *ngIf="!Array.isArray(property.value)">
+    <div class="pl-1 pr-1">
+      <table>
+        <tr>
+          <th>Property</th>
+          <th>Value</th>
+        </tr>
+        <tr *ngFor="let property of properties | keyvalue; trackBy: trackByKey">
+          <ng-container *ngIf="!Array.isArray(property.value)">
 
-          <td>{{ property.key }}</td>
-          <td>
-            <input type="text" [(ngModel)]="properties[property.key]">
-          </td>
-        </ng-container>
-      </tr>
-
-    </table>
-    <div>
+            <td>{{ property.key }}</td>
+            <td>
+              <input type="text" [(ngModel)]="properties[property.key]">
+            </td>
+          </ng-container>
+        </tr>
+      </table>
+    </div>
+    <div class="m-4">
       <button (click)="deleteComponent()" mat-raised-button color="warn">Delete</button>
     </div>
   </div>

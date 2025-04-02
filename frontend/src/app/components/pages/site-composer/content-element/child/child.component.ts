@@ -21,7 +21,8 @@ export class ChildComponent implements AfterViewInit,OnInit {
   @Input() id!: any;
   @Input() parentId?: number = -1;
   @Input() parentName: string = '';
-  @Input() isPreview: boolean = false;
+  @Input() isPreview: boolean = false
+  isHorizontal = false;
   componentName: string = '';
 
   @ViewChild('component', { read: ViewContainerRef, static: false })
@@ -46,6 +47,10 @@ export class ChildComponent implements AfterViewInit,OnInit {
     const componentDetails = this.stateService.getState()[this.id];
     const component = this.componentFactory.getComponent(componentDetails.name);
     this.componentName = componentDetails.name;
+
+    if(this.componentName === COMPOSER_TYPE.HORIZONTAL_BUILDER) {
+      this.isHorizontal = true;
+    }
     // @ts-ignore
     const componentRef = this.renderedComponent.createComponent(component);
 

@@ -9,7 +9,8 @@ import {NgForOf, NgIf} from "@angular/common";
 import {ChildComponent} from "../child/child.component";
 import {HorizontalManagerService} from "../../../../../services/managers/horizontal-manager.service";
 import {MatChip} from "@angular/material/chips";
-import {MatButton} from "@angular/material/button";
+import {MatButton, MatFabButton, MatMiniFabButton} from "@angular/material/button";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-horizontal-builder',
@@ -19,7 +20,10 @@ import {MatButton} from "@angular/material/button";
     ChildComponent,
     NgIf,
     MatChip,
-    MatButton
+    MatButton,
+    MatIcon,
+    MatMiniFabButton,
+    MatFabButton
   ],
   templateUrl: './horizontal-builder.component.html'
 })
