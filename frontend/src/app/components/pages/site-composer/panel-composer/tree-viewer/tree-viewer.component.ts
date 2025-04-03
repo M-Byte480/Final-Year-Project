@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import {DesignerStateServiceService} from "../../../../../services/states/designer-service/designer-state-service.service";
 import {NgIf} from "@angular/common";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-tree-viewer',
   standalone: true,
   imports: [
-    NgIf
+    NgIf,
+    MatButton
   ],
   templateUrl: './tree-viewer.component.html'
 })

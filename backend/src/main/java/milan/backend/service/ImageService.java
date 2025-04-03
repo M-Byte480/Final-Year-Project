@@ -17,7 +17,6 @@ public class ImageService {
         ImageEntity image =
         this.imageRepository.getBySiteIdAndForNavBar(UUID.fromString(imageDTO.getSiteId()), true).orElseGet(() -> {
             ImageEntity imageEntity = new ImageEntity();
-            imageEntity.setImage(imageDTO.getImage());
             imageEntity.setId(UUID.randomUUID());
             imageEntity.setPageId(null);
             imageEntity.setImage_url(null);
@@ -25,6 +24,8 @@ public class ImageService {
             imageEntity.setForNavBar(true);
             return this.imageRepository.save(imageEntity);
         });
+
+        image.setImage(imageDTO.getImage());
         return this.imageRepository.save(image);
     }
 

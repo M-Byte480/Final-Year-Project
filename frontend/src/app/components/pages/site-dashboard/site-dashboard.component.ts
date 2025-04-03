@@ -53,7 +53,7 @@ export class SiteDashboardComponent implements OnInit {
   };
 
   protected deploy: PanelItem = {
-    panelName: 'Deploy',
+    panelName: 'Deployment',
     component: DeployComponent
   };
 
@@ -68,7 +68,7 @@ export class SiteDashboardComponent implements OnInit {
   };
 
   protected composer: PanelItem = {
-    panelName: 'Composer Selector',
+    panelName: 'Composer Manager',
     component: ComposerSelectorComponent
   };
 
@@ -88,11 +88,11 @@ export class SiteDashboardComponent implements OnInit {
   };
 
   protected readonly panelActions: PanelItem[] = [
-    this.overview,
+    // this.overview,
+    this.deploy,
+    this.composer,
     this.navigationManager,
     this.footerManager,
-    this.composer,
-    this.deploy,
     // this.analytics,
     // this.productManager,
     this.delete

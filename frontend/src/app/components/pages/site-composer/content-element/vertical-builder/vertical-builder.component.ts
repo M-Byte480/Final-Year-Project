@@ -52,6 +52,11 @@ export class VerticalBuilderComponent implements OnInit, AfterViewInit {
   }
 
   dupeBottomRow(){
-    this.verticalManager.duplicateLastRow(this.childGridArr, this.id);
+    this.verticalManager.duplicateLastRow(this.childGridArr, 1); // this is because ID is the root component
+    // This is not dynamic yet because of the ID
+    // todo: extract this component and responsibility outside
+
+    // this.verticalManager.dupeLastRow(this.childGridArr, this.id);
+    // this.verticalManager.duplicateLastRow(this.childGridArr, this.id);
   }
 }

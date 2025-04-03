@@ -21,8 +21,11 @@ export class ChildComponent implements AfterViewInit,OnInit {
   @Input() id!: any;
   @Input() parentId?: number = -1;
   @Input() parentName: string = '';
-  @Input() isPreview: boolean = false;
+  @Input() isPreview: boolean = false
+  isHorizontal = false;
   componentName: string = '';
+  static selectedComponent: ChildComponent | null = null;
+  isSelectedInStyler: boolean = false;
 
   @ViewChild('component', { read: ViewContainerRef, static: false })
   renderedComponent!: ViewContainerRef;
@@ -34,7 +37,10 @@ export class ChildComponent implements AfterViewInit,OnInit {
   }
 
   ngOnInit(){
-    console.log("child", this.isPreview);
+    // @ts-ignore
+    if(this.stateService.getState()[this.id].name === COMPOSER_TYPE.HORIZONTAL_BUILDER) {
+      this.isHorizontal = true;
+    }
   }
 
   ngAfterViewInit(){
@@ -46,6 +52,8 @@ export class ChildComponent implements AfterViewInit,OnInit {
     const componentDetails = this.stateService.getState()[this.id];
     const component = this.componentFactory.getComponent(componentDetails.name);
     this.componentName = componentDetails.name;
+
+
     // @ts-ignore
     const componentRef = this.renderedComponent.createComponent(component);
 
@@ -65,11 +73,25 @@ export class ChildComponent implements AfterViewInit,OnInit {
 
   protected readonly parent = parent;
 
+  selectComponent() {
+    if (ChildComponent.selectedComponent && ChildComponent.selectedComponent !== this) {
+      ChildComponent.selectedComponent.deselect();
+    }
+
+    ChildComponent.selectedComponent = this;
+    this.isSelectedInStyler = true;
+  }
+
   onClickOfComponentSendToStyler() {
     if(this.componentName !== COMPOSER_TYPE.BUILDER
       && this.componentName !== COMPOSER_TYPE.HORIZONTAL_BUILDER
       && this.componentName !== COMPOSER_TYPE.VERTICAL_BUILDER) {
+      this.selectComponent();
       this.contentEditorMgr.getStateForId(this.id);
     }
+  }
+
+  deselect() {
+    this.isSelectedInStyler = false;
   }
 }

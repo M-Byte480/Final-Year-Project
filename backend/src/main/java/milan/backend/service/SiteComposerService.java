@@ -194,6 +194,12 @@ public class SiteComposerService {
         return this.pageRepository.findById(pageId).get().getPageName();
     }
 
+    public void deletePage(UUID pageId, UUID siteId) {
+        SiteIdPageIdCompositeKey key = new SiteIdPageIdCompositeKey(siteId, pageId);
+        this.composerPageRepository.deleteById(key);
+        this.pageRepository.deleteById(pageId);
+    }
+
 
 //    public NavBarEntity getNavBar(String siteId) {
 //        return null;

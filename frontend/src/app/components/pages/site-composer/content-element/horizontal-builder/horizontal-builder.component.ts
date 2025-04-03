@@ -8,6 +8,9 @@ import {GridManagerService} from "../../../../../services/managers/grid-manager.
 import {NgForOf, NgIf} from "@angular/common";
 import {ChildComponent} from "../child/child.component";
 import {HorizontalManagerService} from "../../../../../services/managers/horizontal-manager.service";
+import {MatChip} from "@angular/material/chips";
+import {MatButton, MatFabButton, MatMiniFabButton} from "@angular/material/button";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-horizontal-builder',
@@ -15,7 +18,12 @@ import {HorizontalManagerService} from "../../../../../services/managers/horizon
   imports: [
     NgForOf,
     ChildComponent,
-    NgIf
+    NgIf,
+    MatChip,
+    MatButton,
+    MatIcon,
+    MatMiniFabButton,
+    MatFabButton
   ],
   templateUrl: './horizontal-builder.component.html'
 })

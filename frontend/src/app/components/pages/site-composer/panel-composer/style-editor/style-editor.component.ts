@@ -3,6 +3,7 @@ import {ContentEditorManagerService} from "../../../../../services/managers/cont
 import {JsonPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {MatButton} from "@angular/material/button";
+import {NgxJsonViewerModule} from "ngx-json-viewer";
 
 @Component({
   selector: 'app-style-editor',
@@ -13,7 +14,8 @@ import {MatButton} from "@angular/material/button";
     FormsModule,
     JsonPipe,
     KeyValuePipe,
-    MatButton
+    MatButton,
+    NgxJsonViewerModule
   ],
   templateUrl: './style-editor.component.html',
   styleUrl: './style-editor.component.css'

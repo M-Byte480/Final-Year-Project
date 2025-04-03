@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpApiService} from "../../../../../services/http/http-api.service";
 import {ENDPOINTS} from "../../../../../services/http/endpoints";
@@ -17,10 +17,11 @@ import {environment} from "../../../../../../environments/environment";
   templateUrl: './domain-manager.component.html'
 })
 export class DomainManagerComponent implements OnInit {
-  prefix = environment.dev ? 'localhost:4200/' : 'localhost:4200/';
+  prefix = environment.dev ? 'localhost:4200/' : 'milan-kovacs.ie/';
   domainName = '';
   siteId = '';
   private currentRoute = window.location.href;
+  @Output() domainNameUpdate = new EventEmitter<string>();
 
   domainFormGroup = new FormGroup({
     domainName: new FormControl("",
@@ -45,6 +46,7 @@ export class DomainManagerComponent implements OnInit {
       // @ts-ignore
       this.domainFormGroup.get('domainName').setValue(response['domainName']);
       this.domainName = response['domainName'] === "" ? "No domain name set" : this.prefix + response['domainName'];
+      this.domainUpdateEvent(this.domainName);
     });
   }
 
@@ -54,5 +56,9 @@ export class DomainManagerComponent implements OnInit {
       this.domainName = this.domainFormGroup.get("domainName")?.value === "" ? "No domain name set" :
         this.prefix + this.domainFormGroup.get("domainName")?.value;
     });
+  }
+
+  domainUpdateEvent(name: string) {
+    this.domainNameUpdate.emit(name);
   }
 }
