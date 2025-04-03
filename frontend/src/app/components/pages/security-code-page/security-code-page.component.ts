@@ -116,7 +116,7 @@ export class SecurityCodePageComponent {
     const emailPayload = {
       email: email
     };
-    this.httpService.call(ENDPOINTS['sendVerificationEmail'], emailPayload).subscribe({
+    this.httpService.postNoAuth(ENDPOINTS['sendVerificationEmail'], emailPayload).subscribe({
       next: () => {
         this.startCountdown();
       },
@@ -157,7 +157,7 @@ export class SecurityCodePageComponent {
 
   onSubmit(): void {
     const verificationCode = this.allDigits.map(digit => digit()).join('');
-    this.httpService.call(ENDPOINTS['submitRegistrationVerificationCode'], {
+    this.httpService.postNoAuth(ENDPOINTS['submitRegistrationVerificationCode'], {
       email: this.enteredEmail,
       code: verificationCode
     }).subscribe({
