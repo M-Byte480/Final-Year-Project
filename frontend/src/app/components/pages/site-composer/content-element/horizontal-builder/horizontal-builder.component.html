@@ -1,6 +1,9 @@
 <div class="flex flex-row items-center justify-between h-full min-h-fit w-full">
   <div>
-    <button class="mr-4" mat-fab (click)="onAddToLeft()" *ngIf="!isPreview">
+    <button
+      class="ml-2 w-8 h-8 rounded-lg bg-blue-300 text-purple-700 flex items-center justify-center shadow-md hover:bg-blue-400 transition"
+
+      (click)="onAddToLeft()" *ngIf="!isPreview">
       <mat-icon>add</mat-icon>
     </button>
   </div>
@@ -8,7 +11,9 @@
     <app-child [id]="id" [parentName]="name" [isPreview]="isPreview" *ngFor="let id of childGridArr"/>
   </div>
   <div>
-    <button class="ml-4" mat-fab (click)="onAddToRight()" *ngIf="!isPreview">
+    <button
+      class="mr-2 w-8 h-8 rounded-lg bg-blue-300 text-purple-700 flex items-center justify-center shadow-md hover:bg-blue-400 transition"
+      (click)="onAddToRight()" *ngIf="!isPreview">
       <mat-icon>add</mat-icon>
     </button>
   </div>
