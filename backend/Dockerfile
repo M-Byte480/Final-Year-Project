@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM maven:3.9.4-openjdk-22.ea-b17 AS build
+FROM maven:3-eclipse-temurin-22-alpine AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
