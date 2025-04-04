@@ -3,7 +3,7 @@ FROM maven:3.9.9-ibm-semeru-21-jammy AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
-RUN mvn clean install -DskipTests
+RUN mvn clean package -DskipTests
 
 # Stage 2: Run
 FROM openjdk:21-jdk-slim
