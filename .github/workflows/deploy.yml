@@ -3,7 +3,9 @@ on:
   push:
     branches:
       - "main"
-
+#          cd ./backend
+#          docker build -t backend .
+#          cd ..
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -19,9 +21,6 @@ jobs:
           script: |
             cd ~/Final-Year-Project
             git pull origin main
-            cd ./backend
-            docker build -t backend .
-            cd ..
             docker-compose pull
             docker-compose down
             docker-compose up -d
