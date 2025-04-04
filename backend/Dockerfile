@@ -3,7 +3,7 @@ FROM maven:3-eclipse-temurin-22-alpine AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests=true -DoutputDirectory=./target
 
 # Stage 2: Run
 FROM openjdk:22-jdk-slim-buster
