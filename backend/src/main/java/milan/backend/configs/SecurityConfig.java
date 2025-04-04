@@ -3,6 +3,7 @@ package milan.backend.configs;
 import milan.backend.configs.filters.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -31,16 +32,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> {
                     System.out.println("SecurityConfig.authorizeHttpRequests");
                     request
-//                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                    .requestMatchers("/**").permitAll();
-//                    .requestMatchers(
-//                            "/auth/login",
-//                            "/auth/register",
-//                            "/api/email/send-verification",
-//                            "/api/email/verify",
-//                            "/api/sites/deployed-site",
-//                            "/auth/test").permitAll()
-//                    .anyRequest().authenticated();
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//                    .requestMatchers("/**").permitAll();
+                    .requestMatchers(
+                            "/auth/login",
+                            "/auth/register",
+                            "/api/email/send-verification",
+                            "/api/email/verify",
+                            "/api/sites/deployed-site",
+                            "/auth/test").permitAll()
+                    .anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable);
