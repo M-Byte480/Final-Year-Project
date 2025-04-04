@@ -14,6 +14,7 @@ import {Router} from "@angular/router";
 import {
   RouterDataTransferService,
 } from "../../../services/registration-service/router-data-transfer-service.service";
+import {environment} from "../../../../environments/environment";
 
 
 @Component({
@@ -91,7 +92,9 @@ export class RegistrationPageComponent {
       return;
     }
 
-    this.http.post('http://localhost:8080/auth/register', this.registrationForm.value)
+    const url = environment.apiUrl + '/auth/register';
+
+    this.http.post(url, this.registrationForm.value)
       .subscribe({
         next: (response) => {
           this.routerDataTransfer.setState({apiResponse: response});
