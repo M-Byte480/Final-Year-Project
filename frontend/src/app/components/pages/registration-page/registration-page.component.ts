@@ -5,7 +5,7 @@ import {MatInput} from "@angular/material/input";
 import {PASSWORD_VALIDATOR} from "../../../shared/regexes";
 import {formatDate, NgIf} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
-import {MatIconButton} from "@angular/material/button";
+import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatTooltip} from "@angular/material/tooltip";
 import {HttpClient} from "@angular/common/http";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
@@ -36,7 +36,8 @@ import {environment} from "../../../../environments/environment";
     MatTooltip,
     MatDatepickerToggle,
     MatDatepicker,
-    MatDatepickerInput
+    MatDatepickerInput,
+    MatButton
   ],
   templateUrl: './registration-page.component.html'
 })
@@ -105,6 +106,19 @@ export class RegistrationPageComponent {
         },
         complete: () => {
 
+        }
+      });
+  }
+
+  testConnection(): void{
+    const url = environment.apiUrl + 'auth/test';
+    this.http.get(url)
+      .subscribe({
+        next: (response) => {
+          console.log('Test connection successful', response);
+        },
+        error: (e) => {
+          console.error('Test connection failed', e);
         }
       });
   }
