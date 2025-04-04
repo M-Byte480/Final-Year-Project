@@ -9,7 +9,7 @@ RUN mvn clean package -DskipTests
 FROM openjdk:22-jdk-slim-buster
 LABEL authors="milan"
 
-WORKDIR /app
+#WORKDIR /app
 
 COPY target/backend-0.0.1-SNAPSHOT.jar app.jar
 
