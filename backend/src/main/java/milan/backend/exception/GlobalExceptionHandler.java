@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<Object> handleUserNotFoundException(UsernameNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT)
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(Map.of("error", "User not found", "message", e.getMessage()));
     }
 
