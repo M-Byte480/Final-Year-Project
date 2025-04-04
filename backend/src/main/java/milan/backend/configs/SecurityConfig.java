@@ -54,7 +54,9 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:4200",
                 "https://www.milan.ie",
-                "https://www.milan-kovacs.ie"
+                "https://www.milan-kovacs.ie",
+                "https://milan.ie",
+                "https://milan-kovacs.ie"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
