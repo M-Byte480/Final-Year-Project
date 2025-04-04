@@ -111,7 +111,7 @@ export class RegistrationPageComponent {
   }
 
   testConnection(): void{
-    const url = environment.apiUrl + 'auth/test';
+    const url = environment.apiUrl + '/auth/test';
     this.http.get(url)
       .subscribe({
         next: (response) => {
