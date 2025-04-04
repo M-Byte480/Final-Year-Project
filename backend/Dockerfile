@@ -6,7 +6,7 @@ COPY src ./src
 RUN mvn clean build -DskipTests
 
 # Stage 2: Run
-FROM openjdk:22-jdk-slim
+FROM openjdk:21-jdk-slim
 LABEL authors="milan"
 
 WORKDIR /app

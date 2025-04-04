@@ -1,12 +1,8 @@
 name: Deploy
 on:
-  workflow_run:
-    workflows: [Build]
+  push:
     branches:
       - "main"
-    types:
-      - completed
-  workflow_dispatch:
 
 jobs:
   deploy:
@@ -21,9 +17,11 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /fyp
+            cd /Final-Year-Project
             git pull origin main
-            docker compose -f base.docker-compose.yml -f prod.docker-compose.yml pull
-            docker compose -f base.docker-compose.yml -f prod.docker-compose.yml down
-            # rm -rf dev
-            docker compose -f base.docker-compose.yml -f prod.docker-compose.yml up -d
+            cd /backend
+            docker build -t backend .
+            cd ..
+            docker-compose pull
+            docker-compose down
+            docker-compose up -d
