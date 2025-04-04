@@ -3,6 +3,7 @@ package milan.backend.configs;
 import milan.backend.configs.filters.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -29,14 +30,15 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(request -> {
-                    request.requestMatchers(
+                    request.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .requestMatchers(
                             "/auth/login",
                             "/auth/register",
                             "/api/email/send-verification",
                             "/api/email/verify",
                             "/api/sites/deployed-site",
-                            "/auth/test").permitAll();
-                    request.anyRequest().authenticated();
+                            "/auth/test").permitAll()
+                    .anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable);
@@ -47,7 +49,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:4200",
+                "https://www.milan.ie",
+                "https://www.milan-kovacs.ie"
+        ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
