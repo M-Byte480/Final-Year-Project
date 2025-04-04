@@ -21,7 +21,9 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
-            docker pull ghcr.io/${{ github.repository }}:latest
-            docker compose down
-            docker compose up -d
+            cd /fyp
+            git pull origin main
+            docker compose -f base.docker-compose.yml -f prod.docker-compose.yml pull
+            docker compose -f base.docker-compose.yml -f prod.docker-compose.yml down
+            # rm -rf dev
+            docker compose -f base.docker-compose.yml -f prod.docker-compose.yml up -d
