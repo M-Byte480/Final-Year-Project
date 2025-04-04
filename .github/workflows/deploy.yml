@@ -1,11 +1,8 @@
-name: Deploy
+name: Deploy Backend
 on:
   push:
     branches:
       - "main"
-#          cd ./backend
-#          docker build -t backend .
-#          cd ..
 jobs:
   deploy:
     runs-on: ubuntu-latest
