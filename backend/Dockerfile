@@ -9,10 +9,8 @@ RUN mvn clean package -DskipTests=true -DoutputDirectory=./target
 FROM openjdk:22-jdk-slim-buster
 LABEL authors="milan"
 
-#WORKDIR /app
+WORKDIR /app
 # Log the current working directory
-RUN pwd
-RUN ls
 
 COPY target/backend-0.0.1-SNAPSHOT.jar app.jar
 
