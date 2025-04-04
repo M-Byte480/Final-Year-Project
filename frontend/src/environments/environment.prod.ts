@@ -1,4 +1,4 @@
 export const environment = {
   dev: false,
-  apiUrl: '', // Todo: get the api url
+  apiUrl: 'http://95.216.138.150:8080',
 };
