@@ -12,7 +12,7 @@ LABEL authors="milan"
 WORKDIR /app
 # Log the current working directory
 
-COPY target/backend-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build target/backend-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 
