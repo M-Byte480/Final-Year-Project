@@ -32,8 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @CrossOrigin(
         origins = {
-                "https://www.milan-kovacs.ie",
-                "https://api.milan-kovacs.ie"
+                "https://www.milan-kovacs.ie"
         },
         allowCredentials = "true"
 )
