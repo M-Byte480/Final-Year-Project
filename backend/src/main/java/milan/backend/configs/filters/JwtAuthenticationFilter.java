@@ -19,6 +19,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -37,7 +39,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        if (request.getMethod().equals("OPTIONS")) {
+        List<String> permitAllPaths = Arrays.asList(
+                "/auth/login",
+                "/auth/register",
+                "/api/email/send-verification",
+                "/api/email/verify",
+                "/api/sites/deployed-site",
+                "/auth/test"
+        );
+        String path = request.getServletPath();
+
+        if (permitAllPaths.contains(path) || request.getMethod().equals("OPTIONS")) {
             filterChain.doFilter(request, response);
             return;
         }
