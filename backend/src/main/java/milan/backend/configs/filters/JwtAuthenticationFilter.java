@@ -34,6 +34,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        // Skip OPTIONS requests and public routes
+        String path = request.getRequestURI();
+        return request.getMethod().equalsIgnoreCase("OPTIONS") ||
+                path.startsWith("/auth/register") ||
+                path.startsWith("/auth/login") ||
+                path.startsWith("/auth/test") ||
+                path.startsWith("/api/email");
+    }
+
+    @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
