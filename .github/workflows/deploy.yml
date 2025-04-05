@@ -22,6 +22,6 @@ jobs:
             docker-compose down
             docker-compose up -d
             cd frontend
-            ng build --config=production
+            ng build --configuration=production
             cd dist/frontend/browser
             cp -r ~/Final-Year-Project/frontend/dist/frontend/browser/* /var/www/milan-frontend/
