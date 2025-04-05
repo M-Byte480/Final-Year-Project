@@ -10,9 +10,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://www.milan-kovacs.ie")
-                .allowedMethods("*")
-                .allowedHeaders("*")
+                .allowedOrigins("https://www.milan.ie")
+                .allowedMethods("GET", "POST", "OPTIONS", "PUT", "DELETE")
+                .allowedHeaders("Authorization", "Content-Type", "X-Requested-With", "Accept")
                 .allowCredentials(true)
                 .exposedHeaders("Authorization");
     }

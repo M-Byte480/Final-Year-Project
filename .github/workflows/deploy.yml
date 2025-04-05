@@ -3,6 +3,13 @@ on:
   push:
     branches:
       - "main"
+
+
+
+#          cd frontend
+#          ng build --config=production
+#          cd dist/frontend/browser
+#          cp -r ~/Final-Year-Project/frontend/dist/frontend/browser/* /var/www/frontend/
 jobs:
   deploy:
     runs-on: ubuntu-latest
