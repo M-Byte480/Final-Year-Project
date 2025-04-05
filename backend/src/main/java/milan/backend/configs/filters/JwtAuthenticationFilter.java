@@ -50,6 +50,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
+
+        final HttpServletResponse res =  response;
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
+        res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+        res.setHeader("Access-Control-Max-Age", "3600");
+        if ("OPTIONS".equalsIgnoreCase((request).getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
+
+
         List<String> permitAllPaths = Arrays.asList(
                 "/auth/login",
                 "/auth/register",
@@ -95,6 +107,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
 
-            filterChain.doFilter(request, response);
+            filterChain.doFilter(request, res);
     }
 }
