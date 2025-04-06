@@ -16,9 +16,15 @@ import java.util.Map;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(SubRouteAlreadyInUse.class)
+    public ResponseEntity<Object> handleSubRouteAlreadyInUseException(SubRouteAlreadyInUse e) {
+        return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT)
+                .body(Map.of("error", "Subroute already in use", "message", e.getMessage()));
+    }
+
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<Object> handleUserNotFoundException(UsernameNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT)
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(Map.of("error", "User not found", "message", e.getMessage()));
     }
 

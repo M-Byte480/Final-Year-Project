@@ -97,6 +97,7 @@ public class DeployedSites {
     @GetMapping("/site")
     public ResponseEntity<Object> getDeployedSite(@RequestParam("subRoute") String subRoute,
                                                @RequestParam("subPageName") String pageName){
+        this.subdomainService.checkIfRouteIsDeployed(subRoute);
         return ResponseEntity.ok(this.subdomainService.getSiteFromRouteAndName(subRoute, pageName));
     }
 
