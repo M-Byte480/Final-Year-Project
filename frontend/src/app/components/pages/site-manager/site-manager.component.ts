@@ -60,14 +60,10 @@ export class SiteManagerComponent implements OnInit, OnDestroy {
 
       const cachedData = this.cacheService.get(this.site_cache_key);
 
-      if (cachedData) {
-        this.listOfUserSites = this.cacheService.get('overview-list-of-sites');
-      } else {
-        this.httpService.call(ENDPOINTS['getUserSites']).subscribe((data: Site[]) => {
-          this.listOfUserSites = data;
-          this.cacheService.set(this.site_cache_key, data);
-        });
-      }
+      this.httpService.call(ENDPOINTS['getUserSites']).subscribe((data: Site[]) => {
+        this.listOfUserSites = data;
+        this.cacheService.set(this.site_cache_key, data);
+      });
     }
 
 
@@ -105,10 +101,12 @@ export class SiteManagerComponent implements OnInit, OnDestroy {
       if(this.listOfUserSites === undefined){
         this.listOfUserSites = [];
       }
-      this.listOfUserSites.push(newSite);
-      this.cacheService.set(this.site_cache_key, this.listOfUserSites);
-      this.router.navigate(['/overview', newSite.id]).then(r => {});
-    });
+
+      this.httpService.call(ENDPOINTS['getUserSites']).subscribe((data: Site[]) => {
+        this.listOfUserSites = data;
+        this.cacheService.set(this.site_cache_key, data);
+      });
+      });
   }
 
 }
