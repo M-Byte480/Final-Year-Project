@@ -8,6 +8,9 @@
             [disabled]="domainFormGroup.invalid"
             (click)="updateSiteName()">Update Site Name</button>
   </ng-container>
+  <div *ngIf="errorMessage" class="text-red-700">
+    {{ errorMessage }}
+  </div>
   <p class="text-lg">Current Domain: </p>
-  <p class="text-xl bold">{{domainName}}</p>
+  <p class="hover:scale-95 text-xl"><a href="{{domainName}}">{{domainName}}</a></p>
 </div>

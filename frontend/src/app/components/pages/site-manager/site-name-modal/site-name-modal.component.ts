@@ -22,6 +22,7 @@ export class SiteNameModalComponent {
 
   onNameOfSite(element: string): void {
     this.nameOfSite.emit(element);
+    this.displayStateChange.emit(false);
   }
 
 }

@@ -5,6 +5,7 @@ import {ENDPOINTS} from "../../../../../services/http/endpoints";
 import {HttpParams} from "@angular/common/http";
 import {MatButton} from "@angular/material/button";
 import {environment} from "../../../../../../environments/environment";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-domain-manager',
@@ -12,17 +13,18 @@ import {environment} from "../../../../../../environments/environment";
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    MatButton
+    MatButton,
+    NgIf
   ],
   templateUrl: './domain-manager.component.html'
 })
 export class DomainManagerComponent implements OnInit {
-  prefix = environment.dev ? 'localhost:4200/' : 'milan-kovacs.ie/';
+  prefix = environment.siteUrl;
   domainName = '';
   siteId = '';
   private currentRoute = window.location.href;
   @Output() domainNameUpdate = new EventEmitter<string>();
-
+  errorMessage = '';
   domainFormGroup = new FormGroup({
     domainName: new FormControl("",
       [
@@ -55,6 +57,11 @@ export class DomainManagerComponent implements OnInit {
       // @ts-ignore
       this.domainName = this.domainFormGroup.get("domainName")?.value === "" ? "No domain name set" :
         this.prefix + this.domainFormGroup.get("domainName")?.value;
+      this.errorMessage = '';
+    }, (error) => {
+      if(error.status === 418){
+        this.errorMessage = 'The sub-route given is already taken.';
+      }
     });
   }
 

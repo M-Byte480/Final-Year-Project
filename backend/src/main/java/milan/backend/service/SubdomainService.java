@@ -5,6 +5,7 @@ import milan.backend.entity.PublishedPageEntity;
 import milan.backend.entity.PublishedSiteEntity;
 import milan.backend.entity.SubdomainEntity;
 import milan.backend.entity.id.classes.PublishedSiteIdTimestamp;
+import milan.backend.exception.SubRouteAlreadyInUse;
 import milan.backend.model.dto.DeployDTO;
 import milan.backend.repository.SubdomainRepository;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,8 @@ public class SubdomainService {
     }
 
     public SubdomainEntity setSubdomain(UUID siteId, String subdomain) {
+        checkIfSubdomainNameIsTaken(siteId, subdomain);
+
         SubdomainEntity subdomainEntity = this.subdomainRepository.findBySiteId(siteId).orElseGet(
                 () -> {
                     SubdomainEntity newSubdomainEntity = new SubdomainEntity();
@@ -66,6 +69,14 @@ public class SubdomainService {
 
         subdomainEntity.setSubdomain(subdomain);
         return this.subdomainRepository.save(subdomainEntity);
+    }
+
+    public void checkIfSubdomainNameIsTaken(UUID siteId, String subdomain){
+        this.subdomainRepository.findBySubdomain(subdomain).ifPresent(subdomainEntity -> {
+            if (!subdomainEntity.getSiteId().equals(siteId)) {
+                throw new SubRouteAlreadyInUse("Sub-route already in use");
+            }
+        });
     }
 
     public String getSubdomain(UUID siteId) {
@@ -93,5 +104,12 @@ public class SubdomainService {
 
     public boolean isDeployed(PublishedSiteIdTimestamp key) {
         return this.subdomainRepository.findBySiteId(key.getSiteId()).map(SubdomainEntity::isDeployed).orElse(false);
+    }
+
+    public void checkIfRouteIsDeployed(String subRoute) {
+        SubdomainEntity subdomainEntity = this.subdomainRepository.findBySubdomain(subRoute).orElseThrow();
+        if (!subdomainEntity.isDeployed()) {
+            throw new RuntimeException("Route is not deployed");
+        }
     }
 }
