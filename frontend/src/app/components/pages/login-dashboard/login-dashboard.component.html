@@ -1,7 +1,12 @@
 <main class="container-center">
-  <div class="flex flex-col items-center bg-red-400">
-    <app-button [label]="'Login'" (click)="login()"></app-button>
-    <div></div>
+
+  <div class="flex flex-col items-center">
+    <div class="text-center pb-32 font-bold select-none text-4xl">Welcome To Milan's <br> Website Builder!</div>
+    <div class="p-5 w-80 h-full flex justify-center items-center">
+      <app-button [label]="'Login'" (click)="login()"></app-button>
+    </div>
+    <div class="p-5 w-80 h-full flex justify-center items-center">
     <app-button [label]="'Signup'" (click)="signup()"></app-button>
+    </div>
   </div>
 </main>
