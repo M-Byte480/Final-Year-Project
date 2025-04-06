@@ -1,15 +1,31 @@
-<div class="flex justify-center items-center bg-black bg-opacity-5 h-full w-full top-0 left-0" (click)="close()">
-    <input (click)="$event.stopPropagation()" [(ngModel)]="nameEnteredByUser"/>
-    <button
-      class="transition text-white ease-in-out delay-0 w-48 m-2 p-2 bg-blue-600 text-center text-lg border-2 border-white hover:border-2 hover:border-amber-400 hover:scale-110"
-      (click)="onNameOfSite(nameEnteredByUser)"
-    >
-      Ok
-    </button>
-    <button
-      class="transition text-white ease-in-out delay-0 w-48 m-2 p-2 bg-blue-600 text-center text-lg border-2 border-white hover:border-2 hover:border-amber-400 hover:scale-110"
-      (click)="close()"
-    >
-      Cancel
-    </button>
+<div class="flex justify-center items-center bg-black bg-opacity-25 h-full w-full top-0 left-0 pb-48" (click)="close()">
+  <div class="w-1/5 h-1/6 bg-gray-200 border rounded-xl flex flex-col items-center justify-center " (click)="$event.stopPropagation()">
+    <input class="shadow w-11/12 appearance-none border rounded py-2 px-3 text-gray-700 leading-tight
+    focus:outline-2
+    focus:outline-offset-2
+    focus:outline-solid
+    focus:shadow-outline
+    focus-within:outline-blue-600"
+           type="text"
+           placeholder="Project Title"
+           [(ngModel)]="nameEnteredByUser"
+           (click)="$event.stopPropagation()">
+
+    <div class="flex flex-row w-11/12">
+      <button
+        class="transition text-white ease-in-out delay-0 w-1/2 m-2 p-2 bg-blue-600 text-center text-lg border-2 border-white hover:border-2 hover:border-amber-400 hover:scale-105 rounded-md"
+        (click)="onNameOfSite(nameEnteredByUser)"
+      >
+        Ok
+      </button>
+
+      <button
+        class="transition text-white ease-in-out delay-0 w-1/2 m-2 p-2 bg-blue-600 text-center text-lg border-2 border-white hover:border-2 hover:border-amber-400 hover:scale-105 rounded-md"
+        (click)="close()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+
 </div>
