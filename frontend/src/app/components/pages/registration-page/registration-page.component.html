@@ -1,20 +1,20 @@
 <main class="container">
+
   <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="flex-container w-screen">
+    <div class="text-3xl text-center italic pb-8 mb-8 select-none">
+      Registration
+    </div>
     <div class="flex lg:flex-row flex-col mb-6">
       <mat-form-field floatLabel="auto" appearance="fill" class="mx-2 ">
         <mat-label>Firstname</mat-label>
         <input matInput [type]="'text'" formControlName="firstname" required/>
-        @if (registrationForm.controls.firstname.errors) {
-          <mat-error> {{ firstnameError }}</mat-error>
-        }
+        <mat-error *ngIf="firstnameError">{{ firstnameError }}</mat-error>
       </mat-form-field>
 
       <mat-form-field floatLabel="auto" appearance="fill" class="mx-2">
         <mat-label>Surname</mat-label>
         <input matInput [type]="'text'" formControlName="surname" required/>
-        @if (registrationForm.controls.surname.errors) {
-          <mat-error> {{ surnameError }}</mat-error>
-        }
+        <mat-error *ngIf="lastnameError">{{ lastnameError }}</mat-error>
       </mat-form-field>
     </div>
 
@@ -22,10 +22,11 @@
       <div class="mx-2">
         <mat-form-field [style.width.px]="210">
           <mat-label>Date of Birth</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
+          <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" required>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker
                           startView="multi-year"></mat-datepicker>
+          <mat-error *ngIf="dateOfBirthError">{{ dateOfBirthError }}</mat-error>
         </mat-form-field>
       </div>
 
@@ -54,22 +55,23 @@
         >
           <mat-icon>information</mat-icon>
         </button>
-        @if (registrationForm.controls.password.errors) {
-          <mat-error>{{ passwordError }}</mat-error>
-        }
+        <mat-error *ngIf="passwordError">{{ passwordError }}</mat-error>
       </mat-form-field>
 
       <div>
         <mat-form-field floatLabel="auto" appearance="fill" class="w-360 mx-2">
           <mat-label>Confirm Password</mat-label>
           <input matInput [type]="'password'" formControlName="confirmPassword" required/>
+          <mat-error *ngIf="confirmPasswordError">{{ confirmPasswordError }}</mat-error>
         </mat-form-field>
       </div>
 
     </div>
     <button type="submit" [disabled]="!registrationForm.valid">Register</button>
   </form>
-<!--  <div>-->
-<!--    <button mat-button (click)="testConnection()">TEST CONNECTION</button>-->
-<!--  </div>-->
+
+
+  <!--  <div>-->
+  <!--    <button mat-button (click)="testConnection()">TEST CONNECTION</button>-->
+  <!--  </div>-->
 </main>
