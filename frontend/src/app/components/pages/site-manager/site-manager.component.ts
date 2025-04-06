@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
 import {Site, SiteResponse} from "../../../shared/data-types";
-import {DatePipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {CacheService} from "../../../services/cache/cache.service";
 import {Subscription} from "rxjs";
 import {HttpApiService} from "../../../services/http/http-api.service";
@@ -10,6 +10,7 @@ import {SiteNameModalComponent} from "./site-name-modal/site-name-modal.componen
 import {NavigationBarComponent} from "../../shared/navigation-bar/navigation-bar.component";
 import {environment} from "../../../../environments/environment";
 import {JwtServiceService} from "../../../services/authentication/jwt-service.service";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-site-manager',
@@ -21,7 +22,9 @@ import {JwtServiceService} from "../../../services/authentication/jwt-service.se
     SiteNameModalComponent,
     NgIf,
     DatePipe,
-    NavigationBarComponent
+    NavigationBarComponent,
+    MatProgressSpinner,
+    NgClass
   ],
   templateUrl: './site-manager.component.html',
   styleUrl: './site-manager.component.css'
@@ -30,7 +33,7 @@ export class SiteManagerComponent implements OnInit, OnDestroy {
   private cacheSubscription: Subscription;
   @Output() hideModal = new EventEmitter<boolean>();
   showModal = false;
-
+  isLoading = true;
   listOfUserSites: Site[] | undefined = [];
   response: SiteResponse[] = [];
   mockResponse: SiteResponse[] = [
@@ -60,16 +63,19 @@ export class SiteManagerComponent implements OnInit, OnDestroy {
 
       const cachedData = this.cacheService.get(this.site_cache_key);
 
-      this.httpService.call(ENDPOINTS['getUserSites']).subscribe((data: Site[]) => {
-        this.listOfUserSites = data;
-        this.cacheService.set(this.site_cache_key, data);
-      });
+      this.getSites();
     }
-
-
-
     // @ts-ignore
     this.listOfUserSites = this.response;
+  }
+
+  getSites(){
+    this.isLoading = true;
+    this.httpService.call(ENDPOINTS['getUserSites']).subscribe((data: Site[]) => {
+      this.listOfUserSites = data;
+      this.cacheService.set(this.site_cache_key, data);
+      this.isLoading = false;
+    });
   }
 
   ngOnDestroy() {

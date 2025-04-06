@@ -1,8 +1,10 @@
 <app-navigation-bar />
 
-<div class="w-100 h-100 min-h-[100vh] bg-gradient-to-br from-cyan-400 to-pink-600">
-
-<ol
+<div class="w-100 h-full  bg-gradient-to-br from-cyan-400 to-pink-600" [ngClass]="isLoading ? 'flex justify-center items-center' : ''">
+  <div class="uploader-status" *ngIf="isLoading">
+    <mat-spinner [diameter]="55" [strokeWidth]="8" color="warn"></mat-spinner>
+  </div>
+<ol *ngIf="!isLoading"
   class="grid-cols-1 gap-4 grid p-7 md:grid-cols-3 sm:p-3 max-w-screen-lg mx-auto"
 >
   <li
