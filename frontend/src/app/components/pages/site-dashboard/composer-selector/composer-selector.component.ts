@@ -122,6 +122,7 @@ export class ComposerSelectorComponent implements OnInit {
     };
 
     this.httpApiService.post(ENDPOINTS['makeNewPageForSite'], payload).subscribe((response: PageDTO) => {
+      this.pages = [...this.pages, response];
       this.dataSource.data = [...this.dataSource.data, response];
     });
   }

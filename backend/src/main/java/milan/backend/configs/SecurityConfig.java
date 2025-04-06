@@ -8,12 +8,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 import java.util.List;
+
 
 @Configuration
 @EnableWebSecurity
@@ -39,29 +41,31 @@ public class SecurityConfig {
                             "/auth/test").permitAll();
                     request.anyRequest().authenticated();
                 })
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(List.of(
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of(
                 "https://www.milan.ie",
                 "https://www.milan-kovacs.ie",
                 "https://milan.ie",
-                "https://milan-kovacs.ie"
-        ));
-        corsConfiguration.setAllowedMethods(Arrays.asList(
+                "https://milan-kovacs.ie",
+                "http://127.0.0.1:4200",
+                "http://[::1]:4200",
+                "http://localhost:4200"));
+        configuration.setAllowedMethods(Arrays.asList(
                 HttpMethod.GET.name(),
-                HttpMethod.HEAD.name(),
                 HttpMethod.POST.name(),
-                HttpMethod.PUT.name(),
                 HttpMethod.DELETE.name()));
-        corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setMaxAge(1800L);
-        source.registerCorsConfiguration("/**", corsConfiguration);
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(false);
+        configuration.setMaxAge(3600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 }

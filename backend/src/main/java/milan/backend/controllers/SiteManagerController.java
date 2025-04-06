@@ -32,16 +32,15 @@ public class SiteManagerController {
         this.jwtService = jwtService;
     }
 
-    // todo: convert this to use the jwt
     @PostMapping("/sites")
-    public ResponseEntity<SiteManagerEntity> addSite(@RequestHeader("Authorization") String jwtToken, @RequestBody NewSiteDTO dto) {
+    public ResponseEntity<SiteManagerEntity> addSite(@RequestHeader("Authorization") String jwtToken,
+                                                     @RequestBody NewSiteDTO dto) {
         String userId = this.jwtService.extractUsername(jwtToken.substring(7));
         UUID userUuid = UUID.fromString(userId);
         SiteManagerEntity returnObject = managerService.addSite(userUuid, dto.getName());
         return ResponseEntity.ok(returnObject);
     }
 
-    // todo: convert this to use the jwt
     @GetMapping("/sites")
     public Set<SiteDTO> getSites(@RequestHeader("Authorization") String jwtToken) {
         String userId = this.jwtService.extractUsername(jwtToken.substring(7));
