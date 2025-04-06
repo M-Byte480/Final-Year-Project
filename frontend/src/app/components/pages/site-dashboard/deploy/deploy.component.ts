@@ -61,6 +61,7 @@ export class DeployComponent implements OnInit {
     },
   ];
   siteId = '';
+  errorMessage = '';
 
   constructor(private httpService: HttpApiService) {
     this.siteId = this.currentRoute.substring(this.currentRoute.lastIndexOf('/') + 1);
@@ -94,7 +95,11 @@ export class DeployComponent implements OnInit {
       this.deploymentHistory = [{'date': response.id.publishTimestamp, 'deployed': response.deployed}, ...this.deploymentHistory];
       this.isSiteDeployed = true;
       this.isLoading = false;
-    });
+    },
+      (error: any) => {
+        this.isLoading = false;
+        this.errorMessage = 'One composer recently added pages has not been saved. Please save all pages before deploying.';
+      });
   }
 
   onAbortDeployment() {

@@ -1,8 +1,13 @@
-<div class="text-center h-full p-0 md:p-4 bg-gradient-to-b from-cyan-400 to-cyan-700">
-  <p class="text-3xl">Deployment Manager</p>
+<div class="text-center h-full p-0 md:p-4 bg-gradient-to-b from-cyan-400 to-cyan-700 select-none">
+  <p class="text-3xl select-none">Deployment Manager</p>
+  <p class="text-lg italic select-none">Manages the sub-route to your site</p>
   <app-domain-manager (domainNameUpdate)="doesDomainExists($event)"/>
   <div class="flex justify-center">
+
     <div class="w-3/12 m-5">
+      <div *ngIf="errorMessage" class="m-2">
+        {{ errorMessage }}
+      </div>
       <ng-container *ngIf="isLoading">
         <mat-spinner></mat-spinner>
       </ng-container>

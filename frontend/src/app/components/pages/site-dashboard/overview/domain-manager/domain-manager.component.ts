@@ -17,7 +17,7 @@ import {environment} from "../../../../../../environments/environment";
   templateUrl: './domain-manager.component.html'
 })
 export class DomainManagerComponent implements OnInit {
-  prefix = environment.dev ? 'localhost:4200/' : 'milan-kovacs.ie/';
+  prefix = environment.siteUrl;
   domainName = '';
   siteId = '';
   private currentRoute = window.location.href;
