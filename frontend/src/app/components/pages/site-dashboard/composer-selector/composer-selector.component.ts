@@ -93,6 +93,17 @@ export class ComposerSelectorComponent implements OnInit {
     return;
   }
 
+  createPage(nameOfPage: string) {
+    let payload = {
+      parentSiteId: this.siteId,
+      pageName: nameOfPage
+    };
+
+    this.httpApiService.post(ENDPOINTS['makeNewPageForSite'], payload).subscribe((response: PageDTO) => {
+      this.getAllSites();
+    });
+  }
+
   onDelete(page: any) {
     const payload = {
       pageId: page.id,
@@ -115,15 +126,6 @@ export class ComposerSelectorComponent implements OnInit {
     return;
   }
 
-  createPage(nameOfPage: string) {
-    let payload = {
-      parentSiteId: this.siteId,
-      pageName: nameOfPage
-    };
 
-    this.httpApiService.post(ENDPOINTS['makeNewPageForSite'], payload).subscribe((response: PageDTO) => {
-      this.dataSource.data = [...this.dataSource.data, response];
-    });
-  }
 
 }

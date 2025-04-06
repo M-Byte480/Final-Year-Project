@@ -3,7 +3,15 @@
     <button mat-icon-button (click)="snav.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
-    <h1 class="app-name">Website Builder</h1>
+    <h1 class="app-name select-none" >Website Builder</h1>
+<!--    Taken from https://material.angular.io/components/toolbar/overview -->
+    <span class="example-spacer"></span>
+    <button mat-icon-button (click)="goToDashboard()">
+      <mat-icon style="color: #171717;">computer</mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon style="color: #171717;" (click)="goToProfile()">person</mat-icon>
+    </button>
   </mat-toolbar>
 
   <mat-sidenav-container class="sidenav-container"

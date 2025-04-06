@@ -17,6 +17,20 @@ export enum REQUEST_TYPES {
   PUT = "PUT"
 }
 
+import { MatDateFormats } from '@angular/material/core';
+
+export const MY_DATE_FORMATS: MatDateFormats = {
+  parse: {
+    dateInput: 'DD-MM-YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'DD-MM-YYYY',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
 export const SESSION_STORAGE = {
   FOOTER: "footer",
   NAVBAR: "navbar",

@@ -1,4 +1,5 @@
 export const environment = {
   dev: false,
-  apiUrl: 'https://api.milan-kovacs.ie', // 'http://localhost:8080', //
+  test: "env.ts",
+  apiUrl: 'http://localhost:8080', //'https://api.milan-kovacs.ie', //
 };

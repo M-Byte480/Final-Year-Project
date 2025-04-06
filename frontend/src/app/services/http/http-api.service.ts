@@ -18,7 +18,7 @@ export class HttpApiService {
 
   constructor(private http: HttpClient,
               private jwtService: JwtServiceService) {
-    console.log(environment.apiUrl);
+    console.log(environment.test);
   }
 
   public get(endPoint: EndpointConfig, params?: HttpParams): Observable<any> {

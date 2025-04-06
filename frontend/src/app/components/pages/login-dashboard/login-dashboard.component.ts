@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ButtonComponent} from "../../shared/button/button.component";
 import {Router} from "@angular/router";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-login-dashboard',
@@ -10,9 +11,13 @@ import {Router} from "@angular/router";
   ],
   templateUrl: './login-dashboard.component.html'
 })
-export class LoginDashboardComponent {
+export class LoginDashboardComponent implements OnInit{
 
   constructor(private routes: Router) {
+  }
+
+  ngOnInit() {
+    console.log(environment.test);
   }
 
   login(): void {

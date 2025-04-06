@@ -74,7 +74,6 @@ export class DeployComponent implements OnInit {
   getHistory() {
     const httpParams = new HttpParams().set('siteId', this.siteId);
     this.httpService.get(ENDPOINTS['deployHistory'], httpParams).subscribe((response: any) => {
-      console.log(response);
       this.deploymentHistory = [];
       for (let i = 0; i < response.length; i++) {
         this.deploymentHistory.push({
@@ -82,17 +81,16 @@ export class DeployComponent implements OnInit {
           "deployed": response[i].deployed
         });
       }
-      this.deploymentHistory.reverse()
-    });
+      this.deploymentHistory.reverse();
 
-    this.isSiteDeployed = this.deploymentHistory[0].deployed;
-    this.isLoading = false;
+      this.isSiteDeployed = !!this.deploymentHistory[0]?.deployed;
+      this.isLoading = false;
+    });
   }
 
   onDeploy() {
     this.isLoading = true;
     this.httpService.post(ENDPOINTS['deploySite'], {siteId: this.siteId}).subscribe((response: any) => {
-      console.log(response);
       this.deploymentHistory = [{'date': response.id.publishTimestamp, 'deployed': response.deployed}, ...this.deploymentHistory];
       this.isSiteDeployed = true;
       this.isLoading = false;

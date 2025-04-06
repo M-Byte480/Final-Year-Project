@@ -91,7 +91,6 @@ public class SubdomainService {
         return this.publisherService.getAllPublishedSitesForSiteId(siteIdUUID);
     }
 
-
     public boolean isDeployed(PublishedSiteIdTimestamp key) {
         return this.subdomainRepository.findBySiteId(key.getSiteId()).map(SubdomainEntity::isDeployed).orElse(false);
     }
