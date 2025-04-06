@@ -19,7 +19,7 @@ import {NgIf} from "@angular/common";
   templateUrl: './domain-manager.component.html'
 })
 export class DomainManagerComponent implements OnInit {
-  prefix = environment.siteUrl;
+  prefix;
   domainName = '';
   siteId = '';
   private currentRoute = window.location.href;
@@ -41,8 +41,8 @@ export class DomainManagerComponent implements OnInit {
     // @ts-ignore
     this.domainFormGroup.get('siteId').setValue(this.siteId);
 
+    this.prefix = environment.siteUrl;
     console.log('Environment siteUrl:', this.prefix);
-
   }
 
   ngOnInit() {
