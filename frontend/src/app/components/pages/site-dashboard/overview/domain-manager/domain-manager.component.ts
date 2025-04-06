@@ -40,6 +40,9 @@ export class DomainManagerComponent implements OnInit {
     this.siteId = this.currentRoute.substring(this.currentRoute.lastIndexOf('/') + 1);
     // @ts-ignore
     this.domainFormGroup.get('siteId').setValue(this.siteId);
+
+    console.log('Environment siteUrl:', this.prefix);
+
   }
 
   ngOnInit() {
