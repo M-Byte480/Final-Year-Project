@@ -24,7 +24,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {PanelItem} from "../../../shared/data-types";
 
 @Component({
@@ -58,7 +58,9 @@ export class SidePanelComponent implements AfterViewInit, OnDestroy {
   private readonly _mobileQuery: MediaQueryList;
   private readonly _mobileQueryListener: () => void;
 
-  constructor() {
+  constructor(
+    private router: Router
+  ) {
     const media = inject(MediaMatcher);
 
     this._mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -79,6 +81,14 @@ export class SidePanelComponent implements AfterViewInit, OnDestroy {
   onPanelClick(item: PanelItem): void {
 
     this.panelSelected.emit(item);
+  }
+
+  goToDashboard(): void{
+    this.router.navigate(['/overview']).then(r => {});
+  }
+
+  goToProfile(): void{
+    this.router.navigate(['/profile']).then(r => {});
   }
 
   ngOnDestroy(): void {
