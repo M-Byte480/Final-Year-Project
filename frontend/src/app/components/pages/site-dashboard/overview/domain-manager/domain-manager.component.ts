@@ -19,7 +19,6 @@ import {NgIf} from "@angular/common";
   templateUrl: './domain-manager.component.html'
 })
 export class DomainManagerComponent implements OnInit {
-  prefix;
   domainName = '';
   siteId = '';
   private currentRoute = window.location.href;
@@ -41,8 +40,6 @@ export class DomainManagerComponent implements OnInit {
     // @ts-ignore
     this.domainFormGroup.get('siteId').setValue(this.siteId);
 
-    this.prefix = 'https://milan.ie/';
-    console.log('Environment siteUrl:', this.prefix);
   }
 
   ngOnInit() {
@@ -50,7 +47,7 @@ export class DomainManagerComponent implements OnInit {
     this.api.get(ENDPOINTS['getDomainName'], httpParams).subscribe((response) => {
       // @ts-ignore
       this.domainFormGroup.get('domainName').setValue(response['domainName']);
-      this.domainName = response['domainName'] === "" ? "No domain name set" : this.prefix + response['domainName'];
+      this.domainName = response['domainName'] === "" ? "No domain name set" : 'https://milan.ie/' + response['domainName'];
       this.domainUpdateEvent(this.domainName);
     });
   }
@@ -59,7 +56,7 @@ export class DomainManagerComponent implements OnInit {
     this.api.post(ENDPOINTS['setDomainName'], this.domainFormGroup.value).subscribe((response) => {
       // @ts-ignore
       this.domainName = this.domainFormGroup.get("domainName")?.value === "" ? "No domain name set" :
-        this.prefix + this.domainFormGroup.get("domainName")?.value;
+        'https://milan.ie/' + this.domainFormGroup.get("domainName")?.value;
       this.errorMessage = '';
     }, (error) => {
       if(error.status === 418){
