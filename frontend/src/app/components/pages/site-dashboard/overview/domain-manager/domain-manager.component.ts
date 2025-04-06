@@ -41,7 +41,7 @@ export class DomainManagerComponent implements OnInit {
     // @ts-ignore
     this.domainFormGroup.get('siteId').setValue(this.siteId);
 
-    this.prefix = environment.siteUrl;
+    this.prefix = 'https://milan.ie/';
     console.log('Environment siteUrl:', this.prefix);
   }
 
