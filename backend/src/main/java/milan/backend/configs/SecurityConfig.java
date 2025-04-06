@@ -13,6 +13,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -28,7 +29,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests(request -> request.anyRequest().permitAll())
+                .authorizeHttpRequests(request -> {
+                    request.requestMatchers(
+                            "/auth/login",
+                            "/auth/register",
+                            "/api/email/send-verification",
+                            "/api/email/verify",
+                            "/api/sites/deployed-site",
+                            "/auth/test").permitAll();
+                    request.anyRequest().authenticated();
+                })
                 .csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }
@@ -37,15 +47,21 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.setAllowedOrigins(List.of(
+                "https://www.milan.ie",
+                "https://www.milan-kovacs.ie",
+                "https://milan.ie",
+                "https://milan-kovacs.ie"
+        ));
         corsConfiguration.setAllowedMethods(Arrays.asList(
                 HttpMethod.GET.name(),
                 HttpMethod.HEAD.name(),
                 HttpMethod.POST.name(),
                 HttpMethod.PUT.name(),
                 HttpMethod.DELETE.name()));
+        corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setMaxAge(1800L);
-        source.registerCorsConfiguration("/**", corsConfiguration); // you restrict your path here
+        source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
     }
 }
