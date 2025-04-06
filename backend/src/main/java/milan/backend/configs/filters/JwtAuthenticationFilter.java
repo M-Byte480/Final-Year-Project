@@ -69,7 +69,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            System.out.println("JWT Token is missing or invalid");
             filterChain.doFilter(request, response);
             return;
         }
@@ -77,16 +76,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt = authHeader.substring(7);
         final String userEmail = jwtService.extractUsername(jwt);
 
-        System.out.println("BEFORE AUTHENTICATION");
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
 
         if (userEmail != null && authentication == null) {
-            System.out.println("JWT Token is valid");
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
             if (jwtService.isTokenValid(jwt, userDetails)) {
-                System.out.println("JWT Token is valid and user details are loaded");
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()
                 );
