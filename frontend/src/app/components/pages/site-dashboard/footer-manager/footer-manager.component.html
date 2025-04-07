@@ -7,8 +7,8 @@
         <app-footer-renderer [parentComponent]="COMPONENT_NAME.FOOTER_MGR" />
     </div>
 
-    <div class="w-5/6 p-4">
-        Rearrange!
+  <div class="w-5/6 p-4 flex flex-col items-center">
+    <div class="italic text-lg p-4">Rearrange the ordering of your footer-elements!</div>
         <div cdkDropList cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
             @for (socialElement of hyperlinks; track socialElement.id) {
                 <div class="example-box" cdkDrag>{{ socialElement.socialMedia }}</div>
