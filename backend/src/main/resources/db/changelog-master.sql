@@ -204,3 +204,56 @@ CREATE TABLE IF NOT EXISTS milanify.images(
     FOREIGN KEY (site_id) REFERENCES milanify.sites(id),
     FOREIGN KEY (page_id) REFERENCES milanify.pages(id)
 );
+
+-- changeset Milan:10
+ALTER TABLE milanify.pages
+DROP CONSTRAINT pages_site_id_fkey,
+ADD CONSTRAINT pages_site_id_fkey FOREIGN KEY (site_id)
+REFERENCES milanify.sites(id) ON DELETE CASCADE;
+
+-- changeset Milan:11
+ALTER TABLE milanify.subdomain_records
+DROP CONSTRAINT subdomain_records_site_id_fkey,
+ADD CONSTRAINT subdomain_records_site_id_fkey FOREIGN KEY (site_id)
+REFERENCES milanify.sites(id) ON DELETE CASCADE;
+
+ALTER TABLE milanify.footer_states
+DROP CONSTRAINT footer_states_site_id_fkey,
+ADD CONSTRAINT footer_states_site_id_fkey FOREIGN KEY (site_id)
+REFERENCES milanify.sites(id) ON DELETE CASCADE;
+
+ALTER TABLE milanify.navbar_mapping_states
+DROP CONSTRAINT navbar_mapping_states_site_id_fkey,
+ADD CONSTRAINT navbar_mapping_states_site_id_fkey FOREIGN KEY (site_id)
+REFERENCES milanify.sites(id) ON DELETE CASCADE;
+
+ALTER TABLE milanify.published_site_records
+DROP CONSTRAINT published_site_records_site_id_fkey,
+ADD CONSTRAINT published_site_records_site_id_fkey FOREIGN KEY (site_id)
+REFERENCES milanify.sites(id) ON DELETE CASCADE;
+
+ALTER TABLE milanify.published_pages
+DROP CONSTRAINT published_pages_site_id_fkey,
+ADD CONSTRAINT published_pages_site_id_fkey FOREIGN KEY (site_id)
+REFERENCES milanify.sites(id) ON DELETE CASCADE;
+
+
+ALTER TABLE milanify.images
+DROP CONSTRAINT images_site_id_fkey,
+ADD CONSTRAINT images_site_id_fkey FOREIGN KEY (site_id)
+REFERENCES milanify.sites(id) ON DELETE CASCADE;
+
+ALTER TABLE milanify.composer_page_saved_state
+DROP CONSTRAINT composer_page_saved_state_site_id_fkey,
+ADD CONSTRAINT composer_page_saved_state_site_id_fkey FOREIGN KEY (site_id)
+REFERENCES milanify.sites(id) ON DELETE CASCADE;
+
+ALTER TABLE milanify.is_deployed
+DROP CONSTRAINT is_deployed_site_id_fkey,
+ADD CONSTRAINT is_deployed_site_id_fkey FOREIGN KEY (site_id)
+REFERENCES milanify.sites(id) ON DELETE CASCADE;
+
+ALTER TABLE milanify.published_site_records
+DROP CONSTRAINT published_site_records_site_id_fkey,
+ADD CONSTRAINT published_site_records_site_id_fkey FOREIGN KEY (site_id)
+REFERENCES milanify.sites(id) ON DELETE CASCADE;

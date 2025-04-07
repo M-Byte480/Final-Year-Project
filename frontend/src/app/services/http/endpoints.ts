@@ -101,5 +101,9 @@ export const ENDPOINTS: Endpoints = {
   deletePage: {
     endpoint: "/api/composer/delete",
     requestType: REQUEST_TYPES.POST
+  },
+  deleteSite: {
+    endpoint: "/api/composer/delete-site",
+    requestType: REQUEST_TYPES.POST
   }
 };

@@ -56,4 +56,14 @@ public class SiteManagerService {
                 .map(site -> new SiteDTO(site.getSiteId(), site.getSiteName(), null))
                 .collect(Collectors.toSet());
     }
+
+    public SiteManagerEntity getSiteByUserAndSiteId(UUID userId, UUID siteId) {
+        return this.siteManagerRepository.getSiteManagerEntitiesBySiteIdAndUserId(siteId, userId)
+                .orElseThrow(() -> new RuntimeException("Site not found"));
+    }
+
+    public void deleteUserSite(SiteManagerEntity siteEntity) {
+        siteManagerRepository.delete(siteEntity);
+        siteRepository.deleteById(siteEntity.getSiteId());
+    }
 }

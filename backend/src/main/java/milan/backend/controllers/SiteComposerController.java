@@ -16,6 +16,7 @@ import milan.backend.model.ImageUploadDTO;
 import milan.backend.model.dto.ComposerDashboardDTO;
 import milan.backend.model.dto.ComposerSavePageDTO;
 import milan.backend.model.dto.DeleteDTO;
+import milan.backend.model.dto.DeleteSiteDTO;
 import milan.backend.model.dto.FooterStateDTO;
 import milan.backend.model.dto.NavbarMapperDTO;
 import milan.backend.service.ImageService;
@@ -107,9 +108,15 @@ public class SiteComposerController {
     }
 
     @PostMapping("/delete-site")
-    public void deleteSite(@RequestBody ComposerDashboardDTO payload,
+    public void deleteSite(@RequestBody DeleteSiteDTO payload,
                            @RequestHeader("Authorization") String jwtToken) {
-
+        boolean acceptConsequences = payload.isAcceptConsequences();
+        if(!acceptConsequences) {
+            throw new RuntimeException("User did not accept consequences");
+        }
+        UUID userId = UUID.fromString(this.jwtService.extractUsername(jwtToken.substring(7)));
+        UUID siteId = UUID.fromString(payload.getSiteId());
+        this.composerService.deleteSite(siteId, userId);
     }
 
     @GetMapping("/get-save")
