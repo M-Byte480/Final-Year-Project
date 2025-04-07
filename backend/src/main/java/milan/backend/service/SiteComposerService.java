@@ -14,6 +14,7 @@ import milan.backend.entity.FooterEntity;
 import milan.backend.entity.NavbarMapperEntity;
 import milan.backend.entity.id.classes.SiteIdPageIdCompositeKey;
 import milan.backend.entity.site.PageEntity;
+import milan.backend.entity.site.SiteManagerEntity;
 import milan.backend.exception.AlreadyExistsException;
 import milan.backend.model.dto.DeployDTO;
 import milan.backend.repository.ComposerSavedStateRepository;
@@ -36,6 +37,7 @@ public class SiteComposerService {
     private ComposerSavedStateRepository composerPageRepository;
     private FooterRepository footerRepository;
     private NavbarMappingRepository navbarMappingRepository;
+    private SiteManagerService siteManagerService;
 
 
     public JsonNode getState(UUID siteId, UUID pageId) {
@@ -200,8 +202,13 @@ public class SiteComposerService {
         this.pageRepository.deleteById(pageId);
     }
 
-
-//    public NavBarEntity getNavBar(String siteId) {
-//        return null;
-//    }
+    public void deleteSite(UUID siteId, UUID userId) {
+        // Validate user owns the site
+        SiteManagerEntity siteEntity = this.siteManagerService.getSiteByUserAndSiteId(userId, siteId);
+        if (siteEntity == null) {
+            throw new RuntimeException("Site not found");
+        }
+        // Delete init record
+        this.siteManagerService.deleteUserSite(siteEntity);
+    }
 }

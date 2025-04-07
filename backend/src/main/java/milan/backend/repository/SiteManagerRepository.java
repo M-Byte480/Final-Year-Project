@@ -15,4 +15,5 @@ import java.util.UUID;
 @Repository
 public interface SiteManagerRepository extends JpaRepository<SiteManagerEntity, UUID> {
     Optional<List<SiteManagerEntity>> getAllByUserId(UUID userId);
+    Optional<SiteManagerEntity> getSiteManagerEntitiesBySiteIdAndUserId(UUID siteId, UUID userId);
 }
