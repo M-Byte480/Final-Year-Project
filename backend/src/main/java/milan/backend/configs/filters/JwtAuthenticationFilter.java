@@ -41,7 +41,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
 
         final HttpServletResponse res =  response;
-        System.out.printf("Request method: %s, Request URL: %s%n", request.getMethod(), request.getRequestURL());
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
         res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
