@@ -13,6 +13,8 @@ import {ENDPOINTS} from "../../../../services/http/endpoints";
 import {HttpParams} from "@angular/common/http";
 import {DeployedHelperService} from "../../../../services/deployed-helper.service";
 import {TriggerDeployStateChangeService} from "../../../../services/trigger-deploy-state-change.service";
+import {NgIf} from "@angular/common";
+import {ContentEditorManagerService} from "../../../../services/managers/content-editor-manager.service";
 
 @Component({
   selector: 'app-panel-composer',
@@ -20,7 +22,8 @@ import {TriggerDeployStateChangeService} from "../../../../services/trigger-depl
   imports: [
     TreeViewerComponent,
     MatButton,
-    StyleEditorComponent
+    StyleEditorComponent,
+    NgIf
   ],
   templateUrl: './panel-composer.component.html'
 })
@@ -29,6 +32,7 @@ export class PanelComposerComponent implements OnInit {
   private readonly siteId;
   private readonly pageId;
   private deployedState = false;
+  isDupeMode = false;
 
   constructor(private treeStateManager: SiteStateManagerService,
               private apiManager: ApiManagerService,
@@ -38,7 +42,8 @@ export class PanelComposerComponent implements OnInit {
               private route: ActivatedRoute,
               private httpService: HttpApiService,
               private deployedHelperService: DeployedHelperService,
-              private triggerDeployStateChange: TriggerDeployStateChangeService) {
+              private triggerDeployStateChange: TriggerDeployStateChangeService,
+              private contentEditorManager: ContentEditorManagerService) {
     this.siteId = this.route.snapshot.paramMap.get('siteId') || "";
     this.pageId = this.route.snapshot.paramMap.get('pageId') || "";
 
@@ -50,6 +55,10 @@ export class PanelComposerComponent implements OnInit {
     this.httpService.get(ENDPOINTS['getCurrentComposer'],httpParams).subscribe((res) => {
 
       this.stateService.setState( isNaN(res.maxId) ? DesignerStateServiceService.DEFAULT_STATE : res);
+    });
+
+    this.contentEditorManager.isDupeCalled$.subscribe((isDupeCalled) => {
+      this.isDupeMode = isDupeCalled;
     });
   }
 
@@ -83,5 +92,22 @@ export class PanelComposerComponent implements OnInit {
     this.footerService.saveSession();
     this.navbarService.saveSession();
     window.open(`${this.currentRoute}/preview`, "_blank");
+  }
+
+  disableDupeMode() {
+    this.stateService.saveSession();
+    this.footerService.saveSession();
+    this.navbarService.saveSession();
+
+    const payload = {
+      siteId: this.siteId,
+      pageId: this.pageId,
+      state: this.stateService.getState()
+    }
+
+    this.httpService.post(ENDPOINTS['composerSave'], payload).subscribe((res) => {
+      this.isDupeMode = false;
+      window.location.reload();
+    });
   }
 }

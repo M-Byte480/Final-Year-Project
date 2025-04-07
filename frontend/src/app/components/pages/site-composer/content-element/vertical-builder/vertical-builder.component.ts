@@ -9,6 +9,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {VerticalManagerService} from "../../../../../services/managers/vertical-manager.service";
 import {COMPOSER_TYPE} from "../../../../../shared/constants";
 import {MatButton, MatFabButton} from "@angular/material/button";
+import {ContentEditorManagerService} from "../../../../../services/managers/content-editor-manager.service";
 
 @Component({
   selector: 'app-vertical-builder',
@@ -38,7 +39,8 @@ export class VerticalBuilderComponent implements OnInit, AfterViewInit {
   }
 
 
-  constructor(private verticalManager: VerticalManagerService) {
+  constructor(private verticalManager: VerticalManagerService,
+              private contentEditorManager: ContentEditorManagerService) {
 
   }
 
@@ -52,6 +54,7 @@ export class VerticalBuilderComponent implements OnInit, AfterViewInit {
   }
 
   dupeBottomRow(){
+    this.contentEditorManager.setIsDupeCalled(true);
     this.verticalManager.duplicateLastRow(this.childGridArr, 1); // this is because ID is the root component
     // This is not dynamic yet because of the ID
     // todo: extract this component and responsibility outside
