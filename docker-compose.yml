@@ -17,6 +17,8 @@ services:
       retries: 10
     networks:
       - net
+    ports:
+      - "5432:5432"
 
   backend:
     build:
