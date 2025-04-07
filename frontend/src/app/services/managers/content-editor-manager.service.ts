@@ -14,8 +14,15 @@ export class ContentEditorManagerService {
   id = new BehaviorSubject<number>(-1);
   state$ = this.stateSubject.asObservable();
   id$ = this.id.asObservable();
+  isDupeCalled = new BehaviorSubject(false);
+  isDupeCalled$ = this.isDupeCalled.asObservable();
+
   constructor(private designerStateService: DesignerStateServiceService) { }
 
+
+  setIsDupeCalled(boolean: boolean){
+    this.isDupeCalled.next(boolean);
+  }
 
   getState() {
     return this.stateSubject.getValue();
@@ -24,6 +31,7 @@ export class ContentEditorManagerService {
   setState(state: any) {
     this.stateSubject.next({...state});
   }
+
 
   getId(){
     return this.id.getValue();
@@ -35,8 +43,10 @@ export class ContentEditorManagerService {
 
   getStateForId(id: any){
     id = `${id}`;
+
     this.setId(id);
     const designerState = this.designerStateService.getState();
+
     // @ts-ignore
     const component = designerState[id];
     this.setState(component);

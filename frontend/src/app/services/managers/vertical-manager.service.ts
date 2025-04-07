@@ -95,7 +95,6 @@ export class VerticalManagerService {
     nextState.maxId = newMax;
 
     this.stateService.setState(nextState);
-
   }
 
   private createNewRow(){

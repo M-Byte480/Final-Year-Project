@@ -9,6 +9,9 @@
     <app-style-editor />
   </div>
   <div class="flex flex-col items-center justify-center space-y-4 p-4 mt-auto">
+    <div *ngIf="isDupeMode">
+      <button mat-flat-button color="warn" (click)="disableDupeMode()">Disable Duplication Mode</button>
+    </div>
     <div class="flex space-x-2">
       <button class="h-100 w-100 bg-blue-300 text-center text-48" mat-flat-button (click)="onSave()">Save</button>
       <button class="" (click)="previewPage()" mat-raised-button color="primary">Preview</button>
