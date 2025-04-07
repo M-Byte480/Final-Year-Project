@@ -47,7 +47,7 @@ export class DomainManagerComponent implements OnInit {
     this.api.get(ENDPOINTS['getDomainName'], httpParams).subscribe((response) => {
       // @ts-ignore
       this.domainFormGroup.get('domainName').setValue(response['domainName']);
-      this.domainName = response['domainName'] === "" ? "No domain name set" : 'https://milan.ie/' + response['domainName'];
+      this.domainName = response['domainName'] === "" ? "No domain name set" : 'https://www.milan.ie/' + response['domainName'];
       this.domainUpdateEvent(this.domainName);
     });
   }
@@ -56,7 +56,7 @@ export class DomainManagerComponent implements OnInit {
     this.api.post(ENDPOINTS['setDomainName'], this.domainFormGroup.value).subscribe((response) => {
       // @ts-ignore
       this.domainName = this.domainFormGroup.get("domainName")?.value === "" ? "No domain name set" :
-        'https://milan.ie/' + this.domainFormGroup.get("domainName")?.value;
+        'https://www.milan.ie/' + this.domainFormGroup.get("domainName")?.value;
       this.errorMessage = '';
     }, (error) => {
       if(error.status === 418){
