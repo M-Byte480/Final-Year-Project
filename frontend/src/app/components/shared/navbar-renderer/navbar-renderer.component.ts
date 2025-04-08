@@ -6,6 +6,7 @@ import {NavbarStateService} from "../../../services/states/navbar-state/navbar-s
 import {NgForOf, NgIf} from "@angular/common";
 import {NavBarStateStruct} from "../../../shared/data-types";
 import {COMPONENT_NAME} from "../../../shared/constants";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-navbar-renderer',
@@ -23,7 +24,8 @@ export class NavbarRendererComponent implements OnInit {
   @Input() parentComponent!: string;
   currentRoute: string = window.location.href;
 
-  constructor(private navbarService: NavbarStateService) {
+  constructor(private navbarService: NavbarStateService,
+              private router: Router) {
     this.navbarService.state$.subscribe((state) => {
       this.currentState = state;
       console.log(this.currentState);
@@ -44,6 +46,7 @@ export class NavbarRendererComponent implements OnInit {
     const url = new URL(this.currentRoute);
     const segments = url.pathname.split('/').filter(Boolean);// Boolean checks truthy value, thus we can remove the empty leading string from segment
     const finalPath = `/${segments[0]}/${route}`;
+    // this.router.navigate([finalPath]).then();
     window.open(finalPath, '_self');
   }
 
