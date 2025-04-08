@@ -15,9 +15,9 @@
     </div>
     <div class="text-sm">
       @for (navRoute of currentState.routes; track navRoute.pageName){
-        <a class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4" (click)="routeTo(navRoute.pageName)">
+        <button class="block mt-4 lg:inline-block lg:mt-0 text-gray-100 hover:text-[#4A67F2] border border-transparent hover:border-[#4A67F2] hover:bg-white hover:cursor-pointer select-none hover:scale-110 transition-all mr-8 p-3 bg-[#4A67F2] rounded-xl" (click)="routeTo(navRoute.pageName)">
           {{ navRoute.displayName }}
-        </a>
+        </button>
       }
     </div>
   </div>
