@@ -1,10 +1,5 @@
 import {AfterViewInit, Component, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {COMPOSER_TYPE} from "../../../../../shared/constants";
-import {
-  DesignerStateServiceService
-} from "../../../../../services/states/designer-service/designer-state-service.service";
-import {ComponentFactoryService} from "../../../../../services/component-factory/component-factory.service";
-import {GridManagerService} from "../../../../../services/managers/grid-manager.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {ChildComponent} from "../child/child.component";
 import {HorizontalManagerService} from "../../../../../services/managers/horizontal-manager.service";

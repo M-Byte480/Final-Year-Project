@@ -1,5 +1,5 @@
 /*
- * Citation: This file was generated with the help of GitHub Copilot 2024
+ * Citation: This file was generated with the help ChatGPT 2024
  */
 
 import {Injectable} from '@angular/core';

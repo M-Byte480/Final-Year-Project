@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {
   MatCell,
@@ -12,7 +12,6 @@ import {
 import {HttpApiService} from "../../../../services/http/http-api.service";
 import {ENDPOINTS} from "../../../../services/http/endpoints";
 import {HttpParams} from "@angular/common/http";
-import {Router} from "@angular/router";
 import {DatePipe, NgIf} from "@angular/common";
 import {DomainManagerComponent} from "../overview/domain-manager/domain-manager.component";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";

@@ -1,5 +1,5 @@
 /*
-Help of Copilot
+ Citation: This file was generated with the help of Copilot 2025
  */
 
 import { Injectable } from '@angular/core';

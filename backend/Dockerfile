@@ -10,7 +10,6 @@ FROM openjdk:22-jdk-slim-buster
 LABEL authors="milan"
 
 WORKDIR /app
-# Log the current working directory
 
 COPY --from=build /app/target/backend-0.0.1-SNAPSHOT.jar app.jar
 

@@ -1,7 +1,3 @@
-/*
- * Citation: This file was generated with the help of GitHub Copilot 2024
- */
-
 package milan.backend.configs.filters;
 
 import jakarta.servlet.FilterChain;

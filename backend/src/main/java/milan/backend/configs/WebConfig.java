@@ -15,9 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "https://www.milan.ie",
                         "https://milan-kovacs.ie",
                         "https://www.milan-kovacs.ie",
-                        "http://localhost:4200",
-                        "http://127.0.0.1:4200",
-                        "http://[::1]:4200"
+                        "https://sentinel.gowtom.tech"
                 )
                 .allowedMethods("GET", "POST", "OPTIONS")
                 .allowedHeaders("*")

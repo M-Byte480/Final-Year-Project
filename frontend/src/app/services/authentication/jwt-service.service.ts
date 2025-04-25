@@ -5,8 +5,6 @@ import {SessionStorageService} from "../session-storage/session-storage.service"
 import {JwtToken} from "../../shared/data-types";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
-import {Observable, tap} from "rxjs";
-import {ENDPOINTS} from "../http/endpoints";
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +14,7 @@ export class JwtServiceService {
 
   constructor(private localStorageMng: LocalStorageManagerService,
               private sessionStorageMgr: SessionStorageService,
-              private router: Router,
-              private http: HttpClient) {
+              private router: Router) {
     // @ts-ignore
     JwtServiceService.JWT[JWT.ACCESS_TOKEN] = this.localStorageMng.getItem(JWT.ACCESS_TOKEN);
     // @ts-ignore

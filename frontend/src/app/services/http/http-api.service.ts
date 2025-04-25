@@ -2,11 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {REQUEST_TYPES} from "../../shared/constants";
 import {Observable} from "rxjs";
-import {EndpointConfig, Endpoints} from "../../shared/data-types";
+import {EndpointConfig} from "../../shared/data-types";
 import {environment} from "../../../environments/environment";
 import {JwtServiceService} from "../authentication/jwt-service.service";
 import {ENDPOINTS} from "./endpoints";
-import {RequestParameter} from "@angular/cli/src/analytics/analytics-parameters";
 
 
 @Injectable({
