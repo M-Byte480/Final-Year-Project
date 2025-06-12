@@ -4,7 +4,7 @@ services:
     restart: always
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - db_data:/var/lib/postgresql/data
+      - final-year-project_db_data:/var/lib/postgresql/data
     env_file: ".env"
     environment:
       POSTGRES_DB: ${DB_NAME}
@@ -45,4 +45,5 @@ networks:
     driver: bridge
 
 volumes:
-  db_data:
+  final-year-project_db_data:
+    external: true
