@@ -15,6 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "https://www.milan.ie",
                         "https://milan-kovacs.ie",
                         "https://www.milan-kovacs.ie",
+                        "https://api.milan.ie",
                         "https://sentinel.gowtom.tech"
                 )
                 .allowedMethods("GET", "POST", "OPTIONS")
